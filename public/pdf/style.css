@@ -1,0 +1,128 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    background: white;
+    padding: 30px;
+    margin: 40px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: normal;
+    padding-bottom: 20px;
+}
+
+.form-header {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.form-header h2 {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-bottom: 5px;
+}
+
+.form-header p {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.section {
+    padding-bottom: 25px;
+}
+
+.section.section-b p{
+    margin-left: 20px;
+    margin-top: 0px;
+}
+
+.data-material {
+    display: flex;
+    justify-content: space-between;
+}
+
+.data-material ul {
+    list-style: none;
+    padding: 10px 20px;
+    margin: 0;
+}
+
+.data-material li {
+    padding: 3px 0;
+}
+
+/* TABLE STYLE */
+.table-container {
+    width: 100%;
+    padding: 10px 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 6px;
+    text-align: center;
+    font-size: 12px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+td.left {
+    text-align: left;
+    padding-left: 8px;
+}
+
+/* HASIL PEMERIKSAAN DIPECAH MENJADI 2 KOLOM */
+.table-container th[colspan="2"] {
+    text-align: center;
+}
+
+td.checkbox {
+    text-align: center;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.2);
+}
+
+/* SIGNATURE TABLE */
+.signature-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.signature-table td {
+    text-align: center;
+    border: none; /* Hapus border */
+}
+
+.sign-line {
+    padding-top: 50px; 
+
+}
+/* KETERANGAN */
+.note {
+    font-size: 12px;
+    margin-top: 10px;
+    
+}

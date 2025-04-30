@@ -1,0 +1,893 @@
+<x-layouts.header />
+
+<!-- [ Main Content ] start -->
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ Main Content ] start -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="mb-3 font-weight-bold">Formulir Inspeksi Material Retur Fuse Cut Out</h5>
+                    <hr class="mb-3">
+                    <form id="formInspeksi" action="{{ route('form-retur-fco.store') }}" method="POST"
+                        enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="row">
+                            <input type="hidden" id="jenis_form_id" name="jenis_form_id" value="8">
+                            <input type="hidden" id="uid_id" name="uid_id" value="{{ $uids->first()->id ?? '' }}">
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="up3_id">Unit</label>
+                                    <select class="form-control" id="up3_id" name="up3_id" required>
+                                        <option value="">-- Pilih UP3 --</option>
+                                        @foreach ($up3s as $up3)
+                                            <option value="{{ $up3->id }}">{{ $up3->unit }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="gudang_id">Gudang Retur</label>
+                                    <select class="form-control" id="gudang_id" name="gudang_id" required>
+                                        <option value="">-- Pilih Gudang Retur --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tgl_inspeksi">Tgl Inspeksi</label>
+                                    <input type="date" class="form-control" id="tgl_inspeksi" name="tgl_inspeksi"
+                                        readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-3">
+                        <h6 class="mb-3 font-weight-bold">A. Data Material</h6>
+                        <div class="row">
+                            <!-- Kolom Kiri -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="lokasi_akhir_terpasang">Lokasi Akhir Terpasang</label>
+                                    <input name="lokasi_akhir_terpasang" type="text" class="form-control"
+                                        id="lokasi_akhir_terpasang" placeholder="Masukkan Alamat" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ulp_id">Unit Layanan Pelanggan</label>
+                                    <select class="form-control" id="ulp_id" name="ulp_id" required>
+                                        <option value="">-- Pilih ULP --</option>
+                                    </select>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-1/2">
+                                        <label for="tahun_produksi" class="block mb-1">Tahun Produksi</label>
+                                        <select class="form-control select2 w-full p-2 border rounded"
+                                            name="tahun_produksi" id="tahun_produksi" required>
+                                            <option value="">-- Pilih Tahun --</option>
+                                        </select>
+                                    </div>
+                                    <div class="w-1/2">
+                                        <label class="block mb-1" for="masa_pakai">Masa Pakai</label>
+                                        <input type="text" class="form-control w-full p-2 border rounded"
+                                            id="masa_pakai" name="masa_pakai"
+                                            placeholder="Tahun sekarang - Tahun produksi" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Kolom Kanan -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tipe_fco">Tipe Fuse Cut Out</label>
+                                    <div class="input-group">
+                                        <select id="tipe_fco" name="tipe_fco" class="form-control" required>
+                                            <option value="">-- Pilih Tipe --</option>
+                                            <option value="Polymer">Polymer</option>
+                                            <option value="Keramik">Keramik</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_serial">No Serial</label>
+                                    <div class="input-group">
+                                        <input name="no_serial" type="number" class="form-control" id="no_serial"
+                                            placeholder="Masukkan No Serial">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pabrikan_id">Nama Pabrikan</label>
+                                    <div class="input-group">
+                                        <select id="pabrikan_id" name="pabrikan_id" class="form-control" required>
+                                            <option value="">-- Pilih Pabrikan --</option>
+                                            @foreach ($pabrikans as $pabrikan)
+                                                <option value="{{ $pabrikan->id }}">{{ $pabrikan->nama_pabrikan }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-3">
+                        <h6 class="mb-3 font-weight-bold">B. Pemeriksaan Penandaan</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="penandaan_fuse">1. Penandaan Pada Fuse Base</label>
+                                    <div class="input-group">
+                                        <select id="penandaan_fuse" name="penandaan_fuse" class="form-control poinB1"
+                                            required>
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Ada">Ada</option>
+                                            <option value="Tidak ada">Tidak ada</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('penandaan_base')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="penandaan_base" class="form-group mt-2" style="display: none;">
+                                        <label for="keteranganPenandaanFuse">Keterangan Fuse Base:</label>
+                                        <textarea class="form-control" id="keteranganPenandaanFuse" name="keteranganPenandaanFuse" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganPenandaanFuse', 'charCountKeteranganPenandaanFuse')"></textarea>
+                                        <small id="charCountKeteranganPenandaanFuse" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="penandaan_carrier">2. Penandaan Pada Fuse Carrier</label>
+                                    <div class="input-group">
+                                        <select id="penandaan_carrier" name="penandaan_carrier"
+                                            class="form-control poinB2" required>
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Ada">Ada</option>
+                                            <option value="Tidak ada">Tidak ada</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('keteranganPenandaanCarrier')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="keteranganPenandaanCarrier" class="form-group mt-2"
+                                        style="display: none;">
+                                        <label for="keteranganPenandaanCarrier">Keterangan Fuse Carrier:</label>
+                                        <textarea class="form-control" id="keteranganPenandaanCarrier" name="keteranganPenandaanCarrier" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganPenandaanCarrier', 'charCountKeteranganPenandaanCarrier')"></textarea>
+                                        <small id="charCountKeteranganPenandaanCarrier" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-3">
+                        <h6 class="mb-3 font-weight-bold">C. Pemeriksaan Konstruksi dan Kelengkapan Komponen</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Kolom Kiri -->
+                                <div>
+                                    <label>1. Bagian Utama Fuse Cut Out:</label>
+                                    <br>
+                                    <label>a. Fuse Holder, Terdiri Dari:</label>
+                                    <div class="form-group">
+                                        <label for="fuse_base" class="block text-sm">Fuse Base</label>
+                                        <div class="input-group">
+                                            <select id="fuse_base" name="fuse_base" class="form-control poinC1a">
+                                                <option value="">-- Pilih Kondisi --</option>
+                                                <option value="Baik">Baik</option>
+                                                <option value="Rusak">Rusak</option>
+                                            </select>
+                                            <span class="input-group-text" id="basic-addon2"
+                                                onclick="toggleKeterangan('fuse_holder_base')">
+                                                <i class="fa fa-pen"></i>
+                                            </span>
+                                        </div>
+                                        <!-- Input keterangan toggle -->
+                                        <div id="fuse_holder_base" class="form-group mt-2" style="display: none;">
+                                            <label for="keteranganFuseBase">Keterangan Fuse Base:</label>
+                                            <textarea class="form-control" id="keteranganFuseBase" name="keteranganFuseBase" rows="2" maxlength="55"
+                                                placeholder="Masukkan keterangan..."
+                                                oninput="updateCharCount('keteranganFuseBase', 'charCountKeteranganFuseBase')"></textarea>
+                                            <small id="charCountKeteranganFuseBase" class="text-muted">55 karakter
+                                                tersisa.</small>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fuse_carrier" class="block text-sm">Fuse Carrier</label>
+                                        <div class="input-group">
+                                            <select id="fuse_carrier" name="fuse_carrier"
+                                                class="form-control poinC1aa">
+                                                <option value="">-- Pilih Kondisi --</option>
+                                                <option value="Baik">Baik</option>
+                                                <option value="Rusak">Rusak</option>
+                                            </select>
+                                            <span class="input-group-text" id="basic-addon2"
+                                                onclick="toggleKeterangan('fuse_holder_carrier')">
+                                                <i class="fa fa-pen"></i>
+                                            </span>
+                                        </div>
+                                        <!-- Input keterangan toggle -->
+                                        <div id="fuse_holder_carrier" class="form-group mt-2" style="display: none;">
+                                            <label for="keteranganFuseCarrier">Keterangan Fuse Carrier:</label>
+                                            <textarea class="form-control" id="keteranganFuseCarrier" name="keteranganFuseCarrier" rows="2"
+                                                maxlength="55" placeholder="Masukkan keterangan..."
+                                                oninput="updateCharCount('keteranganFuseCarrier', 'charCountFuseCarrier')"></textarea>
+                                            <small id="charCountFuseCarrier" class="text-muted">55 karakter
+                                                tersisa.</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Kolom Kanan -->
+                            <div class="col-md-6">
+                                <br>
+                                <label>b. Bracket:</label>
+                                <div class="form-group">
+                                    <label for="bracket" class="block text-sm">Bracket</label>
+                                    <div class="input-group">
+                                        <select id="bracket" name="bracket" class="form-control poinC1b">
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('bracket_keterangan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="bracket_keterangan" class="form-group mt-2" style="display: none;">
+                                        <label for="keteranganBracket">Keterangan Bracket:</label>
+                                        <textarea class="form-control" id="keteranganBracket" name="keteranganBracket" rows="2" maxlength="55"
+                                            placeholder="Masukkan keterangan..." oninput="updateCharCount('keteranganBracket', 'charCountKeteranganBracket')"></textarea>
+                                        <small id="charCountKeteranganBracket" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <!-- Kolom Kiri -->
+                                <div class="form-group">
+                                    <label for="mekanisme_kontak">2. Mekanisme Kontak (Posisi Kontak Antara Fuse
+                                        Carrier Dengan Fuse Base)</label>
+                                    <div class="input-group">
+                                        <select id="mekanisme_kontak" name="mekanisme_kontak"
+                                            class="form-control poinC2">
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('mekanisme_kontak_keterangan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="mekanisme_kontak_keterangan" class="form-group mt-2"
+                                        style="display: none;">
+                                        <label for="keteranganMekanismeKontak">Keterangan Mekanisme Kontak:</label>
+                                        <textarea class="form-control" id="keteranganMekanismeKontak" name="keteranganMekanismeKontak" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganMekanismeKontak', 'charCountKeteranganMekanismeKontak')"></textarea>
+                                        <small id="charCountKeteranganMekanismeKontak" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kondisi_fuse_base">3. Fuse Base</label>
+                                    <div class="input-group">
+                                        <select id="kondisi_fuse_base" name="kondisi_fuse_base"
+                                            class="form-control poinC3">
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('kondisi_fuse_base_keterangan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="kondisi_fuse_base_keterangan" class="form-group mt-2"
+                                        style="display: none;">
+                                        <label for="keteranganKondisiFuseBase">Keterangan Fuse Base:</label>
+                                        <textarea class="form-control" id="keteranganKondisiFuseBase" name="keteranganKondisiFuseBase" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganKondisiFuseBase', 'charCountKeteranganKondisiFuseBase')"></textarea>
+                                        <small id="charCountKeteranganKondisiFuseBase" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kondisi_insulator">4. Kondisi Insulator (Bebas Retak dan Rongga
+                                        (Void))</label>
+                                    <div class="input-group">
+                                        <select id="kondisi_insulator" name="kondisi_insulator"
+                                            class="form-control poinC4">
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('kondisi_insulator_keterangan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="kondisi_insulator_keterangan" class="form-group mt-2"
+                                        style="display: none;">
+                                        <label for="keteranganKondisiInsulator">Keterangan Kondisi Insulator:</label>
+                                        <textarea class="form-control" id="keteranganKondisiInsulator" name="keteranganKondisiInsulator" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganKondisiInsulator', 'charCountKeteranganKondisiInsulator')"></textarea>
+                                        <small id="charCountKeteranganKondisiInsulator" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <!-- Kolom Kanan -->
+                                <div class="form-group">
+                                    <label for="kondisi_bracket">5. Bracket</label>
+                                    <div class="input-group">
+                                        <select id="kondisi_bracket" name="kondisi_bracket"
+                                            class="form-control poinC5">
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('kondisi_bracket_keterangan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="kondisi_bracket_keterangan" class="form-group mt-2"
+                                        style="display: none;">
+                                        <label for="keteranganKondisiBracket">Keterangan Kondisi Bracket:</label>
+                                        <textarea class="form-control" id="keteranganKondisiBracket" name="keteranganKondisiBracket" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganKondisiBracket', 'charCountKeteranganKondisiBracket')"></textarea>
+                                        <small id="charCountKeteranganKondisiBracket" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="kondisi_fuse_carrier">6. Fuse Carrier <i>(Terdiri Dari Tabung Pelebur,
+                                            Konektor Tabung Pelebur, Kepala Tabung, Trunnion)</i></label>
+                                    <div class="input-group">
+                                        <select id="kondisi_fuse_carrier" name="kondisi_fuse_carrier"
+                                            class="form-control poinC6">
+                                            <option value="">-- Pilih Kondisi --</option>
+                                            <option value="Baik">Baik</option>
+                                            <option value="Rusak">Rusak</option>
+                                        </select>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('kondisi_fuse_carrier_keterangan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="kondisi_fuse_carrier_keterangan" class="form-group mt-2"
+                                        style="display: none;">
+                                        <label for="keteranganKondisiFuseCarrier">Keterangan Kondisi Fuse
+                                            Carrier:</label>
+                                        <textarea class="form-control" id="keteranganKondisiFuseCarrier" name="keteranganKondisiFuseCarrier" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keteranganKondisiFuseCarrier', 'charCountKeteranganKondisiFuseCarrier')"></textarea>
+                                        <small id="charCountKeteranganKondisiFuseCarrier" class="text-muted">55
+                                            karakter tersisa.</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-sm-left mb-3">Keterangan:
+                                    <br> a. Jika item mandatory poin C (1 s.d 5) ada yang tidak sesuai maka pengujian
+                                    poin D tidak perlu dilakukan
+                                    <br> b. Poin 6 dapat diperbaiki/diganti.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" id="sectionD">
+                            <hr class="mb-3">
+                            <h6 class="mb-3 font-weight-bold">D. Pengujian Elektrik</h6>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="uji_tahanan_isolasi">1. Uji Tahanan Isolasi (Persyaratan > 20
+                                        MΩ)</label>
+                                    <div class="input-group">
+                                        <input name="uji_tahanan_isolasi" type="number" class="form-control poinD"
+                                            id="uji_tahanan_isolasi" placeholder="Hasil Pengujian">
+                                        <span class="input-group-text" id="basic-addon2">MΩ</span>
+                                        <span class="input-group-text" id="basic-addon2"
+                                            onclick="toggleKeterangan('keterangan_uji_tahanan')">
+                                            <i class="fa fa-pen"></i>
+                                        </span>
+                                    </div>
+                                    <!-- Input keterangan toggle -->
+                                    <div id="keterangan_uji_tahanan" class="form-group mt-2" style="display: none;">
+                                        <label for="keterangan_uji_tahanan">Keterangan Pengujian:</label>
+                                        <textarea class="form-control" id="keterangan_uji_tahanan" name="keterangan_uji_tahanan" rows="2"
+                                            maxlength="55" placeholder="Masukkan keterangan..."
+                                            oninput="updateCharCount('keterangan_uji_tahanan', 'charCountKeteranganUjiTahanan')"></textarea>
+                                        <small id="charCountKeteranganUjiTahanan" class="text-muted">55 karakter
+                                            tersisa.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm-left mb-3">Keterangan: Kesesuaian seluruh mata uji Poin D adalah
+                                Mandatory.</p>
+                        </div>
+                        <hr class="mb-3">
+                        <h6 class="mb-3 font-weight-bold">E. Kesimpulan</h6>
+                        <div class="row">
+                            @if (auth()->user()->hasRole('Petugas'))
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="kesimpulan">Kesimpulan</label>
+                                        <select class="form-control" id="kesimpulan" name="kesimpulan" required
+                                            readonly>
+                                            <option value="">-- Pilih Kesimpulan --</option>
+                                            <option value="Bekas layak pakai (K6)">Bekas layak pakai (K6)</option>
+                                            <option value="Bekas bisa diperbaiki (K7)">Bekas bisa diperbaiki (K7)
+                                            </option>
+                                            <option value="Bekas tidak layak pakai (K8)">Bekas tidak layak pakai (K8)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="kesimpulan">Kesimpulan</label>
+                                        <select class="form-control" id="kesimpulan" name="kesimpulan" required
+                                            @if (auth()->user()->hasRole('Petugas')) disabled style="pointer-events: none; background-color: #e9ecef;" @endif>
+                                            <option value="">-- Pilih Kesimpulan --</option>
+                                            <option value="Bekas layak pakai (K6)">Bekas layak pakai (K6)</option>
+                                            <option value="Bekas bisa diperbaiki (K7)">Bekas bisa diperbaiki (K7)
+                                            </option>
+                                            <option value="Bekas tidak layak pakai (K8)">Bekas tidak layak pakai (K8)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <hr class="mb-3">
+                        <h6 class="mb-3 font-weight-bold">F. Gambar Evidence</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gambar1" style="display: block">Gambar 1</label>
+                                    <div id="preview1" class="mt-2"></div>
+                                    <input type="file" name="gambar[0]" id="gambar1" accept="image/*"
+                                        onchange="previewImage(this, 'preview1')">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gambar2" style="display: block">Gambar 2</label>
+                                    <div id="preview2" class="mt-2"></div>
+                                    <input type="file" name="gambar[1]" id="gambar2" accept="image/*"
+                                        onchange="previewImage(this, 'preview2')">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gambar3" style="display: block">Gambar 3</label>
+                                    <div id="preview3" class="mt-2"></div>
+                                    <input type="file" name="gambar[2]" id="gambar3" accept="image/*"
+                                        onchange="previewImage(this, 'preview3')">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gambar4" style="display: block">Gambar 4</label>
+                                    <div id="preview4" class="mt-2"></div>
+                                    <input type="file" name="gambar[3]" id="gambar4" accept="image/*"
+                                        onchange="previewImage(this, 'preview4')">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal Bootstrap untuk menampilkan gambar lebih besar -->
+                        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <img src="" id="modalImage" class="img-fluid" alt="Gambar Preview">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="{{ route('forms') }}" class="btn btn-secondary" id="backButton">Kembali</a>
+                        <button type="button" id="clearFormButton" class="btn btn-danger">Reset</button>
+                        @if (auth()->user()->hasRole('Petugas'))
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        @endif
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</section>
+
+<!-- CSS untuk membatasi tinggi textarea -->
+<style>
+    textarea.form-control {
+        resize: none;
+        /* Nonaktifkan resize */
+        overflow: hidden;
+        /* Sembunyikan scrollbar */
+        height: auto;
+        /* Sesuaikan tinggi secara otomatis */
+        min-height: 60px;
+        /* Tinggi minimal untuk 2 baris */
+    }
+
+    select[readonly] {
+        pointer-events: none;
+        touch-action: none;
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+</style>
+
+<!-- Script untuk Toggle dan Hitung Karakter -->
+<script>
+    // Fungsi untuk toggle keterangan
+    function toggleKeterangan(id) {
+        var element = document.getElementById(id);
+        if (element.style.display === "none") {
+            element.style.display = "block";
+        } else {
+            element.style.display = "none";
+        }
+    }
+
+    // Fungsi untuk menghitung sisa karakter
+    function updateCharCount(textareaId, charCountId) {
+        const textarea = document.getElementById(textareaId);
+        const charCount = document.getElementById(charCountId);
+        const maxLength = textarea.getAttribute('maxlength');
+        const remainingChars = maxLength - textarea.value.length;
+
+        // Update teks sisa karakter
+        charCount.textContent = `${remainingChars} karakter tersisa.`;
+
+        // Jika karakter habis, ubah warna teks menjadi merah
+        if (remainingChars <= 0) {
+            charCount.style.color = 'red';
+        } else {
+            charCount.style.color = 'gray';
+        }
+    }
+</script>
+
+<!-- Tambahkan di bagian head atau sebelum penutup body -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Konfigurasi Toastr
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "3000",
+        "extendedTimeOut": "3000"
+    };
+
+    // Fungsi utama setelah DOM loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        // Inisialisasi form
+        const formInspeksi = document.getElementById("formInspeksi");
+
+        // [Bagian yang dimodifikasi] - Event submit form
+        formInspeksi.addEventListener('submit', function(e) {
+            // e.preventDefault(); // 1. Hentikan submit default
+
+            // Simpan data ke localStorage
+            localStorage.removeItem("formInspeksiData");
+
+            // Tampilkan toast
+            toastr.success('Data berhasil disimpan!');
+
+            // Submit form setelah toast muncul
+            setTimeout(() => {
+                formInspeksi.submit();
+            }, 1000);
+        });
+    });
+
+    // Fungsi untuk mengecek apakah form memiliki perubahan
+    function hasFormChanges() {
+        const savedData = localStorage.getItem("formInspeksiData");
+        return savedData !== null;
+    }
+
+    // Fungsi untuk mereset form secara menyeluruh
+    function resetFormCompletely() {
+        const formInspeksi = document.getElementById("formInspeksi");
+        if (formInspeksi) {
+            // Simpan nilai tgl_inspeksi sebelum form di-reset
+            const tglInspeksi = document.getElementById("tgl_inspeksi");
+            const tglInspeksiValue = tglInspeksi ? tglInspeksi.value : '';
+
+            // Reset form ke keadaan default
+            formInspeksi.reset();
+
+            // Kembalikan nilai tgl_inspeksi setelah form di-reset
+            if (tglInspeksi) {
+                tglInspeksi.value = tglInspeksiValue;
+            }
+
+            // Reset semua textarea
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach(textarea => {
+                textarea.value = '';
+            });
+
+            // Reset preview gambar
+            const previews = ['preview1', 'preview2', 'preview3', 'preview4'];
+            previews.forEach(previewId => {
+                const preview = document.getElementById(previewId);
+                if (preview) preview.innerHTML = '';
+            });
+
+            // Reset file inputs
+            const fileInputs = document.querySelectorAll('input[type="file"]');
+            fileInputs.forEach(input => {
+                input.value = '';
+            });
+
+            // Hapus data dari localStorage
+            localStorage.removeItem("formInspeksiData");
+
+            // Jalankan fungsi lain yang diperlukan (opsional)
+            if (typeof updateKesimpulan === 'function') {
+                updateKesimpulan();
+            }
+
+            // Tampilkan toast sukses
+            toastr.success('Form telah berhasil dikosongkan.');
+        }
+    }
+
+    // SweetAlert untuk Clear Form
+    document.getElementById('clearFormButton').addEventListener('click', function() {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Semua data yang telah diisi akan dihapus!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                resetFormCompletely();
+            }
+        });
+    });
+
+    // Konfirmasi sebelum meninggalkan halaman jika ada perubahan
+    document.getElementById('backButton').addEventListener('click', function(e) {
+        if (hasFormChanges()) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Ada perubahan yang belum disimpan',
+                text: "Anda yakin ingin meninggalkan halaman ini? Perubahan yang belum disimpan akan hilang.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, tinggalkan halaman',
+                cancelButtonText: 'Tetap di halaman'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = this.getAttribute('href');
+                }
+            });
+        }
+    });
+
+    // Tangkap pesan sukses dari Laravel (jika ada)
+    @if (Session::has('success'))
+        toastr.success("{{ Session::get('success') }}");
+    @endif
+
+    // Tangkap pesan error dari Laravel (jika ada)
+    @if (Session::has('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: "{{ Session::get('error') }}"
+        });
+    @endif
+</script>
+
+<script>
+    // Fungsi untuk preview gambar
+    function previewImage(input, previewId) {
+        const previewContainer = document.getElementById(previewId);
+        if (!previewContainer || !input) return;
+
+        previewContainer.innerHTML = "";
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const imgElement = document.createElement("img");
+                imgElement.src = e.target.result;
+                imgElement.classList.add("h-40", "w-40", "object-cover", "rounded-lg", "border", "border-gray-300");
+                imgElement.style.cursor = "pointer";
+                imgElement.onclick = () => openImageModal(e.target.result);
+                previewContainer.appendChild(imgElement);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    // Fungsi untuk membuka modal gambar
+    function openImageModal(imageSrc) {
+        const modalImage = document.getElementById('modalImage');
+        if (!modalImage) return;
+
+        modalImage.src = imageSrc;
+
+        // Inisialisasi modal Bootstrap jika tersedia
+        if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+            const modalElement = document.getElementById('imageModal');
+            if (modalElement) {
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            }
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tahunSekarang = new Date().getFullYear();
+        const selectTahun = document.getElementById("tahun_produksi");
+        const inputMasaPakai = document.getElementById("masa_pakai");
+        const kesimpulanDropdown = document.getElementById('kesimpulan');
+        const sectionD = document.getElementById("sectionD");
+
+        // Generate tahun dari 1980 hingga tahun sekarang
+        for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
+            let option = new Option(tahun, tahun);
+            selectTahun.appendChild(option);
+        }
+
+        // Inisialisasi Select2 menggunakan jQuery
+        jQuery.noConflict();
+        jQuery(document).ready(function($) {
+            $(selectTahun).select2().on("change", hitungMasaPakai);
+        });
+
+        // Hitung masa pakai
+        function hitungMasaPakai() {
+            const tahunPemasangan = parseInt(selectTahun.value);
+            if (!isNaN(tahunPemasangan)) {
+                const masaPakai = tahunSekarang - tahunPemasangan;
+                inputMasaPakai.value = masaPakai + " tahun";
+
+                // Update warna berdasarkan masa pakai
+                if (masaPakai < 3) {
+                    inputMasaPakai.classList.remove("text-yellow-600", "text-red-600");
+                    inputMasaPakai.classList.add("text-green-600");
+                } else if (masaPakai >= 3 && masaPakai <= 6) {
+                    inputMasaPakai.classList.remove("text-green-600", "text-red-600");
+                    inputMasaPakai.classList.add("text-yellow-600");
+                } else {
+                    inputMasaPakai.classList.remove("text-green-600", "text-yellow-600");
+                    inputMasaPakai.classList.add("text-red-600");
+                }
+
+                updateKesimpulan(); // Panggil fungsi updateKesimpulan
+            } else {
+                inputMasaPakai.value = ""; // Kosongkan jika tahun tidak valid
+            }
+        }
+
+        // Cek kelayakan section C
+        function cekKondisiC() {
+            const mandatoryC = [
+                '.poinC1a', '.poinC1aa', '.poinC1b',
+                '.poinC2', '.poinC3', '.poinC4', '.poinC5'
+            ].map(selector =>
+                document.querySelector(selector)?.value === 'Baik'
+            );
+
+            const semuaBaik = mandatoryC.every(status => status);
+            sectionD.style.display = semuaBaik ? 'block' : 'none';
+
+            if (!semuaBaik) {
+                document.querySelector('.poinD').value = '';
+            }
+
+            return semuaBaik;
+        }
+
+        // Update kesimpulan
+        function updateKesimpulan() {
+            const masaPakai = parseInt(inputMasaPakai.value) || 0;
+            const kondisiCValid = cekKondisiC();
+
+            const poinB1 = document.querySelector(".poinB1")?.value || "";
+            const poinB2 = document.querySelector(".poinB2")?.value || "";
+            const poinC6 = document.querySelector(".poinC6")?.value || "";
+            const poinD = parseFloat(document.querySelector(".poinD")?.value || 0);
+
+            let kesimpulan = "Bekas tidak layak pakai (K8)";
+
+            // Logika baru dengan mempertimbangkan kondisiCValid
+            if (kondisiCValid) {
+                if (masaPakai <= 40) {
+                    if (poinB1 === "Ada" && poinB2 === "Ada" &&
+                        poinC6 === "Baik" && poinD > 20) {
+                        kesimpulan = "Bekas layak pakai (K6)";
+                    } else {
+                        kesimpulan = "Bekas bisa diperbaiki (K7)";
+                    }
+                } else {
+                    if (poinB1 === "Ada" && poinB2 === "Ada" &&
+                        poinC6 === "Baik" && poinD > 20) {
+                        kesimpulan = "Bekas bisa diperbaiki (K7)";
+                    }
+                }
+            } else {
+                kesimpulan = "Bekas tidak layak pakai (K8)";
+            }
+
+            // Set nilai kesimpulan dan nonaktifkan dropdown
+            kesimpulanDropdown.value = kesimpulan;
+            // kesimpulanDropdown.disabled = true; // Mencegah perubahan manual
+        }
+
+        // Event listeners
+        const allInputs = [
+            '.poinB1', '.poinB2',
+            '.poinC1a', '.poinC1aa', '.poinC1b',
+            '.poinC2', '.poinC3', '.poinC4', '.poinC5',
+            '.poinC6', '.poinD', selectTahun
+        ];
+
+        allInputs.forEach(selector => {
+            const el = typeof selector === 'string' ?
+                document.querySelector(selector) :
+                selector;
+            el?.addEventListener("change", updateKesimpulan);
+        });
+
+        // Inisialisasi awal
+        hitungMasaPakai();
+        cekKondisiC();
+        updateKesimpulan();
+    });
+</script>
+
+<x-layouts.footer />
