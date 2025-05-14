@@ -88,7 +88,7 @@
                                             <option value="">-- Pilih Tahun --</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
                                                 <option value="{{ $i }}"
-                                                    {{ old('tahun_produksi', $selectedTahunProduksi ?? null) == $i ? 'selected' : '' }}>
+                                                    {{ old('tahun_produksi', $phbtr->tahun_produksi) == $i ? 'selected' : '' }}>
                                                     {{ $i }}
                                                 </option>
                                             @endfor
@@ -631,11 +631,14 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('forms') }}" class="btn btn-secondary">Kembali</a>
                         @if (auth()->user()->hasRole('PIC_Gudang'))
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-primary">Setuju</button>
-                        @else
+                        @elseif (auth()->user()->hasRole('Petugas'))
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
+                        @else
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                         @endif
                     </form>
                 </div>

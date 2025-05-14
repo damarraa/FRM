@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\CablePower;
 use App\Models\Conductor;
+use App\Models\Cubicle;
 use App\Models\FuseCutOut;
 use App\Models\Isolator;
+use App\Models\KotakAPP;
 use App\Models\KWHMeter;
 use App\Models\LBS;
 use App\Models\LightningArrester;
@@ -42,7 +44,9 @@ class LaporanController extends Controller
             Isolator::class,
             LightningArrester::class,
             FuseCutOut::class,
-            PHBTR::class
+            PHBTR::class,
+            Cubicle::class,
+            KotakAPP::class
         ];
 
         $allApproved = collect();

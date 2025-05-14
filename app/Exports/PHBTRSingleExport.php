@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Exports;
+
+use App\Models\PHBTR;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+
+class PHBTRSingleExport implements FromCollection, WithHeadings, WithMapping
+{
+    protected $id;
+    
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
+    public function collection()
+    {
+        return PHBTR::where('id', $this->id)->get();
+    }
+
+    public function headings(): array
+    {
+        return [
+            'No. Surat',
+            'Tgl. Inspeksi',
+            'Tgl. Inspeksi',
+            'Kode UP3',
+            'UP3',
+            'Kode ULP',
+            'ULP',
+            'Gudang Retur',
+            'Lokasi Akhir Terpasang',
+            'Tahun Produksi',
+            'Masa Pakai',
+            'Tipe PHBTR',
+            'No. Serial',
+            'Nama Pabrikan',
+            'Nameplate',
+            'Ket. Nameplate',
+            'Busbar dan Penyangga Busbar',
+            'Ket. Busbar dan Penyangga Busbar',
+            'Saklar Utama',
+            'Ket. Saklar Utama',
+            'NH Fuse',
+            'Ket. NH Fuse',
+            'Fuse Rail',
+            'Ket. Fuse Rail',
+            'Kondisi Selungkup Untuk PHBTR Pasangan Luar (Ada retak/longgar dari selungkup)',
+            'Ket. Kondisi Selungkup Untuk PHBTR Pasangan Luar',
+            'Pengujian L1-(L2+L3+N+Body)',
+            'Ket. Pengujian L1-(L2+L3+N+Body)',
+            'Pengujian L2-(L1+L3+N+Body)',
+            'Ket. Pengujian L2-(L1+L3+N+Body)',
+            'Pengujian L3-(L1+L2+N+Body)',
+            'Ket. Pengujian L3-(L1+L2+N+Body)',
+            'Pengujian N-(L1+L2+L3+Body)',
+            'Ket. Pengujian N-(L1+L2+L3+Body)',
+            'Pengujian Buka Tutup Saklar Utama 5x',
+            'Ket. Pengujian Buka Tutup Saklar Utama 5x',
+            'Pengujian Buka Tutup Pintu PHBR Untuk Pasangan Luar 5x',
+            'Ket. Pengujian Buka Tutup Pintu PHBR Untuk Pasangan Luar 5x',
+            'Kesimpulan',
+            'Gambar',
+            'Petugas',
+            'Approval PIC'
+        ];
+    }
+
+    public function map($row): array
+    {
+        return [
+            $row->no_surat,
+            $row->tgl_inspeksi,
+            $row->up3s->kode_unit,
+            $row->up3s->unit ?? '-',
+            $row->ulp->kode_ulp,
+            $row->ulp->daerah ?? '-',
+            $row->gudang->nama_gudang ?? '-',
+            $row->lokasi_akhir_terpasang,
+            $row->tahun_produksi,
+            $row->masa_pakai,
+            $row->tipe_phbtr,
+            $row->no_serial,
+            $row->pabrikan->nama_pabrikan,
+            $row->nameplate,
+            $row->keteranganNameplate,
+            $row->busbar_penyangga,
+            $row->keteranganBusbar,
+            $row->saklar_utama,
+            $row->keteranganSaklarUtama,
+            $row->nh_fuse,
+            $row->keteranganNHFuse,
+            $row->fuse_rail,
+            $row->keteranganFuseRail,
+            $row->selungkup_phbtr,
+            $row->keteranganSelungkup,
+            $row->l1_phbtr,
+            $row->keteranganL1PHBTR,
+            $row->l2_phbtr,
+            $row->keteranganL2PHBTR,
+            $row->l3_phbtr,
+            $row->keteranganL3PHBTR,
+            $row->nphbtr,
+            $row->keteranganNPHBTR,
+            $row->pengujian_mekanik1,
+            $row->keteranganMekanik1,
+            $row->pengujian_mekanik2,
+            $row->keteranganMekanik2,
+            $row->kesimpulan,
+            $row->gambar,
+            $row->user->name ?? '-',
+            $row->approvedBy->name ?? '-'
+        ];
+    }
+}

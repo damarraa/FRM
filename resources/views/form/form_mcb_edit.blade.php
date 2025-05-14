@@ -265,7 +265,7 @@
                         <hr class="mb-3">
 
                         <h6 class="mb-3 font-weight-bold">D. Kesimpulan</h6>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="kesimpulan">Kesimpulan</label>
@@ -292,6 +292,49 @@
                                     @endif
                                 </div>
                             </div>
+                        </div> --}}
+                        <div class="row">
+                            @if (auth()->user()->hasRole('Petugas'))
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="kesimpulan">Kesimpulan</label>
+                                        <select class="form-control" id="kesimpulan" name="kesimpulan" required
+                                            readonly>
+                                            <option value="">-- Pilih Kesimpulan --</option>
+                                            <option value="Bekas layak pakai (K6)"
+                                                {{ old('kesimpulan', $mcb->kesimpulan) == 'Bekas layak pakai (K6)' ? 'selected' : '' }}>
+                                                Bekas layak pakai (K6)</option>
+                                            <option value="Masih garansi (K7)"
+                                                {{ old('kesimpulan', $mcb->kesimpulan) == 'Masih garansi (K7)' ? 'selected' : '' }}>
+                                                Masih garansi (K7)</option>
+                                            <option value="Bekas tidak layak pakai (K8)"
+                                                {{ old('kesimpulan', $mcb->kesimpulan) == 'Bekas tidak layak pakai (K8)' ? 'selected' : '' }}>
+                                                Bekas tidak layak pakai (K8)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            @else
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="kesimpulan">Kesimpulan</label>
+                                        <select class="form-control" id="kesimpulan" name="kesimpulan" required>
+                                            <option value="">-- Pilih Kesimpulan --</option>
+                                            <option value="Bekas layak pakai (K6)"
+                                                {{ old('kesimpulan', $mcb->kesimpulan) == 'Bekas layak pakai (K6)' ? 'selected' : '' }}>
+                                                Bekas layak pakai (K6)</option>
+                                            <option value="Masih garansi (K7)"
+                                                {{ old('kesimpulan', $mcb->kesimpulan) == 'Masih garansi (K7)' ? 'selected' : '' }}>
+                                                Masih garansi (K7)</option>
+                                            <option value="Bekas tidak layak pakai (K8)"
+                                                {{ old('kesimpulan', $mcb->kesimpulan) == 'Bekas tidak layak pakai (K8)' ? 'selected' : '' }}>
+                                                Bekas tidak layak pakai (K8)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            @endif
+
                         </div>
 
                         <hr class="mb-3">
@@ -354,11 +397,14 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                         @if (auth()->user()->hasRole('PIC_Gudang'))
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-primary">Setuju</button>
-                        @else
+                        @elseif (auth()->user()->hasRole('Petugas'))
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
+                        @else
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                         @endif
                     </form>
                 </div>
@@ -408,6 +454,152 @@
             }
         });
 
+        document.addEventListener("DOMContentLoaded", function() {
+            // Dapatkan referensi form dengan benar
+            const formInspeksi = document.getElementById("formInspeksi");
+
+            if (!formInspeksi) {
+                console.error("Form dengan ID 'formInspeksi' tidak ditemukan!");
+                return;
+            }
+
+            // Elemen-elemen penting
+            const selectMasaPakai = document.getElementById("masa_pakai");
+            const kesimpulanSelect = document.getElementById("kesimpulan");
+            const kondisiSelects = document.querySelectorAll(".poinB");
+            const sectionC = document.querySelector(".sectionC");
+
+            // Debug nilai awal
+            console.log("[Debug] Elemen yang ditemukan:", {
+                selectMasaPakai,
+                kesimpulanSelect,
+                kondisiSelects: kondisiSelects.length,
+                sectionC
+            });
+
+            // Fungsi untuk mengecek apakah semua poin B bernilai "Baik"
+            function cekSemuaBaik() {
+                return Array.from(kondisiSelects).every(select => select.value === "Baik");
+            }
+
+            // Fungsi untuk menampilkan/sembunyikan section C
+            function updateSectionC() {
+                if (!sectionC) return;
+
+                const semuaBaik = cekSemuaBaik();
+                sectionC.style.display = semuaBaik ? "block" : "none";
+                console.log(`[Debug] Section C ${semuaBaik ? "ditampilkan" : "disembunyikan"}`);
+            }
+
+            // Fungsi untuk mengupdate kesimpulan
+            function updateKesimpulan() {
+                if (!selectMasaPakai || !kesimpulanSelect) return;
+
+                // Validasi input wajib terisi
+                if (!selectMasaPakai.value) {
+                    kesimpulanSelect.value = "";
+                    console.log("[Debug] Masa pakai belum dipilih, kosongkan kesimpulan");
+                    return;
+                }
+
+                // Pastikan semua poin B sudah terisi
+                const semuaTerisi = Array.from(kondisiSelects).every(select => {
+                    if (!select.value) {
+                        console.log(`[Debug] Field ${select.name} belum diisi`);
+                        return false;
+                    }
+                    return true;
+                });
+
+                if (!semuaTerisi) {
+                    kesimpulanSelect.value = "";
+                    console.log("[Debug] Ada poin B yang belum diisi, kosongkan kesimpulan");
+                    return;
+                }
+
+                const adaYangRusak = !cekSemuaBaik();
+                console.log(`[Debug] Masa pakai: ${selectMasaPakai.value}, Ada yang rusak: ${adaYangRusak}`);
+
+                // Logika kesimpulan
+                if (selectMasaPakai.value === ">=10") {
+                    kesimpulanSelect.value = "Bekas tidak layak pakai (K8)";
+                    console.log("[Debug] Set kesimpulan: K7 (masih garansi)");
+                } else if (adaYangRusak) {
+                    kesimpulanSelect.value = "Bekas tidak layak pakai (K8)";
+                    console.log("[Debug] Set kesimpulan: K8 (ada yang rusak)");
+                } else {
+                    kesimpulanSelect.value = "Bekas layak pakai (K6)";
+                    console.log("[Debug] Set kesimpulan: K6 (semua baik)");
+                }
+
+                // Set properti readonly dan styling
+                // kesimpulanSelect.readOnly = true;
+                // kesimpulanSelect.style.backgroundColor = "#f8f9fa";
+                // kesimpulanSelect.style.cursor = "not-allowed";
+            }
+
+            // Fungsi untuk menangani perubahan
+            function handleChange() {
+                updateSectionC();
+                // updateKesimpulan();
+                simpanDataForm();
+            }
+
+            // Pasang event listener untuk semua elemen yang relevan
+            if (selectMasaPakai) {
+                selectMasaPakai.addEventListener("change", handleChange);
+            }
+
+            kondisiSelects.forEach(select => {
+                select.addEventListener("change", handleChange);
+            });
+
+            // Fungsi untuk menyimpan data ke local storage
+            function simpanDataForm() {
+                const formData = new FormData(formInspeksi);
+                const formObject = {};
+                formData.forEach((value, key) => {
+                    formObject[key] = value;
+                });
+                localStorage.setItem("formInspeksiData", JSON.stringify(formObject));
+            }
+
+            // Fungsi untuk memuat data dari local storage
+            function muatDataForm() {
+                const savedData = localStorage.getItem("formInspeksiData");
+                if (savedData) {
+                    const formObject = JSON.parse(savedData);
+                    for (const key in formObject) {
+                        const inputElement = formInspeksi.querySelector(`[name="${key}"]`);
+                        if (inputElement && inputElement.type !== "file") {
+                            inputElement.value = formObject[key];
+                        }
+                    }
+                    // Setelah memuat data, update tampilan
+                    handleChange();
+                }
+            }
+
+            // Fungsi untuk menghapus data dari local storage
+            function hapusDataForm() {
+                localStorage.removeItem("formInspeksiData");
+            }
+
+            // Event listener untuk input dan change
+            formInspeksi.querySelectorAll("input, select, textarea").forEach(element => {
+                element.addEventListener("input", handleChange);
+                element.addEventListener("change", handleChange);
+            });
+
+            // Event listener untuk form reset
+            formInspeksi.addEventListener("reset", function() {
+                hapusDataForm();
+            });
+
+            // Muat data dari localStorage saat halaman dimuat
+            muatDataForm();
+        });
+
         // Preview image
         function previewImage(input, previewId) {
             const previewContainer = document.getElementById(previewId);
@@ -445,20 +637,7 @@
             "positionClass": "toast-top-right",
             "timeOut": "3000",
             "extendedTimeOut": "2000",
-            // "onShown": function() {
-            //     // Setelah toast muncul, submit form
-            //     document.getElementById('formInspeksi').submit();
-            // }
         };
-        // document.getElementById('formInspeksi').addEventListener('submit', function(e) {
-        //     // e.preventDefault(); // Mencegah submit langsung
-
-        //     // Simpan data ke localStorage
-        //     localStorage.removeItem("formInspeksiData");
-
-        //     // Tampilkan toast - form akan disubmit via onShn callback
-        //     toastr.success('Data berhasil diperbarui!');
-        // });
 
         // Toast Notification untuk Submit Sukses
         document.getElementById('formInspeksi').addEventListener('submit', function(e) {

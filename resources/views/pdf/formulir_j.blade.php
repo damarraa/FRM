@@ -11,8 +11,8 @@
     <div style="max-width: 900px; background: white; padding: 30px; margin: 40px auto; border-radius: 5px;">
         <div style="font-weight: normal; padding-bottom: 20px; font-size: 12px;">
             <div style="float: left"><span style="font-weight: bold">PT PLN (PERSERO)</span> <br> <span
-                    style="font-weight: bold">UID/UIW ...</span> <br> UNIT
-                ...</div>
+                    style="font-weight: bold">UID/UIW {{ $cubicle->uid->wilayah }}</span> <br> UNIT
+                {{ $cubicle->up3s->unit }}</div>
             <div style="float: right">Formulir 01-J</div>
         </div>
 
@@ -22,13 +22,15 @@
             <h2
                 style="font-size: 16px; text-transform: uppercase; font-weight: bold; text-decoration: underline; margin-bottom: 5px;">
                 FORMULIR INSPEKSI MATERIAL RETUR PHBTM / CUBICLE</h2>
-            <p style="font-size: 14px; font-weight: bold; margin-top: 0;">NO: ...</p>
+            <p style="font-size: 14px; font-weight: bold; margin-top: 0;">NO: {{ $cubicle->no_surat }}</p>
         </div>
 
         <div style="font-size: 11px; text-align: justify; margin-top: -10px;">
-            Pada hari ini <span style="font-weight: bold">...</span> tanggal <span style="font-weight: bold">...</span>
-            bulan <span style="font-weight: bold">...</span> tahun <span style="font-weight: bold">Dua Ribu
-                ...</span>
+            Pada hari ini <span style="font-weight: bold">{{ $hari }}</span> tanggal <span
+                style="font-weight: bold">{{ $tanggal }}</span>
+            bulan <span style="font-weight: bold">{{ $bulan }}</span> tahun <span style="font-weight: bold">Dua
+                Ribu
+                {{ $tahunTeks }}</span>
             telah diadakan inspeksi material retur PHBTM/Cubicle dengan data sebagai berikut:
         </div>
 
@@ -41,22 +43,17 @@
                 <tr>
                     <td style="width: 50%; vertical-align: top;">
                         <ul style="list-style: none; padding: 10px 10px; margin: 0; font-size: 11px; margin-left: 10px">
-                            <li style="padding: 0px 0;">Lokasi Akhir Terpasang: ...</li>
-                            <li style="padding: 0px 0;">Unit Layanan Pelanggan: ...</li>
-                            <li style="padding: 0px 0;">Tahun Produksi: ...</li>
+                            <li style="padding: 0px 0;">Lokasi Akhir Terpasang: {{ $cubicle->lokasi_akhir_terpasang }}
+                            </li>
+                            <li style="padding: 0px 0;">Unit Layanan Pelanggan: {{ $cubicle->ulp->daerah }}</li>
+                            <li style="padding: 0px 0;">Tahun Produksi: {{ $cubicle->tahun_produksi }}</li>
                         </ul>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
                         <ul style="list-style: none; padding: 10px 10px; margin: 0; font-size: 11px; margin-left: 10px">
-                            <li style="padding: 0px 0;">Tipe PHBTM / Cubicle: ...
-                                {{-- @if ($trafo_arus->tipe_trafo_arus == 'Indoor')
-                                    Indoor/<del>Outdoor</del>
-                                @elseif ($trafo_arus->tipe_trafo_arus == 'Outdoor')
-                                    <del>Indoor</del>/Outdoor
-                                @endif --}}
-                            </li>
-                            <li style="padding: 0px 0;">No Serial: ...</li>
-                            <li style="padding: 0px 0;">Nama Pabrikan: ...</li>
+                            <li style="padding: 0px 0;">Tipe PHBTM / Cubicle: {{ $cubicle->tipe_cubicle }}</li>
+                            <li style="padding: 0px 0;">No Serial: {{ $cubicle->no_serial }}</li>
+                            <li style="padding: 0px 0;">Nama Pabrikan: {{ $cubicle->pabrikan->nama_pabrikan }}</li>
                         </ul>
                     </td>
                 </tr>
@@ -100,25 +97,26 @@
                             Nameplate</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->retak_pada_resin == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->nameplate == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->retak_pada_resin == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->nameplate == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->retak_pada_resin == 'Tidak ada')
+                            @if ($cubicle->nameplate == 'Ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $cubicle->keteranganNameplate }}
                         </td>
                     </tr>
                     <tr style="">
@@ -128,25 +126,26 @@
                             Kelengkapan Peralatan/Komponen</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->kelengkapan_peralatan == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->kelengkapan_peralatan == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->nameplate == 'Ada')
+                            @if ($cubicle->kelengkapan_peralatan == 'Ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $cubicle->keteranganKelengkapan }}
                         </td>
                     </tr>
                     <tr style="">
@@ -156,25 +155,26 @@
                             Busbar dan Penyangga Busbar</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->busbar_penyangga == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->busbar_penyangga == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->nameplate == 'Ada')
+                            @if ($cubicle->busbar_penyangga == 'Ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $cubicle->keteranganBusbar }}
                         </td>
                     </tr>
                     <tr style="">
@@ -184,25 +184,26 @@
                             Kondisi Pembumian dan Kelengkapannya</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->kondisi_pembumian == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->kondisi_pembumian == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->nameplate == 'Ada')
+                            @if ($cubicle->kondisi_pembumian == 'Ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $cubicle->keteranganPembumian }}
                         </td>
                     </tr>
                     <tr style="">
@@ -213,25 +214,26 @@
                             retak/longgar dari selungkup)</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->kondisi_selungkup == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $cubicle->kondisi_selungkup == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Tidak ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->nameplate == 'Tidak ada')
+                            @if ($cubicle->kondisi_selungkup == 'Tidak ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $cubicle->keteranganSelungkup }}
                         </td>
                     </tr>
                 </table>
@@ -292,7 +294,7 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            ...
+                            {{ $cubicle->l1_cubicle }}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
@@ -303,15 +305,15 @@
                             > 1 MΩ</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_primer > 20)
+                            @if ($cubicle->l1_cubicle > 1)
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_primer }} --}}</td>
+                            {{ $cubicle->keteranganL1Cubicle }}</td>
                     </tr>
                     <tr>
                         <td
@@ -320,7 +322,7 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            ...
+                            {{ $cubicle->l2_cubicle }}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
@@ -328,15 +330,15 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_primer > 20)
+                            @if ($cubicle->l2_cubicle > 1)
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_primer }} --}}</td>
+                            {{ $cubicle->keteranganL2Cubicle }}</td>
                     </tr>
                     <tr>
                         <td
@@ -345,7 +347,7 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            ...
+                            {{ $cubicle->l3_cubicle }}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
@@ -353,15 +355,15 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($cubicle->l3_cubicle > 1)
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_sekunder }} --}}</td>
+                            {{ $cubicle->keteranganL3Cubicle }}</td>
                     </tr>
                     <tr>
                         <td
@@ -370,7 +372,7 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            ...
+                            {{ $cubicle->n_cubicle }}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
@@ -378,19 +380,20 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($cubicle->n_cubicle > 1)
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_sekunder }} --}}</td>
+                            {{ $cubicle->keteranganNCubicle }}</td>
                     </tr>
                 </table>
             </div>
-            <p style="margin-left: 20px; margin-top: -10px; font-size: 10px;">Keterangan: Kesesuaian seluruh mata uji poin C adalah mandatory.</p>
+            <p style="margin-left: 20px; margin-top: -10px; font-size: 10px;">Keterangan: Kesesuaian seluruh mata uji
+                poin C adalah mandatory.</p>
         </div>
 
         <div style="clear: both"></div>
@@ -424,9 +427,10 @@
                             TIDAK BAIK</th>
                     </tr>
                     <tr style="">
-                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 0px;" colspan="3">1</td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: left; padding-left: 10px; font-size: 11px; height: 0px;" rowspan="6">
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 0px;"
+                            colspan="3">1</td>
+                        <td style="border: 1px solid black; padding: 1px; text-align: left; padding-left: 10px; font-size: 11px; height: 0px;"
+                            rowspan="6">
                             Pengujian Mekanik</td>
                     </tr>
                     <tr style="">
@@ -436,25 +440,26 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {!! $trafo_arus->nameplate == 'Baik' ? '✔' : '' !!} --}}
+                            {!! $cubicle->pengujian_mekanik1 == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak baik' ? '✔' : '' !!} --}}
+                            {!! $cubicle->pengujian_mekanik1 == 'Tidak baik' ? '✔' : '' !!}
                         </td>
-                        <td style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
+                        <td
+                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_primer > 20)
+                            @if ($cubicle->pengujian_mekanik1 == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_primer }} --}}</td>
+                            {{ $cubicle->keteranganPengujianMekanik1 }}</td>
                     </tr>
                     <tr style="">
                         <td
@@ -463,25 +468,26 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {!! $trafo_arus->nameplate == 'Baik' ? '✔' : '' !!} --}}
+                            {!! $cubicle->pengujian_mekanik2 == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak baik' ? '✔' : '' !!} --}}
+                            {!! $cubicle->pengujian_mekanik2 == 'Tidak baik' ? '✔' : '' !!}
                         </td>
-                        <td style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
+                        <td
+                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_primer > 20)
+                            @if ($cubicle->pengujian_mekanik2 == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_primer }} --}}</td>
+                            {{ $cubicle->keteranganPengujianMekanik2 }}</td>
                     </tr>
                 </table>
             </div>
@@ -495,53 +501,52 @@
             <p
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: -10px;">
                 E. KESIMPULAN</p>
-            {{-- @if ($trafo_arus->kesimpulan == 'Bekas layak pakai (K6)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) bekas layak pakai (K6) / <del>masih garansi
+            @if ($cubicle->kesimpulan == 'Bekas layak pakai (K6)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) bekas layak pakai (K6) / <del>bekas bisa diperbaiki
                         (K7)</del> / <del>bekas
                         tidak layak pakai (K8)</del></p>
-            @elseif ($trafo_arus->kesimpulan == 'Masih garansi (K7)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / masih garansi
-                    (K7) / <del>bekas
+            @elseif ($cubicle->kesimpulan == 'Bekas bisa diperbaiki (K7)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / bekas bisa
+                    diperbaiki (K7) / <del>bekas
                         tidak layak pakai (K8)</del></p>
-            @elseif ($trafo_arus->kesimpulan == 'Bekas tidak layak pakai (K8)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / <del>masih
-                        garansi
-                        (K7)</del> / bekas
+            @elseif ($cubicle->kesimpulan == 'Bekas tidak layak pakai (K8)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / <del>bekas bisa
+                        diperbaiki (K7)</del> / bekas
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($trafo_arus->approved_by && $trafo_arus->updated_at != $trafo_arus->created_at)
+            @if ($cubicle->approved_by && $cubicle->updated_at != $cubicle->created_at)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
-                    *edited by: {{ $trafo_arus->approvedBy->name }} pada
-                    {{ $trafo_arus->updated_at->format('d/m/Y') }}
+                    *edited by: {{ $cubicle->approvedBy->name }} pada
+                    {{ $cubicle->updated_at->format('d/m/Y') }}
                 </p>
-            @endif --}}
+            @endif
 
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <tr>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">Yang Menyerahkan
-                        {{-- <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
-                            {{ \Carbon\Carbon::parse($trafo_arus->created_at)->format('d/m/Y') }}</p> --}}
+                        <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
+                            {{ \Carbon\Carbon::parse($cubicle->created_at)->format('d/m/Y') }}</p>
                     </td>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">DISETUJUI OLEH
                         <br>
                         PIC Gudang
-                        {{-- <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
-                            {{ \Carbon\Carbon::parse($trafo_arus->updated_at)->format('d/m/Y') }}</p> --}}
+                        <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
+                            {{ \Carbon\Carbon::parse($cubicle->updated_at)->format('d/m/Y') }}</p>
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">
-                        {{-- <img src="{{ $trafo_arus->user->signature }}" width="50px" height="50px"
+                        <img src="{{ $cubicle->user->signature }}" width="50px" height="50px"
                             style="display: block; margin: 5px auto 10px auto;" />
                         <p style="margin: 0px;">
-                            {{ $trafo_arus->user->name ?? '............................................' }} </p> --}}
+                            {{ $cubicle->user->name ?? '............................................' }} </p>
                     </td>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">
-                        {{-- <img src="{{ $trafo_arus->approvedBy->signature }}" width="50px" height="50px"
+                        <img src="{{ $cubicle->approvedBy->signature }}" width="50px" height="50px"
                             style="display: block; margin: 5px auto 10px auto" />
                         <p style="margin: 0px">
-                            {{ $trafo_arus->approvedBy->name ?? '............................................' }}</p> --}}
+                            {{ $cubicle->approvedBy->name ?? '............................................' }}</p>
                     </td>
                 </tr>
             </table>
@@ -563,9 +568,9 @@
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: 10px;">
                 F. GAMBAR EVIDENCE
             </p>
-            {{-- @if ($trafo_arus->gambar)
+            @if ($cubicle->gambar)
                 @php
-                    $gambarArray = json_decode($trafo_arus->gambar, true);
+                    $gambarArray = json_decode($cubicle->gambar, true);
                     $chunkedImages = array_chunk($gambarArray, 2); // Membagi array menjadi kelompok 2 gambar per baris
                 @endphp
 
@@ -574,7 +579,7 @@
                         <tr>
                             @foreach ($row as $gambar)
                                 @php
-                                    $path = public_path('gambar_trafo_arus/' . basename($gambar));
+                                    $path = public_path('gambar_cubicle/' . basename($gambar));
                                     $imageData = base64_encode(file_get_contents($path));
                                     $imageSrc = 'data:image/jpeg;base64,' . $imageData;
                                 @endphp
@@ -582,15 +587,15 @@
                                     <img src="{{ $imageSrc }}" alt="Gambar Inspeksi"
                                         style="width: 250px; height: auto; display: block; margin: auto;">
                                 </td>
-                            @endforeach --}}
-            {{-- Jika jumlah gambar ganjil, tambahkan sel kosong agar tabel tetap rapi --}}
-            {{-- @if (count($row) < 2)
+                            @endforeach
+                            {{-- Jika jumlah gambar ganjil, tambahkan sel kosong agar tabel tetap rapi --}}
+                            @if (count($row) < 2)
                                 <td style="border: 1px solid #ddd;"></td>
                             @endif
                         </tr>
                     @endforeach
                 </table>
-            @endif --}}
+            @endif
         </div>
     </div>
 </body>

@@ -139,7 +139,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 1px; text-align: center; font-size: 12px; height: 0px;">{{ $kWh_Meter->keterangan_body_kwh_meter }}</td>
+                        <td
+                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 12px; height: 0px;">
+                            {{ $kWh_Meter->keterangan_body_kwh_meter }}</td>
                     </tr>
                     <tr style="">
                         <td style="border: 1px solid black; text-align: center; font-size: 12px; height: 0px;">3</td>
@@ -166,7 +168,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">{{ $kWh_Meter->keterangan_segel_meterologi }}</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">
+                            {{ $kWh_Meter->keterangan_segel_meterologi }}</td>
                     </tr>
                     <tr style="">
                         <td style="border: 1px solid black; text-align: center; font-size: 12px; height: 0px;">4</td>
@@ -193,7 +197,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">{{ $kWh_Meter->keterangan_terminal }}</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">
+                            {{ $kWh_Meter->keterangan_terminal }}</td>
                     </tr>
                     <tr style="">
                         <td style="border: 1px solid black; text-align: center; font-size: 12px; height: 0px;">5</td>
@@ -220,7 +226,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">{{ $kWh_Meter->keterangan_stand_kwh_meter }}</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">
+                            {{ $kWh_Meter->keterangan_stand_kwh_meter }}</td>
                     </tr>
                     <tr style="">
                         <td style="border: 1px solid black; text-align: center; font-size: 12px; height: 0px;">6</td>
@@ -247,7 +255,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 1px; text-align: center; font-size: 12px; height: 0px;">{{ $kWh_Meter->keterangan_cover_terminal_kwh_meter }}</td>
+                        <td
+                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 12px; height: 0px;">
+                            {{ $kWh_Meter->keterangan_cover_terminal_kwh_meter }}</td>
                     </tr>
                     <tr style="">
                         <td style="border: 1px solid black; text-align: center; font-size: 12px; height: 0px;">7</td>
@@ -275,7 +285,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">{{ $kWh_Meter->keterangan_nameplate }}</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 12px; height: 0px;">
+                            {{ $kWh_Meter->keterangan_nameplate }}</td>
                     </tr>
                 </table>
             </div>
@@ -349,7 +361,9 @@
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
                             @endif
                         </td>
-                        <td style="border: 1px solid black; padding: 6px; text-align: center; font-size: 12px; height: 0px;">Kelas pengujian: {{ $kWh_Meter->KelasPengujian->kelas_pengujian ?? '-'}}</td>
+                        <td
+                            style="border: 1px solid black; padding: 6px; text-align: center; font-size: 12px; height: 0px;">
+                            Kelas pengujian: {{ $kWh_Meter->KelasPengujian->kelas_pengujian ?? '-' }}</td>
                     </tr>
                 </table>
             </div>
@@ -376,9 +390,22 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($kWh_Meter->approved_by && $kWh_Meter->updated_at != $kWh_Meter->created_at)
+            {{-- Ver 1 --}}
+            {{-- @if ($kWh_Meter->approved_by && $kWh_Meter->updated_at != $kWh_Meter->created_at)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
                     *edited by: {{ $kWh_Meter->approvedBy->name }} pada
+                    {{ $kWh_Meter->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($kWh_Meter->approved_by && $kWh_Meter->updated_at->gt($kWh_Meter->created_at))
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
+                    *edited by: {{ $kWh_Meter->approvedBy->name }} pada
+                    {{ $kWh_Meter->updated_at->format('d/m/Y') }}
+                </p>
+            @elseif ($kWh_Meter->approved_by)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
+                    *approved by: {{ $kWh_Meter->approvedBy->name }} pada
                     {{ $kWh_Meter->updated_at->format('d/m/Y') }}
                 </p>
             @endif

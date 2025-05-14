@@ -325,7 +325,7 @@ class KWHController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. --- Ver 1
      */
     public function update(Request $request, string $id)
     {
@@ -351,17 +351,17 @@ class KWHController extends Controller
                 'keterangan_nameplate' => 'nullable|string|max:55',
                 'nilai_uji_kesalahan' => 'nullable|numeric',
                 'keterangan_uji_kesalahan' => 'nullable|string|max:55',
-                'kelas_pengujian_id' => 'nullable|exists:kelas_pengujians,id', // Changed to match form field
+                'kelas_pengujian_id' => 'nullable|exists:kelas_pengujians,id',
                 'kesimpulan' => 'required|string',
                 'gambar' => 'nullable|array|max:4',
-                'gambar.*' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048', // Changed to nullable
+                'gambar.*' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048',
                 'pabrikan_id' => 'required|exists:pabrikans,id',
                 'uid_id' => 'required|exists:uids,id',
                 'up3_id' => 'required|exists:up3s,id',
                 'ulp_id' => 'required|exists:ulps,id',
-                'gudang_id' => 'required|exists:gudangs,id', // Added this from your form
-                'tahun_produksi' => 'required|numeric', // Added this from your form
-                'status' => 'sometimes|string', // Tambahkan validasi untuk status
+                'gudang_id' => 'required|exists:gudangs,id',
+                'tahun_produksi' => 'required|numeric',
+                'status' => 'sometimes|string',
             ]);
 
             // Nilai default untuk setiap keterangan
@@ -488,14 +488,6 @@ class KWHController extends Controller
                 $kWh_Meter->approved_by = Auth::id();
             }
 
-            // Menambahkan perubahan status berdasarkan role
-            // $user = auth()->user();
-
-            // if ($user->hasRole(['Admin', 'PIC_Gudang'])) {
-            //     $kWh_Meter->status = 'Approved';
-            //     $kWh_Meter->approved_by = Auth::id(); // Simpan ID PIC_Gudang yang melakukan perubahan
-            // }
-
             // Cek perubahan data yang sebenarnya (selain status dan approved_by)
             $isDataChanged = false;
             $changedFields = [];
@@ -515,20 +507,6 @@ class KWHController extends Controller
                 // Jika hanya approval: jangan update updated_at
                 $kWh_Meter->updated_at = $oldData['updated_at'];
             }
-
-            // Cek apakah ada perubahan pada kolom selain status
-            // $isEdited = false;
-            // foreach ($validated as $key => $value) {
-            //     if ($key !== 'status' && $oldData[$key] != $value) {
-            //         $isEdited = true;
-            //         break;
-            //     }
-            // }
-
-            // Jika ada perubahan pada kolom selain status, update updated_at
-            // if ($isEdited) {
-            //     $kWh_Meter->updated_at = now(); // Update timestamp perubahan
-            // }
 
             // Calculate masa_pakai if tahun_produksi is provided
             if ($request->filled('tahun_produksi')) {
@@ -624,5 +602,32 @@ class KWHController extends Controller
             return back()->withErrors($e->errors())->withInput();
         }
         // return redirect()->route('form-unapproved')->with('success', 'Status berhasil diubah menjadi Approved!');
+    }
+
+    private function hasDataChanges(Request $request, KWHMeter $kWh_Meter): bool
+    {
+        $excludedFields = ['_token', '_method', 'status'];
+        $currentData = $kWh_Meter->toArray();
+
+        foreach ($request->except($excludedFields) as $key => $value) {
+            // Handle khusus untuk field yang mungkin formatnya berbeda
+            if ($key === 'gambar') continue; // Gambar sudah dihandle khusus
+
+            if (array_key_exists($key, $currentData)) {
+                $currentValue = $currentData[$key];
+
+                // Konversi tipe data untuk komparasi
+                if (is_numeric($currentValue)) {
+                    $value = is_numeric($value) ? $value + 0 : $value;
+                    $currentValue = $currentValue + 0;
+                }
+
+                if ($value != $currentValue) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

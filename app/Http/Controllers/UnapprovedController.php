@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\CablePower;
 use App\Models\Conductor;
+use App\Models\Cubicle;
 use App\Models\FuseCutOut;
 use App\Models\Gudang;
 use App\Models\Isolator;
+use App\Models\KotakAPP;
 use App\Models\KWHMeter;
 use App\Models\LBS;
 use App\Models\LightningArrester;
@@ -44,6 +46,8 @@ class UnapprovedController extends Controller
         $unapproved_lightning_arrester = LightningArrester::where('status', 'Unapproved')->with('gudang');
         $unapproved_fco = FuseCutOut::where('status', 'Unapproved')->with('gudang');
         $unapproved_phbtr = PHBTR::where('status', 'Unapproved')->with('gudang');
+        $unapproved_cubicle = Cubicle::where('status', 'Unapproved')->with('gudang');
+        $unapproved_kotakApp = KotakAPP::where('status', 'Unapproved')->with('gudang');
 
         // Jika user adalah Admin, tampilkan semua data tanpa filter
         if (!$user->hasRole('Admin')) {
@@ -64,6 +68,8 @@ class UnapprovedController extends Controller
                 $unapproved_lightning_arrester->where('gudang_id', $user->gudang_id);
                 $unapproved_fco->where('gudang_id', $user->gudang_id);
                 $unapproved_phbtr->where('gudang_id', $user->gudang_id);
+                $unapproved_cubicle->where('gudang_id', $user->gudang_id);
+                $unapproved_kotakApp->where('gudang_id', $user->gudang_id);
             } else {
                 // Jika bukan Admin atau PIC_Gudang, hanya tampilkan data yang diinput oleh user tersebut
                 $unapproved_kwh_meters->where('user_id', $user->id);
@@ -81,6 +87,8 @@ class UnapprovedController extends Controller
                 $unapproved_lightning_arrester->where('user_id', $user->id);
                 $unapproved_fco->where('user_id', $user->id);
                 $unapproved_phbtr->where('user_id', $user->id);
+                $unapproved_cubicle->where('user_id', $user->id);
+                $unapproved_kotakApp->where('user_id', $user->id);
             }
         }
 
@@ -100,6 +108,8 @@ class UnapprovedController extends Controller
         $unapproved_lightning_arrester = $unapproved_lightning_arrester->get();
         $unapproved_fco = $unapproved_fco->get();
         $unapproved_phbtr = $unapproved_phbtr->get();
+        $unapproved_cubicle = $unapproved_cubicle->get();
+        $unapproved_kotakApp = $unapproved_kotakApp->get();
 
         // Gabungkan dan urutkan berdasarkan created_at
         $allUnapproved = collect()
@@ -116,6 +126,8 @@ class UnapprovedController extends Controller
             ->merge($unapproved_lightning_arrester)
             ->merge($unapproved_fco)
             ->merge($unapproved_phbtr)
+            ->merge($unapproved_cubicle)
+            ->merge($unapproved_kotakApp)
             ->sortByDesc('created_at')
             ->values();
 
@@ -134,6 +146,8 @@ class UnapprovedController extends Controller
             ->merge($unapproved_lightning_arrester->pluck('gudang_id'))
             ->merge($unapproved_fco->pluck('gudang_id'))
             ->merge($unapproved_phbtr->pluck('gudang_id'))
+            ->merge($unapproved_cubicle->pluck('gudang_id'))
+            ->merge($unapproved_kotakApp->pluck('gudang_id'))
             ->unique()
             ->values();
 

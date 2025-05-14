@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ulps', function (Blueprint $table) {
             $table->id();
             $table->string('daerah')->unique();
+            $table->string('kode_ulp');
             $table->unsignedBigInteger('up3_id');
             $table->foreign('up3_id')->references('id')->on('up3s')->onDelete('cascade');
             $table->timestamps();

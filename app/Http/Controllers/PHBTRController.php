@@ -308,6 +308,7 @@ class PHBTRController extends Controller
                 'tgl_inspeksi' => 'required|date',
                 'lokasi_akhir_terpasang' => 'required|string',
                 'tipe_phbtr' => 'required|in:PL-250-2-LBS,PL-250-2-MCCB,PL-250-2-FS,PL-400-2-LBS,PL-400-2-MCCB,PL-400-2-FS,PL-400-4-LBS,PL-400-4-MCCB,PL-400-4-FS,PL-4-LBS,PL-4-MCCB,PL-4-FS,PL-100-6-LBS,PL-100-6-MCCB,PL-100-8-LBS,PL-100-8-MCCB',
+                'tahun_produksi' => 'required|string',
                 'no_serial' => 'required|numeric',
                 'nameplate' => 'required|string',
                 'keteranganNameplate' => 'nullable|string|max:55',

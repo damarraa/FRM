@@ -148,6 +148,41 @@
                             data: {!! json_encode(array_values($returData['Tiang Listrik'])) !!},
                             borderColor: '#F39C12',
                             fill: false,
+                        }, {
+                            label: 'LBS',
+                            data: {!! json_encode(array_values($returData['LBS'])) !!},
+                            borderColor: '#1ABC9C',
+                            fill: false,
+                        }, {
+                            label: 'Isolator',
+                            data: {!! json_encode(array_values($returData['Isolator'])) !!},
+                            borderColor: '#9B59B6',
+                            fill: false,
+                        }, {
+                            label: 'Lightning Arrester',
+                            data: {!! json_encode(array_values($returData['Lightning Arrester'])) !!},
+                            borderColor: '#34495E',
+                            fill: false,
+                        }, {
+                            label: 'Fuse Cut Out',
+                            data: {!! json_encode(array_values($returData['Fuse Cut Out'])) !!},
+                            borderColor: '#D35400',
+                            fill: false,
+                        }, {
+                            label: 'PHBTR',
+                            data: {!! json_encode(array_values($returData['PHBTR'])) !!},
+                            borderColor: '#7F8C8D',
+                            fill: false,
+                        }, {
+                            label: 'Cubicle',
+                            data: {!! json_encode(array_values($returData['Cubicle'])) !!},
+                            borderColor: '#BDC3C7',
+                            fill: false,
+                        }, {
+                            label: 'Kotak APP',
+                            data: {!! json_encode(array_values($returData['Kotak APP'])) !!},
+                            borderColor: '#C0392B',
+                            fill: false,
                         }]
                     };
 
@@ -548,6 +583,41 @@
                             label: 'Tiang Listrik',
                             data: {!! json_encode(array_values($returData['Tiang Listrik'])) !!},
                             borderColor: '#F39C12',
+                            fill: false,
+                        }, {
+                            label: 'LBS',
+                            data: {!! json_encode(array_values($returData['LBS'])) !!},
+                            borderColor: '#1ABC9C',
+                            fill: false,
+                        }, {
+                            label: 'Isolator',
+                            data: {!! json_encode(array_values($returData['Isolator'])) !!},
+                            borderColor: '#9B59B6',
+                            fill: false,
+                        }, {
+                            label: 'Lightning Arrester',
+                            data: {!! json_encode(array_values($returData['Lightning Arrester'])) !!},
+                            borderColor: '#34495E',
+                            fill: false,
+                        }, {
+                            label: 'Fuse Cut Out',
+                            data: {!! json_encode(array_values($returData['Fuse Cut Out'])) !!},
+                            borderColor: '#D35400',
+                            fill: false,
+                        }, {
+                            label: 'PHBTR',
+                            data: {!! json_encode(array_values($returData['PHBTR'])) !!},
+                            borderColor: '#7F8C8D',
+                            fill: false,
+                        }, {
+                            label: 'Cubicle',
+                            data: {!! json_encode(array_values($returData['Cubicle'])) !!},
+                            borderColor: '#BDC3C7',
+                            fill: false,
+                        }, {
+                            label: 'Kotak APP',
+                            data: {!! json_encode(array_values($returData['Kotak APP'])) !!},
+                            borderColor: '#C0392B',
                             fill: false,
                         }]
                     };

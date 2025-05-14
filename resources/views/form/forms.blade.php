@@ -40,13 +40,12 @@
                                 Mini Circuit Breaker (MCB)
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Pengaman arus listrik
+                                Pengaman Arus Listrik
                             </p>
                         </a>
 
                         <!-- Card Item: Kotak APP -->
-                        {{-- <a href="{{ route('form-retur-kotak-app.create') }}" --}}
-                        <a href="#"
+                        <a href="{{ route('form-retur-kotak-app.create') }}"
                             class="group block bg-gradient-to-br from-cyan-50 to-white border border-cyan-100 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center hover:bg-cyan-100/40">
                             <div class="flex justify-center items-center mb-4">
                                 <div
@@ -77,7 +76,7 @@
                                 Cable Power
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Kabel daya listrik
+                                Kabel Daya Listrik
                             </p>
                         </a>
 
@@ -95,7 +94,7 @@
                                 Conductor
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Penghantar listrik
+                                Penghantar Listrik
                             </p>
                         </a>
 
@@ -113,7 +112,7 @@
                                 Trafo Distribusi
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Transformator distribusi
+                                Transformator Distribusi
                             </p>
                         </a>
 
@@ -132,7 +131,7 @@
                                 Lightning Arrester (LA)
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Pengaman petir
+                                Pengaman Petir
                             </p>
                         </a>
 
@@ -150,7 +149,7 @@
                                 Fuse Cut Out (FCO)
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Pengaman arus lebih
+                                Pengaman Arus Lebih
                             </p>
                         </a>
 
@@ -168,13 +167,12 @@
                                 Isolator
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Pemisah tegangan listrik
+                                Pemisah Tegangan Listrik
                             </p>
                         </a>
 
                         <!-- Card Item: Cubicle -->
                         <a href="{{ route('form-retur-cubicle.create') }}"
-                        {{-- <a href="#" --}}
                             class="group block bg-gradient-to-br from-cyan-50 to-white border border-cyan-100 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center hover:bg-cyan-100/40">
                             <div class="flex justify-center items-center mb-4">
                                 <div
@@ -187,13 +185,12 @@
                                 Cubicle
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Panel distribusi listrik
+                                Panel Distribusi Listrik
                             </p>
                         </a>
 
                         <!-- Card Item: PHBTR -->
                         <a href="{{ route('form-retur-phbtr.create') }}"
-                        {{-- <a href="#" --}}
                             class="group block bg-gradient-to-br from-cyan-50 to-white border border-cyan-100 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 text-center hover:bg-cyan-100/40">
                             <div class="flex justify-center items-center mb-4">
                                 <div
@@ -224,7 +221,7 @@
                                 Current Transformer (CT)
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Trafo arus
+                                Trafo Arus
                             </p>
                         </a>
 
@@ -243,7 +240,7 @@
                                 Potential Transformer (PT)
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Trafo tegangan
+                                Trafo Tegangan
                             </p>
                         </a>
 
@@ -261,7 +258,7 @@
                                 Load Break Switch (LBS)
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Saklar pemutus beban
+                                Saklar Pemutus Beban
                             </p>
                         </a>
 
@@ -279,7 +276,7 @@
                                 Tiang Listrik
                             </h3>
                             <p class="mt-1 text-sm text-cyan-700">
-                                Penyangga jaringan listrik
+                                Penyangga Jaringan Listrik
                             </p>
                         </a>
 

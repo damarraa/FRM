@@ -11,8 +11,8 @@
     <div style="max-width: 900px; background: white; padding: 30px; margin: 40px auto; border-radius: 5px;">
         <div style="font-weight: normal; padding-bottom: 20px; font-size: 12px;">
             <div style="float: left"><span style="font-weight: bold">PT PLN (PERSERO)</span> <br> <span
-                    style="font-weight: bold">UID/UIW ...</span> <br> UNIT
-                ...</div>
+                    style="font-weight: bold">UID/UIW {{ $fco->uid->wilayah }}</span> <br> UNIT
+                {{ $fco->up3s->unit }}</div>
             <div style="float: right">Formulir 01-H</div>
         </div>
 
@@ -22,13 +22,15 @@
             <h2
                 style="font-size: 16px; text-transform: uppercase; font-weight: bold; text-decoration: underline; margin-bottom: 5px;">
                 FORMULIR INSPEKSI MATERIAL RETUR FUSE CUT OUT</h2>
-            <p style="font-size: 14px; font-weight: bold; margin-top: 0;">NO: ...</p>
+            <p style="font-size: 14px; font-weight: bold; margin-top: 0;">NO: {{ $fco->no_surat }}</p>
         </div>
 
         <div style="font-size: 11px; text-align: justify; margin-top: -10px;">
-            Pada hari ini <span style="font-weight: bold">...</span> tanggal <span style="font-weight: bold">...</span>
-            bulan <span style="font-weight: bold">...</span> tahun <span style="font-weight: bold">Dua Ribu
-                ...</span>
+            Pada hari ini <span style="font-weight: bold">{{ $hari }}</span> tanggal <span
+                style="font-weight: bold">{{ $tanggal }}</span>
+            bulan <span style="font-weight: bold">{{ $bulan }}</span> tahun <span style="font-weight: bold">Dua
+                Ribu
+                {{ $tahunTeks }}</span>
             telah diadakan inspeksi material retur Fuse Cut Out dengan data sebagai berikut:
         </div>
 
@@ -41,22 +43,16 @@
                 <tr>
                     <td style="width: 50%; vertical-align: top;">
                         <ul style="list-style: none; padding: 10px 10px; margin: 0; font-size: 11px; margin-left: 10px">
-                            <li style="padding: 0px 0;">Lokasi Akhir Terpasang: ...</li>
-                            <li style="padding: 0px 0;">Unit Layanan Pelanggan: ...</li>
-                            <li style="padding: 0px 0;">Tahun Produksi: ...</li>
+                            <li style="padding: 0px 0;">Lokasi Akhir Terpasang: {{ $fco->lokasi_akhir_terpasang }}</li>
+                            <li style="padding: 0px 0;">Unit Layanan Pelanggan: {{ $fco->ulp->daerah }}</li>
+                            <li style="padding: 0px 0;">Tahun Produksi: {{ $fco->tahun_produksi }}</li>
                         </ul>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
                         <ul style="list-style: none; padding: 10px 10px; margin: 0; font-size: 11px; margin-left: 10px">
-                            <li style="padding: 0px 0;">Tipe Fuse Cut Out: ...
-                                {{-- @if ($trafo_arus->tipe_trafo_arus == 'Indoor')
-                                    Indoor/<del>Outdoor</del>
-                                @elseif ($trafo_arus->tipe_trafo_arus == 'Outdoor')
-                                    <del>Indoor</del>/Outdoor
-                                @endif --}}
-                            </li>
-                            <li style="padding: 0px 0;">No Serial: ...</li>
-                            <li style="padding: 0px 0;">Nama Pabrikan: ...</li>
+                            <li style="padding: 0px 0;">Tipe Fuse Cut Out: {{ $fco->tipe_fco }}</li>
+                            <li style="padding: 0px 0;">No Serial: {{ $fco->no_serial }}</li>
+                            <li style="padding: 0px 0;">Nama Pabrikan: {{ $fco->pabrikan->nama_pabrikan }}</li>
                         </ul>
                     </td>
                 </tr>
@@ -100,25 +96,26 @@
                             Penandaan Pada Fuse Base</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->retak_pada_resin == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->penandaan_fuse == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->retak_pada_resin == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->penandaan_fuse == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->retak_pada_resin == 'Tidak ada')
+                            @if ($fco->penandaan_fuse == 'Ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $fco->keteranganPenandaanFuse }}
                         </td>
                     </tr>
                     <tr style="">
@@ -128,25 +125,26 @@
                             Penandaan Pada Fuse Carrier</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->penandaan_carrier == 'Ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->penandaan_carrier == 'Tidak ada' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Ada</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->nameplate == 'Ada')
+                            @if ($fco->penandaan_carrier == 'Ada')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $fco->keteranganPenandaanCarrier }}
                         </td>
                     </tr>
                 </table>
@@ -208,26 +206,26 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->fuse_base == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->fuse_base == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_primer > 20)
+                            @if ($fco->fuse_base == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_primer }} --}}</td>
+                            {{ $fco->keteranganFuseBase }}</td>
                     </tr>
                     <tr>
                         <td
@@ -236,26 +234,26 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->fuse_carrier == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->fuse_carrier == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_primer > 20)
+                            @if ($fco->fuse_carrier == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_primer }} --}}</td>
+                            {{ $fco->keteranganFuseCarrier }}</td>
                     </tr>
                     <tr>
                         <td
@@ -264,26 +262,26 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->bracket == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->bracket == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($fco->bracket == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_sekunder }} --}}</td>
+                            {{ $fco->keteranganBracket }}</td>
                     </tr>
                     <tr>
                         <td
@@ -294,57 +292,26 @@
                             Mekanisme Kontak</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->mekanisme_kontak == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->mekanisme_kontak == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($fco->mekanisme_kontak == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            Posisi kontak antara fuse carrier dengan fuse base</td>
-                    </tr>
-                    <tr>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            2</td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: left; padding-left: 10px; font-size: 11px; height: 0px;">
-                            Mekanisme Kontak</td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
-                        </td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
-                        </td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            Baik</td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
-                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
-                            @else
-                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
-                        </td>
-                        <td
-                            style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            Posisi kontak antara fuse<br>
-                            carrier dengan fuse base</td>
+                            {{ $fco->keteranganMekanismeKontak }}</td>
                     </tr>
                     <tr>
                         <td
@@ -355,26 +322,26 @@
                             Fuse Base</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_fuse_base == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_fuse_base == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($fco->kondisi_fuse_base == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_sekunder }} --}}</td>
+                            {{ $fco->keteranganKondisiFuseBase }}</td>
                     </tr>
                     <tr>
                         <td
@@ -385,27 +352,26 @@
                             Kondisi Insulator</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_insulator == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_insulator == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($fco->kondisi_insulator == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            Bebas retak dan rongga<br>
-                            (void)</td>
+                            {{ $fco->keteranganKondisiInsulator }}</td>
                     </tr>
                     <tr>
                         <td
@@ -416,26 +382,26 @@
                             Bracket</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_bracket == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_bracket == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($fco->kondisi_bracket == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            {{-- {{ $trafo_arus->keterangan_nilai_pengujian_sekunder }} --}}</td>
+                            {{ $fco->keteranganKondisiBracket }}</td>
                     </tr>
                     <tr>
                         <td
@@ -446,28 +412,26 @@
                             Fuse Carrier</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_fuse_carrier == 'Baik' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- {!! $trafo_arus->nameplate == 'Tidak ada' ? '✔' : '' !!} --}}
+                            {!! $fco->kondisi_fuse_carrier == 'Rusak' ? '✔' : '' !!}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
                             Baik</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
-                            {{-- @if ($trafo_arus->nilai_pengujian_sekunder > 20)
+                            @if ($fco->kondisi_fuse_carrier == 'Baik')
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
-                            Terdiri dari tabung pelebur,<br>
-                            konektor tabung pelebur,<br>
-                            kepala tabung, dan trunnion</td>
+                            {{ $fco->keteranganKondisiFuseCarrier }}</td>
                     </tr>
                 </table>
             </div>
@@ -515,7 +479,7 @@
                             Pengujian Tahanan Isolasi</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            ...
+                            {{ $fco->uji_tahanan_isolasi }}
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
@@ -526,19 +490,21 @@
                             > 20 MΩ</td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
-                            {{-- @if ($trafo_arus->retak_pada_resin == 'Tidak ada')
+                            @if ($fco->uji_tahanan_isolasi > 20)
                                 <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
                             @else
                                 <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
-                            @endif --}}
+                            @endif
                         </td>
                         <td
                             style="border: 1px solid black; padding: 1px; text-align: center; font-size: 11px; height: 0px;">
+                            {{ $fco->keterangan_uji_tahanan }}
                         </td>
                     </tr>
                 </table>
             </div>
-            <p style="margin-left: 20px; margin-top: -10px; font-size: 10px;">Keterangan: Kesesuaian seluruh mata uji poin D adalah mandatory.</p>
+            <p style="margin-left: 20px; margin-top: -10px; font-size: 10px;">Keterangan: Kesesuaian seluruh mata uji
+                poin D adalah mandatory.</p>
         </div>
 
         <div style="clear: both"></div>
@@ -547,53 +513,52 @@
             <p
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: -10px;">
                 E. KESIMPULAN</p>
-            {{-- @if ($trafo_arus->kesimpulan == 'Bekas layak pakai (K6)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) bekas layak pakai (K6) / <del>masih garansi
+            @if ($fco->kesimpulan == 'Bekas layak pakai (K6)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) bekas layak pakai (K6) / <del>bekas bisa diperbaiki
                         (K7)</del> / <del>bekas
                         tidak layak pakai (K8)</del></p>
-            @elseif ($trafo_arus->kesimpulan == 'Masih garansi (K7)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / masih garansi
-                    (K7) / <del>bekas
+            @elseif ($fco->kesimpulan == 'Bekas bisa diperbaiki (K7)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / bekas bisa
+                    diperbaiki (K7) / <del>bekas
                         tidak layak pakai (K8)</del></p>
-            @elseif ($trafo_arus->kesimpulan == 'Bekas tidak layak pakai (K8)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / <del>masih
-                        garansi
-                        (K7)</del> / bekas
+            @elseif ($fco->kesimpulan == 'Bekas tidak layak pakai (K8)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / <del>bekas bisa
+                        diperbaiki (K7)</del> / bekas
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($trafo_arus->approved_by && $trafo_arus->updated_at != $trafo_arus->created_at)
+            @if ($fco->approved_by && $fco->updated_at != $fco->created_at)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
-                    *edited by: {{ $trafo_arus->approvedBy->name }} pada
-                    {{ $trafo_arus->updated_at->format('d/m/Y') }}
+                    *edited by: {{ $fco->approvedBy->name }} pada
+                    {{ $fco->updated_at->format('d/m/Y') }}
                 </p>
-            @endif --}}
+            @endif
 
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <tr>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">Yang Menyerahkan
-                        {{-- <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
-                            {{ \Carbon\Carbon::parse($trafo_arus->created_at)->format('d/m/Y') }}</p> --}}
+                        <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
+                            {{ \Carbon\Carbon::parse($fco->created_at)->format('d/m/Y') }}</p>
                     </td>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">DISETUJUI OLEH
                         <br>
                         PIC Gudang
-                        {{-- <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
-                            {{ \Carbon\Carbon::parse($trafo_arus->updated_at)->format('d/m/Y') }}</p> --}}
+                        <p style="margin: 0px; font-weight: normal;">Ditandatangani tanggal
+                            {{ \Carbon\Carbon::parse($fco->updated_at)->format('d/m/Y') }}</p>
                     </td>
                 </tr>
                 <tr>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">
-                        {{-- <img src="{{ $trafo_arus->user->signature }}" width="50px" height="50px"
+                        <img src="{{ $fco->user->signature }}" width="50px" height="50px"
                             style="display: block; margin: 5px auto 10px auto;" />
                         <p style="margin: 0px;">
-                            {{ $trafo_arus->user->name ?? '............................................' }} </p> --}}
+                            {{ $fco->user->name ?? '............................................' }} </p>
                     </td>
                     <td style="text-align: center; border: none; font-size: 14px; font-weight: bold;">
-                        {{-- <img src="{{ $trafo_arus->approvedBy->signature }}" width="50px" height="50px"
+                        <img src="{{ $fco->approvedBy->signature }}" width="50px" height="50px"
                             style="display: block; margin: 5px auto 10px auto" />
                         <p style="margin: 0px">
-                            {{ $trafo_arus->approvedBy->name ?? '............................................' }}</p> --}}
+                            {{ $fco->approvedBy->name ?? '............................................' }}</p>
                     </td>
                 </tr>
             </table>
@@ -615,9 +580,9 @@
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: 10px;">
                 F. GAMBAR EVIDENCE
             </p>
-            {{-- @if ($trafo_arus->gambar)
+            @if ($fco->gambar)
                 @php
-                    $gambarArray = json_decode($trafo_arus->gambar, true);
+                    $gambarArray = json_decode($fco->gambar, true);
                     $chunkedImages = array_chunk($gambarArray, 2); // Membagi array menjadi kelompok 2 gambar per baris
                 @endphp
 
@@ -626,7 +591,7 @@
                         <tr>
                             @foreach ($row as $gambar)
                                 @php
-                                    $path = public_path('gambar_trafo_arus/' . basename($gambar));
+                                    $path = public_path('gambar_fco/' . basename($gambar));
                                     $imageData = base64_encode(file_get_contents($path));
                                     $imageSrc = 'data:image/jpeg;base64,' . $imageData;
                                 @endphp
@@ -634,15 +599,15 @@
                                     <img src="{{ $imageSrc }}" alt="Gambar Inspeksi"
                                         style="width: 250px; height: auto; display: block; margin: auto;">
                                 </td>
-                            @endforeach --}}
-            {{-- Jika jumlah gambar ganjil, tambahkan sel kosong agar tabel tetap rapi --}}
-            {{-- @if (count($row) < 2)
+                            @endforeach
+                            {{-- Jika jumlah gambar ganjil, tambahkan sel kosong agar tabel tetap rapi --}}
+                            @if (count($row) < 2)
                                 <td style="border: 1px solid #ddd;"></td>
                             @endif
                         </tr>
                     @endforeach
                 </table>
-            @endif --}}
+            @endif
         </div>
     </div>
 </body>

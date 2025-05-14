@@ -7,7 +7,7 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="mb-3">Formulir Inspeksi Material Retur Lightning Arrester</h5>
+                    <h5 class="mb-3 font-weight-bold">Formulir Inspeksi Material Retur Lightning Arrester</h5>
                     <hr class="mb-3">
                     <form id="formInspeksi" action="{{ route('form-retur-lightning-arrester.store') }}" method="POST"
                         enctype="multipart/form-data">
@@ -175,7 +175,7 @@
                         <hr class="mb-3">
 
                         <!-- Bagian Kesimpulan -->
-                        <h6 class="mb-3 font-weight-bold">E. Kesimpulan</h6>
+                        <h6 class="mb-3 font-weight-bold">D. Kesimpulan</h6>
                         <div class="row">
                             @if (auth()->user()->hasRole('Petugas'))
                                 <div class="col-md-6">

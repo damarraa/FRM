@@ -64,6 +64,23 @@
         color: white;
     }
 
+    .bulk-actions {
+        background-color: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: 1px solid #dee2e6;
+        margin-top: 10px;
+    }
+
+    #selectedCount {
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .row-checkbox {
+        cursor: pointer;
+    }
+
     /* Fix for buttons visibility */
     .action-column {
         white-space: nowrap;
@@ -179,6 +196,8 @@
                                             <option value="Lightning Arrester">Lightning Arrester</option>
                                             <option value="Fuse Cut Out">Fuse Cut Out</option>
                                             <option value="PHBTR">PHBTR</option>
+                                            <option value="Cubicle">Cubicle</option>
+                                            <option value="Kotak App">Kotak App</option>
                                         </select>
                                     </div>
                                 </div>
@@ -227,6 +246,9 @@
                                 <table id="table_id" class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th width="30px">
+                                                <input type="checkbox" id="selectAll">
+                                            </th>
                                             <th>No. Retur</th>
                                             <th>Tgl. Retur</th>
                                             <th>Unit Layanan Pelanggan</th>
@@ -239,6 +261,9 @@
                                         @foreach ($allApproved as $data)
                                             <tr
                                                 data-date="{{ \Carbon\Carbon::parse($data->tgl_inspeksi)->format('Y-m-d') }}">
+                                                <td><input type="checkbox" class="row-checkbox"
+                                                        value="{{ $data->id }}" data-type="{{ get_class($data) }}">
+                                                </td>
                                                 <td>{{ $data->no_surat }}</td>
                                                 <td>{{ \Carbon\Carbon::parse($data->tgl_inspeksi)->format('d/m/Y') }}
                                                 </td>
@@ -270,6 +295,10 @@
                                                         <span class="badge badge-info">Fuse Cut Out</span>
                                                     @elseif ($data instanceof App\Models\PHBTR)
                                                         <span class="badge badge-info">PHBTR</span>
+                                                    @elseif ($data instanceof App\Models\Cubicle)
+                                                        <span class="badge badge-info">Cubicle</span>
+                                                    @elseif ($data instanceof App\Models\KotakAPP)
+                                                        <span class="badge badge-info">Kotak App</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -343,6 +372,21 @@
                                                                 class="btn btn-info btn-sm mr-1" target="_blank">
                                                                 <i class="fas fa-eye"></i> Preview
                                                             </a>
+                                                        @elseif($data instanceof App\Models\PHBTR)
+                                                            <a href="{{ route('previewPDF.phbtr', $data->id) }}"
+                                                                class="btn btn-info btn-sm mr-1" target="_blank">
+                                                                <i class="fas fa-eye"></i> Preview
+                                                            </a>
+                                                        @elseif($data instanceof App\Models\Cubicle)
+                                                            <a href="{{ route('previewPDF.cubicle', $data->id) }}"
+                                                                class="btn btn-info btn-sm mr-1" target="_blank">
+                                                                <i class="fas fa-eye"></i> Preview
+                                                            </a>
+                                                        @elseif($data instanceof App\Models\KotakAPP)
+                                                            <a href="{{ route('previewPDF.kotakApp', $data->id) }}"
+                                                                class="btn btn-info btn-sm mr-1" target="_blank">
+                                                                <i class="fas fa-eye"></i> Preview
+                                                            </a>
                                                         @endif
                                                     @else
                                                         @if ($data instanceof App\Models\KWHMeter)
@@ -405,6 +449,21 @@
                                                                 class="btn btn-info btn-sm mr-1" target="_blank">
                                                                 <i class="fas fa-eye"></i> Preview
                                                             </a>
+                                                        @elseif($data instanceof App\Models\PHBTR)
+                                                            <a href="{{ route('preview.phbtr', $data->id) }}"
+                                                                class="btn btn-info btn-sm mr-1" target="_blank">
+                                                                <i class="fas fa-eye"></i> Preview
+                                                            </a>
+                                                        @elseif($data instanceof App\Models\Cubicle)
+                                                            <a href="{{ route('preview.cubicle', $data->id) }}"
+                                                                class="btn btn-info btn-sm mr-1" target="_blank">
+                                                                <i class="fas fa-eye"></i> Preview
+                                                            </a>
+                                                        @elseif($data instanceof App\Models\KotakAPP)
+                                                            <a href="{{ route('preview.kotakApp', $data->id) }}"
+                                                                class="btn btn-info btn-sm mr-1" target="_blank">
+                                                                <i class="fas fa-eye"></i> Preview
+                                                            </a>
                                                         @endif
                                                     @endif
 
@@ -425,7 +484,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.kwh', $data->id) }}"
+                                                                    <a href="{{ route('exports.exkwh', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -436,7 +495,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.mcb', $data->id) }}"
+                                                                    <a href="{{ route('exports.exmcb', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -447,7 +506,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.trafo', $data->id) }}"
+                                                                    <a href="{{ route('exports.extrafo', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -458,7 +517,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.cable', $data->id) }}"
+                                                                    <a href="{{ route('exports.excable', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -469,7 +528,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.conductor', $data->id) }}"
+                                                                    <a href="{{ route('exports.exconductor', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -480,7 +539,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.ct', $data->id) }}"
+                                                                    <a href="{{ route('exports.exct', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -491,7 +550,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.pt', $data->id) }}"
+                                                                    <a href="{{ route('exports.expt', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -502,7 +561,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.tiangListrik', $data->id) }}"
+                                                                    <a href="{{ route('exports.extiang', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -513,7 +572,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.lbs', $data->id) }}"
+                                                                    <a href="{{ route('exports.exlbs', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -524,18 +583,18 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.isolator', $data->id) }}"
+                                                                    <a href="{{ route('exports.exisolator', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
                                                                     </a>
                                                                 @elseif($data instanceof App\Models\LightningArrester)
-                                                                    <a href="{{ route('exportPDF.la', $data->id) }}"
+                                                                    <a href="{{ route('exportPDF.lightningArrester', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.la', $data->id) }}"
+                                                                    <a href="{{ route('exports.exla', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -546,7 +605,40 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('exportPDF.fco', $data->id) }}"
+                                                                    <a href="{{ route('exports.exfco', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-excel mr-2"></i> Download
+                                                                        Excel
+                                                                    </a>
+                                                                @elseif($data instanceof App\Models\PHBTR)
+                                                                    <a href="{{ route('exportPDF.phbtr', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-pdf mr-2"></i> Download
+                                                                        PDF
+                                                                    </a>
+                                                                    <a href="{{ route('exports.exphbtr', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-excel mr-2"></i> Download
+                                                                        Excel
+                                                                    </a>
+                                                                @elseif($data instanceof App\Models\Cubicle)
+                                                                    <a href="{{ route('exportPDF.cubicle', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-pdf mr-2"></i> Download
+                                                                        PDF
+                                                                    </a>
+                                                                    <a href="{{ route('exports.excubicle', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-excel mr-2"></i> Download
+                                                                        Excel
+                                                                    </a>
+                                                                @elseif($data instanceof App\Models\KotakAPP)
+                                                                    <a href="{{ route('exportPDF.kotakApp', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-pdf mr-2"></i> Download
+                                                                        PDF
+                                                                    </a>
+                                                                    <a href="{{ route('exports.exkotakapp', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -559,7 +651,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.kwh', $data->id) }}"
+                                                                    <a href="{{ route('export.exkwhs', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -570,7 +662,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.mcb', $data->id) }}"
+                                                                    <a href="{{ route('export.exmcbs', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -581,7 +673,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.trafo', $data->id) }}"
+                                                                    <a href="{{ route('export.extrafos', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -592,7 +684,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.cable', $data->id) }}"
+                                                                    <a href="{{ route('export.excables', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -603,7 +695,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.conductor', $data->id) }}"
+                                                                    <a href="{{ route('export.exconductors', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -614,7 +706,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.ct', $data->id) }}"
+                                                                    <a href="{{ route('export.excts', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -625,7 +717,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.pt', $data->id) }}"
+                                                                    <a href="{{ route('export.expts', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -636,7 +728,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.tiangListrik', $data->id) }}"
+                                                                    <a href="{{ route('export.extiangs', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -647,7 +739,7 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.lbs', $data->id) }}"
+                                                                    <a href="{{ route('export.exlbss', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -658,18 +750,18 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.isolator', $data->id) }}"
+                                                                    <a href="{{ route('export.exisolators', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
                                                                     </a>
                                                                 @elseif($data instanceof App\Models\LightningArrester)
-                                                                    <a href="{{ route('export.la', $data->id) }}"
+                                                                    <a href="{{ route('export.lightningArrester', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.la', $data->id) }}"
+                                                                    <a href="{{ route('export.exlas', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -680,7 +772,40 @@
                                                                         <i class="fas fa-file-pdf mr-2"></i> Download
                                                                         PDF
                                                                     </a>
-                                                                    <a href="{{ route('export.fco', $data->id) }}"
+                                                                    <a href="{{ route('export.exfcos', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-excel mr-2"></i> Download
+                                                                        Excel
+                                                                    </a>
+                                                                @elseif($data instanceof App\Models\PHBTR)
+                                                                    <a href="{{ route('export.phbtr', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-pdf mr-2"></i> Download
+                                                                        PDF
+                                                                    </a>
+                                                                    <a href="{{ route('export.exphbtrs', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-excel mr-2"></i> Download
+                                                                        Excel
+                                                                    </a>
+                                                                @elseif($data instanceof App\Models\Cubicle)
+                                                                    <a href="{{ route('export.cubicle', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-pdf mr-2"></i> Download
+                                                                        PDF
+                                                                    </a>
+                                                                    <a href="{{ route('export.excubicles', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-excel mr-2"></i> Download
+                                                                        Excel
+                                                                    </a>
+                                                                @elseif($data instanceof App\Models\KotakAPP)
+                                                                    <a href="{{ route('export.kotakApp', $data->id) }}"
+                                                                        class="dropdown-item">
+                                                                        <i class="fas fa-file-pdf mr-2"></i> Download
+                                                                        PDF
+                                                                    </a>
+                                                                    <a href="{{ route('export.exkotakapps', $data->id) }}"
                                                                         class="dropdown-item">
                                                                         <i class="fas fa-file-excel mr-2"></i> Download
                                                                         Excel
@@ -693,6 +818,18 @@
                                             </tr>
                                         @endforeach
                                     </tbody>
+
+                                    <!-- Tambahkan tombol bulk actions di bagian bawah tabel -->
+                                    <div class="bulk-actions mt-3 mb-3" style="display: none;">
+                                        <button class="btn btn-primary btn-sm" id="bulkDownloadExcel">
+                                            <i class="fas fa-file-excel"></i> Download Excel Terpilih
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" id="bulkDownloadPDF">
+                                            <i class="fas fa-file-pdf"></i> Download PDF Terpilih (ZIP)
+                                        </button>
+                                        <span id="selectedCount" class="ml-2">0 item terpilih</span>
+                                    </div>
+
                                 </table>
                                 <div class="mt-3 d-flex justify-content-center">
                                     {{ $allApproved->links() }}
@@ -776,9 +913,9 @@
 
             $('table tbody tr').each(function() {
                 let row = $(this);
-                let ulp = row.find('td:eq(2)').text().toLowerCase();
-                let material = row.find('td:eq(3)').text().toLowerCase();
-                let kesimpulan = row.find('td:eq(4)').text().toLowerCase();
+                let ulp = row.find('td:eq(3)').text().toLowerCase();
+                let material = row.find('td:eq(4)').text().toLowerCase();
+                let kesimpulan = row.find('td:eq(5)').text().toLowerCase();
                 let rowText = row.text().toLowerCase();
                 let rowDate = row.data('date');
 
@@ -814,7 +951,143 @@
             $('#searchInput').val('');
             $('#dateRangeFilter').val('');
             filterTable();
+            
+            // Reset select all berdasarkan filer
+            $('#selectAll').prop('checked', false);
+            updateBulkActions();
         });
+    });
+
+    $(document).ready(function() {
+        // Select/Deselect all
+        // $('#selectAll').change(function() {
+        //     $('.row-checkbox').prop('checked', $(this).prop('checked'));
+        //     updateBulkActions();
+        // });
+
+        // Select/Deselect all (hanya yang visible)
+        $('#selectAll').change(function() {
+            const isChecked = $(this).prop('checked');
+            $('tbody tr:visible .row-checkbox').prop('checked', isChecked);
+            updateBulkActions();
+        });
+
+        // Row checkbox change
+        $(document).on('change', '.row-checkbox', function() {
+            updateBulkActions();
+        });
+
+        // function updateBulkActions() {
+        //     const checkedCount = $('.row-checkbox:checked').length;
+        //     if (checkedCount > 0) {
+        //         $('.bulk-actions').show();
+        //         $('#selectedCount').text(checkedCount + ' item terpilih');
+        //     } else {
+        //         $('.bulk-actions').hide();
+        //     }
+
+        //     // Update select all checkbox
+        //     $('#selectAll').prop('checked',
+        //         $('.row-checkbox:checked').length === $('.row-checkbox').length
+        //     );
+        // }
+
+        // Revisi mengikuti Select/Deselect all (hanya yang visible)
+        function updateBulkActions() {
+            const visibleCheckboxes = $('tbody tr:visible .row-checkbox');
+            const checkedCount = visibleCheckboxes.filter(':checked').length;
+
+            if (checkedCount > 0) {
+                $('.bulk-actions').show();
+                $('#selectedCount').text(checkedCount + ' item terpilih');
+            } else {
+                $('.bulk-actions').hide();
+            }
+
+            // Revisi select all checkbox untuk visible
+            $('#selectAll').prop('checked',
+                checkedCount > 0 && checkedCount === visibleCheckboxes.length
+            );
+        }
+
+        // Bulk download Excel
+        $('#bulkDownloadExcel').click(function() {
+            const selectedItems = getSelectedItems();
+            if (selectedItems.ids.length === 0) return;
+
+            // Submit form untuk download
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('export.bulkExcel') }}';
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+
+            const idsInput = document.createElement('input');
+            idsInput.type = 'hidden';
+            idsInput.name = 'ids';
+            idsInput.value = JSON.stringify(selectedItems.ids);
+            form.appendChild(idsInput);
+
+            const typesInput = document.createElement('input');
+            typesInput.type = 'hidden';
+            typesInput.name = 'types';
+            typesInput.value = JSON.stringify(selectedItems.types);
+            form.appendChild(typesInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        // Bulk download PDF (ZIP)
+        $('#bulkDownloadPDF').click(function() {
+            const selectedItems = getSelectedItems();
+            if (selectedItems.ids.length === 0) return;
+
+            // Submit form untuk download ZIP
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('export.bulkPDF') }}';
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+
+            const idsInput = document.createElement('input');
+            idsInput.type = 'hidden';
+            idsInput.name = 'ids';
+            idsInput.value = JSON.stringify(selectedItems.ids);
+            form.appendChild(idsInput);
+
+            const typesInput = document.createElement('input');
+            typesInput.type = 'hidden';
+            typesInput.name = 'types';
+            typesInput.value = JSON.stringify(selectedItems.types);
+            form.appendChild(typesInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        function getSelectedItems() {
+            const ids = [];
+            const types = [];
+
+            $('.row-checkbox:checked').each(function() {
+                ids.push($(this).val());
+                types.push($(this).data('type'));
+            });
+
+            return {
+                ids,
+                types
+            };
+        }
     });
 </script>
 

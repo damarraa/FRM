@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\CablePower;
 use App\Models\Conductor;
+use App\Models\Cubicle;
+use App\Models\FuseCutOut;
 use App\Models\Gudang;
+use App\Models\Isolator;
+use App\Models\KotakAPP;
 use App\Models\KWHMeter;
+use App\Models\LBS;
+use App\Models\LightningArrester;
 use App\Models\MCB;
+use App\Models\PHBTR;
 use App\Models\TiangListrik;
 use App\Models\Trafo;
 use App\Models\TrafoArus;
@@ -66,6 +73,41 @@ class DashboardController extends Controller
                 TiangListrik::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
                     ->where('user_id', $user->id)
                     ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                LBS::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                Isolator::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                LightningArrester::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                FuseCutOut::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                PHBTR::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                Cubicle::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
+            )
+            ->unionAll(
+                KotakAPP::select(DB::raw("MONTH(created_at) as month"), DB::raw("COUNT(*) as total"))
+                    ->where('user_id', $user->id)
+                    ->groupBy(DB::raw("MONTH(created_at)"))
             );
 
         $monthlyData = DB::table(DB::raw("({$formsQuery->toSql()}) as monthly"))
@@ -122,6 +164,48 @@ class DashboardController extends Controller
                     ->where('tiang_listriks.user_id', $user->id)
                     ->where('tiang_listriks.status', 'Unapproved')
             )
+            ->union(
+                LBS::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'l_b_s.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('l_b_s.user_id', $user->id)
+                    ->where('l_b_s.status', 'Unapproved')
+            )
+            ->union(
+                Isolator::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'isolators.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('isolators.user_id', $user->id)
+                    ->where('isolators.status', 'Unapproved')
+            )
+            ->union(
+                LightningArrester::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'lightning_arresters.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('lightning_arresters.user_id', $user->id)
+                    ->where('lightning_arresters.status', 'Unapproved')
+            )
+            ->union(
+                FuseCutOut::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'fuse_cut_outs.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('fuse_cut_outs.user_id', $user->id)
+                    ->where('fuse_cut_outs.status', 'Unapproved')
+            )
+            ->union(
+                PHBTR::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'p_h_b_t_r_s.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('p_h_b_t_r_s.user_id', $user->id)
+                    ->where('p_h_b_t_r_s.status', 'Unapproved')
+            )
+            ->union(
+                Cubicle::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'cubicles.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('cubicles.user_id', $user->id)
+                    ->where('cubicles.status', 'Unapproved')
+            )
+            ->union(
+                KotakAPP::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'kotak_a_p_p_s.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('kotak_a_p_p_s.user_id', $user->id)
+                    ->where('kotak_a_p_p_s.status', 'Unapproved')
+            )
             ->orderBy('no_surat', 'desc') // Urutkan berdasarkan no_surat terbaru
             ->get();
 
@@ -165,6 +249,48 @@ class DashboardController extends Controller
                     ->join('jenis_forms', 'trafo_tegangans.jenis_form_id', '=', 'jenis_forms.id')
                     ->where('trafo_tegangans.user_id', $user->id)
                     ->whereNotNull('trafo_tegangans.approved_by')
+            )
+            ->union(
+                LBS::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'l_b_s.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('l_b_s.user_id', $user->id)
+                    ->whereNotNull('l_b_s.approved_by')
+            )
+            ->union(
+                Isolator::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'isolators.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('isolators.user_id', $user->id)
+                    ->whereNotNull('isolators.approved_by')
+            )
+            ->union(
+                LightningArrester::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'lightning_arresters.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('lightning_arresters.user_id', $user->id)
+                    ->whereNotNull('lightning_arresters.approved_by')
+            )
+            ->union(
+                FuseCutOut::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'fuse_cut_outs.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('fuse_cut_outs.user_id', $user->id)
+                    ->whereNotNull('fuse_cut_outs.approved_by')
+            )
+            ->union(
+                PHBTR::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'p_h_b_t_r_s.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('p_h_b_t_r_s.user_id', $user->id)
+                    ->whereNotNull('p_h_b_t_r_s.approved_by')
+            )
+            ->union(
+                Cubicle::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'cubicles.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('cubicles.user_id', $user->id)
+                    ->whereNotNull('cubicles.approved_by')
+            )
+            ->union(
+                KotakAPP::selectRaw('no_surat, jenis_forms.nama_form')
+                    ->join('jenis_forms', 'kotak_a_p_p_s.jenis_form_id', '=', 'jenis_forms.id')
+                    ->where('kotak_a_p_p_s.user_id', $user->id)
+                    ->whereNotNull('kotak_a_p_p_s.approved_by')
             )
             ->orderBy('no_surat', 'desc') // Urutkan berdasarkan no_surat terbaru
             ->get();
@@ -239,6 +365,62 @@ class DashboardController extends Controller
                     DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
                 )
                     ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                LBS::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                Isolator::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                LightningArrester::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                FuseCutOut::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                PHBTR::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                Cubicle::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
+            )
+            ->unionAll(
+                KotakAPP::select(
+                    DB::raw("COUNT(*) as total"),
+                    DB::raw("SUM(CASE WHEN status = 'Approved' THEN 1 ELSE 0 END) as approved"),
+                    DB::raw("SUM(CASE WHEN status = 'Unapproved' THEN 1 ELSE 0 END) as unapproved")
+                )
+                    ->where('user_id', $user->id)
             );
 
         $statusData = DB::table(DB::raw("({$statusCounts->toSql()}) as status"))
@@ -281,6 +463,34 @@ class DashboardController extends Controller
             +
             TiangListrik::where('status', 'Unapproved')
             ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            LBS::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            Isolator::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            LightningArrester::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            FuseCutOut::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            PHBTR::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            Cubicle::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            KotakAPP::where('status', 'Unapproved')
+            ->where('gudang_id', $user->gudang_id)
             ->count();
 
         // Query jumlah total approved forms dengan gudang_id yang sama
@@ -313,6 +523,34 @@ class DashboardController extends Controller
             ->count()
             +
             TiangListrik::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            LBS::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            Isolator::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            LightningArrester::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            FuseCutOut::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            PHBTR::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            Cubicle::where('status', 'Approved')
+            ->where('gudang_id', $user->gudang_id)
+            ->count()
+            +
+            KotakAPP::where('status', 'Approved')
             ->where('gudang_id', $user->gudang_id)
             ->count();
 
@@ -355,7 +593,35 @@ class DashboardController extends Controller
             'TiangListrik' => [
                 'class' => TiangListrik::class,
                 'route' => 'form-retur-tiang-listrik.edit'
-            ]
+            ],
+            'LBS' => [
+                'class' => LBS::class,
+                'route' => 'form-retur-lbs.edit'
+            ],
+            'Isolator' => [
+                'class' => Isolator::class,
+                'route' => 'form-retur-isolator.edit'
+            ],
+            'LightningArrester' => [
+                'class' => LightningArrester::class,
+                'route' => 'form-retur-lightning-arrester.edit'
+            ],
+            'FuseCutOut' => [
+                'class' => FuseCutOut::class,
+                'route' => 'form-retur-fco.edit'
+            ],
+            'PHBTR' => [
+                'class' => PHBTR::class,
+                'route' => 'form-retur-phbtr.edit'
+            ],
+            'Cubicle' => [
+                'class' => Cubicle::class,
+                'route' => 'form-retur-cubicle.edit'
+            ],
+            'KotakAPP' => [
+                'class' => KotakAPP::class,
+                'route' => 'form-retur-kotak-app.edit'
+            ],
         ];
 
         $unapprovedData = [];
@@ -431,19 +697,40 @@ class DashboardController extends Controller
                 + Trafo::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
                 + TrafoArus::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
                 + TrafoTegangan::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
-                + TiangListrik::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count(),
+                + TiangListrik::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + LBS::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + Isolator::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + LightningArrester::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + FuseCutOut::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + PHBTR::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + Cubicle::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count()
+                + KotakAPP::where('kesimpulan', 'Bekas layak pakai (K6)')->where('gudang_id', $user->gudang_id)->count(),
             'K7' => KWHMeter::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
                 + MCB::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
                 + Trafo::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
                 + TrafoArus::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
                 + TrafoTegangan::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
-                + TiangListrik::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count(),
+                + TiangListrik::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + LBS::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + Isolator::where('kesimpulan', 'Masih garansi (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + LightningArrester::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + FuseCutOut::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + PHBTR::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + Cubicle::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->where('gudang_id', $user->gudang_id)->count()
+                + KotakAPP::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->where('gudang_id', $user->gudang_id)->count(),
             'K8' => KWHMeter::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
                 + MCB::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
                 + Trafo::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
                 + TrafoArus::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
                 + TrafoTegangan::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
-                + TiangListrik::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count(),
+                + TiangListrik::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + LBS::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + Isolator::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + LightningArrester::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + FuseCutOut::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + PHBTR::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + Cubicle::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count()
+                + KotakAPP::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->where('gudang_id', $user->gudang_id)->count(),
         ];
 
         // Inisialisasi array bulan dengan nilai default 0
@@ -530,6 +817,76 @@ class DashboardController extends Controller
                     ->pluck('total', 'month')
                     ->toArray()
             ),
+
+            'LBS' => array_replace(
+                $defaultMonths,
+                LBS::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Isolator' => array_replace(
+                $defaultMonths,
+                Isolator::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Lightning Arrester' => array_replace(
+                $defaultMonths,
+                LightningArrester::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Fuse Cut Out' => array_replace(
+                $defaultMonths,
+                FuseCutOut::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'PHBTR' => array_replace(
+                $defaultMonths,
+                PHBTR::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Cubicle' => array_replace(
+                $defaultMonths,
+                Cubicle::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Kotak APP' => array_replace(
+                $defaultMonths,
+                KotakAPP::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->where('gudang_id', $user->gudang_id)
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
         ];
 
         // Dashboard Admin
@@ -545,19 +902,40 @@ class DashboardController extends Controller
                 + Trafo::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
                 + TrafoArus::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
                 + TrafoTegangan::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
-                + TiangListrik::where('kesimpulan', 'Bekas layak pakai (K6)')->count(),
+                + TiangListrik::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + LBS::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + Isolator::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + LightningArrester::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + FuseCutOut::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + PHBTR::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + Cubicle::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
+                + KotakAPP::where('kesimpulan', 'Bekas layak pakai (K6)')->count(),
             'K7' => KWHMeter::where('kesimpulan', 'Masih garansi (K7)')->count()
                 + MCB::where('kesimpulan', 'Masih garansi (K7)')->count()
                 + Trafo::where('kesimpulan', 'Masih garansi (K7)')->count()
                 + TrafoArus::where('kesimpulan', 'Masih garansi (K7)')->count()
                 + TrafoTegangan::where('kesimpulan', 'Masih garansi (K7)')->count()
-                + TiangListrik::where('kesimpulan', 'Masih garansi (K7)')->count(),
+                + TiangListrik::where('kesimpulan', 'Masih garansi (K7)')->count()
+                + LBS::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count()
+                + Isolator::where('kesimpulan', 'Masih garansi (K7)')->count()
+                + LightningArrester::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count()
+                + FuseCutOut::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count()
+                + PHBTR::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
+                + Cubicle::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
+                + KotakAPP::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
             'K8' => KWHMeter::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
                 + MCB::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
                 + Trafo::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
                 + TrafoArus::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
                 + TrafoTegangan::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
-                + TiangListrik::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count(),
+                + TiangListrik::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + LBS::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + Isolator::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + LightningArrester::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + FuseCutOut::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + PHBTR::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + Cubicle::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
+                + KotakAPP::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count(),
         ];
 
         // Total semua form
@@ -576,6 +954,20 @@ class DashboardController extends Controller
             SELECT COUNT(*) as total FROM trafo_tegangans
             UNION ALL
             SELECT COUNT(*) as total FROM tiang_listriks
+            UNION ALL
+            SELECT COUNT(*) as total FROM l_b_s
+            UNION ALL
+            SELECT COUNT(*) as total FROM lightning_arresters
+            UNION ALL
+            SELECT COUNT(*) as total FROM isolators
+            UNION ALL
+            SELECT COUNT(*) as total FROM fuse_cut_outs
+            UNION ALL
+            SELECT COUNT(*) as total FROM p_h_b_t_r_s
+            UNION ALL
+            SELECT COUNT(*) as total FROM kotak_a_p_p_s
+            UNION ALL
+            SELECT COUNT(*) as total FROM cubicles
             ) as forms"))
             ->selectRaw('SUM(total) as total')
             ->value('total') ?? 0;
@@ -654,6 +1046,69 @@ class DashboardController extends Controller
                     ->pluck('total', 'month')
                     ->toArray()
             ),
+
+            'LBS' => array_replace(
+                $defaultMonths,
+                LBS::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Isolator' => array_replace(
+                $defaultMonths,
+                Isolator::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Lightning Arrester' => array_replace(
+                $defaultMonths,
+                LightningArrester::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Fuse Cut Out' => array_replace(
+                $defaultMonths,
+                FuseCutOut::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'PHBTR' => array_replace(
+                $defaultMonths,
+                PHBTR::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Cubicle' => array_replace(
+                $defaultMonths,
+                Cubicle::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
+
+            'Kotak APP' => array_replace(
+                $defaultMonths,
+                KotakAPP::selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+                    ->groupBy('month')
+                    ->orderBy('month')
+                    ->pluck('total', 'month')
+                    ->toArray()
+            ),
         ];
 
         // Query untuk stacked bar
@@ -702,6 +1157,41 @@ class DashboardController extends Controller
             )
             ->unionAll(
                 TiangListrik::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                LBS::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                Isolator::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                LightningArrester::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                FuseCutOut::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                PHBTR::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                Cubicle::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
+                    ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
+                    ->groupBy('day', 'status')
+            )
+            ->unionAll(
+                KotakAPP::selectRaw("DATE(created_at) as day, status, COUNT(*) as total")
                     ->whereBetween('created_at', [Carbon::now()->subDays(6)->startOfDay(), Carbon::now()->endOfDay()])
                     ->groupBy('day', 'status')
             );

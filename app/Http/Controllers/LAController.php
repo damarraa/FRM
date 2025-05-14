@@ -75,7 +75,7 @@ class LAController extends Controller
                 'no_serial' => 'required|numeric',
                 'kondisi_visual' => 'required|string',
                 'keterangan_kondisi_visual' => 'nullable|max:55',
-                'uji_tahanan' => 'required|numeric',
+                'uji_tahanan' => 'nullable|numeric',
                 'keterangan_uji_ketahanan' => 'nullable|max:55',
                 'gambar' => 'nullable|array|max:4',
                 'gambar.*' => 'required|mimes:png,jpg,jpeg,webp',

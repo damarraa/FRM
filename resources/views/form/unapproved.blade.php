@@ -313,6 +313,8 @@
                                     <option value="Lightning Arrester">Lightning Arrester</option>
                                     <option value="Fuse Cut Out">Fuse Cut Out</option>
                                     <option value="PHBTR">PHBTR</option>
+                                    <option value="Cubicle">Cubicle</option>
+                                    <option value="Kotak App">Kotak App</option>
                                 </select>
                             </div>
                             <div class="col-md-2">
@@ -379,6 +381,10 @@
                                                         Fuse Cut Out
                                                     @elseif ($data instanceof App\Models\PHBTR)
                                                         PHBTR
+                                                    @elseif ($data instanceof App\Models\Cubicle)
+                                                        Cubicle
+                                                    @elseif ($data instanceof App\Models\KotakAPP)
+                                                        Kotak App
                                                     @endif
                                                 </td>
                                                 <td>
@@ -552,6 +558,32 @@
                                                         @if (auth()->user()->hasRole('Petugas'))
                                                             <form
                                                                 action="{{ route('form-retur-phbtr.destroy', $data->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger btn-sm">Delete</button>
+                                                            </form>
+                                                        @endif
+                                                    @elseif ($data instanceof App\Models\Cubicle)
+                                                        <a href="{{ route('form-retur-cubicle.edit', $data->id) }}"
+                                                            class="btn btn-primary btn-sm">Details</a>
+                                                        @if (auth()->user()->hasRole('Petugas'))
+                                                            <form
+                                                                action="{{ route('form-retur-cubicle.destroy', $data->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger btn-sm">Delete</button>
+                                                            </form>
+                                                        @endif
+                                                    @elseif ($data instanceof App\Models\KotakAPP)
+                                                        <a href="{{ route('form-retur-kotak-app.edit', $data->id) }}"
+                                                            class="btn btn-primary btn-sm">Details</a>
+                                                        @if (auth()->user()->hasRole('Petugas'))
+                                                            <form
+                                                                action="{{ route('form-retur-kotak-app.destroy', $data->id) }}"
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('DELETE')

@@ -80,11 +80,10 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="d-flex gap-4">
+                            <div class="d-flex gap-4">
                                     <div class="w-50">
                                         <label for="tahun_produksi">Tahun Produksi</label>
-                                        <select class="form-control select2" id="tahun_produksi" name="tahun_produksi"
-                                            required>
+                                        <select class="form-control select2" id="tahun_produksi" name="tahun_produksi">
                                             <option value="">-- Pilih Tahun --</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
                                                 <option value="{{ $i }}"
@@ -946,11 +945,14 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                         @if (auth()->user()->hasRole('PIC_Gudang'))
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-primary">Setuju</button>
-                        @else
+                        @elseif (auth()->user()->hasRole('Petugas'))
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                             <button type="submit" class="btn btn-primary">Simpan</button>
+                        @else
+                            <a href="{{ route('form-unapproved') }}" class="btn btn-secondary">Kembali</a>
                         @endif
                     </form>
                 </div>
