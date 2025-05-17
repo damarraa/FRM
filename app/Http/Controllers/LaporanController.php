@@ -189,6 +189,7 @@ class LaporanController extends Controller
         // $ulp_Approveds = KWHMeter::with('ulp')->get();
 
         // return view('form.laporan', compact('allApproved', 'ulp_Approveds'));
+        
     }
 
 

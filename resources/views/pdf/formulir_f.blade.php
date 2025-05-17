@@ -541,7 +541,14 @@
             }
         @endphp
 
-        @if ($trafo->approved_by && $isEdited && !$isStatusOnly)
+        {{-- @if ($trafo->approved_by && $isEdited && !$isStatusOnly)
+            <p style="font-size: 9px; margin-left: 20px; margin-top: 0px;">
+                *edited by: {{ $trafo->approvedBy->name }} pada
+                {{ $trafo->updated_at->format('d/m/Y') }}
+            </p>
+        @endif --}}
+
+        @if ($trafo->is_edited)
             <p style="font-size: 9px; margin-left: 20px; margin-top: 0px;">
                 *edited by: {{ $trafo->approvedBy->name }} pada
                 {{ $trafo->updated_at->format('d/m/Y') }}

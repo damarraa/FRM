@@ -477,9 +477,11 @@ class LBSController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $lbs->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $lbs->updated_at = now();
             } elseif ($isApproving) {
+                $lbs->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $lbs->updated_at = $oldData['updated_at'];
             }

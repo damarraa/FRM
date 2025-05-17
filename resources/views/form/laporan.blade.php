@@ -363,7 +363,7 @@
                                                                 <i class="fas fa-eye"></i> Preview
                                                             </a>
                                                         @elseif($data instanceof App\Models\LightningArrester)
-                                                            <a href="{{ route('previewPDF.la', $data->id) }}"
+                                                            <a href="{{ route('previewPDF.lightningArrester', $data->id) }}"
                                                                 class="btn btn-info btn-sm mr-1" target="_blank">
                                                                 <i class="fas fa-eye"></i> Preview
                                                             </a>
@@ -440,7 +440,7 @@
                                                                 <i class="fas fa-eye"></i> Preview
                                                             </a>
                                                         @elseif($data instanceof App\Models\LightningArrester)
-                                                            <a href="{{ route('preview.la', $data->id) }}"
+                                                            <a href="{{ route('preview.lightningArrester', $data->id) }}"
                                                                 class="btn btn-info btn-sm mr-1" target="_blank">
                                                                 <i class="fas fa-eye"></i> Preview
                                                             </a>
@@ -853,7 +853,7 @@
     $(document).ready(function() {
         // Initialize DataTable
         let table = $('#table_id').DataTable({
-            "paging": false,
+            "paging": true,
             "info": false,
             "searching": false,
             "order": [
@@ -959,12 +959,6 @@
     });
 
     $(document).ready(function() {
-        // Select/Deselect all
-        // $('#selectAll').change(function() {
-        //     $('.row-checkbox').prop('checked', $(this).prop('checked'));
-        //     updateBulkActions();
-        // });
-
         // Select/Deselect all (hanya yang visible)
         $('#selectAll').change(function() {
             const isChecked = $(this).prop('checked');
@@ -976,21 +970,6 @@
         $(document).on('change', '.row-checkbox', function() {
             updateBulkActions();
         });
-
-        // function updateBulkActions() {
-        //     const checkedCount = $('.row-checkbox:checked').length;
-        //     if (checkedCount > 0) {
-        //         $('.bulk-actions').show();
-        //         $('#selectedCount').text(checkedCount + ' item terpilih');
-        //     } else {
-        //         $('.bulk-actions').hide();
-        //     }
-
-        //     // Update select all checkbox
-        //     $('#selectAll').prop('checked',
-        //         $('.row-checkbox:checked').length === $('.row-checkbox').length
-        //     );
-        // }
 
         // Revisi mengikuti Select/Deselect all (hanya yang visible)
         function updateBulkActions() {

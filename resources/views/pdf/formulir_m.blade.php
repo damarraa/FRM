@@ -462,12 +462,12 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($trafo_tegangan->approved_by && $trafo_tegangan->wasChanged())
+            {{-- @if ($trafo_tegangan->approved_by && $trafo_tegangan->wasChanged())
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $trafo_tegangan->approvedBy->name }} pada
                     {{ $trafo_tegangan->updated_at->format('d/m/Y') }}
                 </p>
-            @endif
+            @endif --}}
 
             {{-- @if ($trafo_tegangan->approved_by && $trafo_tegangan->updated_at != $trafo_tegangan->created_at)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
@@ -475,6 +475,13 @@
                     {{ $trafo_tegangan->updated_at->format('d/m/Y') }}
                 </p>
             @endif --}}
+
+            @if ($trafo_tegangan->is_edited)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $trafo_tegangan->approvedBy->name }} pada
+                    {{ $trafo_tegangan->updated_at->format('d/m/Y') }}
+                </p>
+            @endif
 
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <tr>

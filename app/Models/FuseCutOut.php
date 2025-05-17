@@ -41,6 +41,7 @@ class FuseCutOut extends Model
         'keterangan_uji_tahanan',
         'kesimpulan',
         'gambar',
+        'is_edited',
         'status',
         'jenis_form_id',
         'gudang_id',

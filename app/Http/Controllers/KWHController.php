@@ -327,10 +327,232 @@ class KWHController extends Controller
     /**
      * Update the specified resource in storage. --- Ver 1
      */
+    // public function update(Request $request, string $id)
+    // {
+    //     try {
+    //         // Validation with corrected field name for kelas_pengujian
+    //         $validated = $request->validate([
+    //             'tgl_inspeksi' => 'required|date',
+    //             'id_pelanggan' => 'required|numeric',
+    //             'tipe_kwh_meter' => 'required|in:Prabayar,Pascabayar',
+    //             'no_serial' => 'required|numeric',
+    //             'keterangan_masa_pakai' => 'nullable|string|max:55',
+    //             'kondisi_body_kwh_meter' => 'required|string',
+    //             'keterangan_body_kwh_meter' => 'nullable|string|max:55',
+    //             'kondisi_segel_meterologi' => 'required|string',
+    //             'keterangan_segel_meterologi' => 'nullable|string|max:55',
+    //             'kondisi_terminal' => 'required|string',
+    //             'keterangan_terminal' => 'nullable|string|max:55',
+    //             'kondisi_stand_kwh_meter' => 'required|string',
+    //             'keterangan_stand_kwh_meter' => 'nullable|string|max:55',
+    //             'kondisi_cover_terminal_kwh_meter' => 'required|string',
+    //             'keterangan_cover_terminal_kwh_meter' => 'nullable|string|max:55',
+    //             'kondisi_nameplate' => 'required|string',
+    //             'keterangan_nameplate' => 'nullable|string|max:55',
+    //             'nilai_uji_kesalahan' => 'nullable|numeric',
+    //             'keterangan_uji_kesalahan' => 'nullable|string|max:55',
+    //             'kelas_pengujian_id' => 'nullable|exists:kelas_pengujians,id',
+    //             'kesimpulan' => 'required|string',
+    //             'gambar' => 'nullable|array|max:4',
+    //             'gambar.*' => 'nullable|mimes:png,jpg,jpeg,webp|max:2048',
+    //             'pabrikan_id' => 'required|exists:pabrikans,id',
+    //             'uid_id' => 'required|exists:uids,id',
+    //             'up3_id' => 'required|exists:up3s,id',
+    //             'ulp_id' => 'required|exists:ulps,id',
+    //             'gudang_id' => 'required|exists:gudangs,id',
+    //             'tahun_produksi' => 'required|numeric',
+    //             'status' => 'sometimes|string',
+    //         ]);
+
+    //         // Nilai default untuk setiap keterangan
+    //         $defaultKeterangan = [
+    //             'keterangan_masa_pakai' => '',
+    //             'keterangan_body_kwh_meter' => 'Termasuk kaca depan meter.',
+    //             'keterangan_segel_meterologi' => '',
+    //             'keterangan_terminal' => '',
+    //             'keterangan_stand_kwh_meter' => '',
+    //             'keterangan_cover_terminal_kwh_meter' => 'Tutup terminal dan MCB.',
+    //             'keterangan_nameplate' => '',
+    //             'keterangan_uji_kesalahan' => ''
+    //         ];
+
+    //         // Find the record or fail with 404
+    //         $kWh_Meter = KWHMeter::findOrFail($id);
+
+    //         // **LOGIKA PERBANDINGAN UJI KESALAHAN**
+    //         $kesesuaian_uji_kesalahan = null;
+
+    //         // Cek jika nilai_uji_kesalahan atau kelas_pengujian_id diubah
+    //         $isNilaiUjiChanged = $request->has('nilai_uji_kesalahan') &&
+    //             $request->nilai_uji_kesalahan != $kWh_Meter->nilai_uji_kesalahan;
+
+    //         $isKelasChanged = $request->has('kelas_pengujian_id') &&
+    //             $request->kelas_pengujian_id != $kWh_Meter->kelas_pengujian_id;
+
+    //         // Jika ada perubahan pada nilai uji atau kelas pengujian
+    //         if ($isNilaiUjiChanged || $isKelasChanged) {
+    //             // Jika nilai_uji_kesalahan diisi
+    //             if (!is_null($request->nilai_uji_kesalahan)) {
+    //                 // Jika kelas_pengujian_id juga diisi
+    //                 if (!is_null($request->kelas_pengujian_id)) {
+    //                     $kelasPengujian = KelasPengujian::find($request->kelas_pengujian_id);
+
+    //                     if ($kelasPengujian) {
+    //                         // Bandingkan nilai absolut dengan batas kesalahan
+    //                         $kesesuaian_uji_kesalahan =
+    //                             abs($request->nilai_uji_kesalahan) <= $kelasPengujian->batas_kesalahan
+    //                             ? 'yes'
+    //                             : 'no';
+    //                     }
+    //                 }
+    //             }
+    //             // Update field kesesuaian jika ada perubahan
+    //             if (!is_null($kesesuaian_uji_kesalahan)) {
+    //                 $validated['kesesuaian_uji_kesalahan'] = $kesesuaian_uji_kesalahan;
+    //             }
+    //         }
+
+    //         // Simpan nilai lama sebelum diupdate
+    //         $oldData = $kWh_Meter->getOriginal();
+
+    //         // **Handle Gambar**
+    //         if ($request->hasFile('gambar')) {
+    //             // Hapus gambar lama
+    //             if ($kWh_Meter->gambar) {
+    //                 foreach (json_decode($kWh_Meter->gambar) as $oldImage) {
+    //                     $oldImagePath = public_path(parse_url($oldImage, PHP_URL_PATH));
+    //                     if (File::exists($oldImagePath)) {
+    //                         File::delete($oldImagePath);
+    //                     }
+    //                 }
+    //             }
+
+    //             // Simpan gambar baru
+    //             $gambarPaths = [];
+    //             foreach ($request->file('gambar') as $file) {
+    //                 $filename = Str::random(20) . '.jpg';
+    //                 $destinationFolder = public_path("gambar_kwh");
+
+    //                 // Buat folder jika belum ada
+    //                 if (!File::exists($destinationFolder)) {
+    //                     File::makeDirectory($destinationFolder, 0777, true, true);
+    //                 }
+
+    //                 $destinationPath = "{$destinationFolder}/{$filename}";
+    //                 $imageType = $file->getClientOriginalExtension();
+    //                 $image = match ($imageType) {
+    //                     'jpg', 'jpeg' => imagecreatefromjpeg($file->getRealPath()),
+    //                     'png' => imagecreatefrompng($file->getRealPath()),
+    //                     'webp' => imagecreatefromwebp($file->getRealPath()),
+    //                     default => null,
+    //                 };
+
+    //                 if (!$image) {
+    //                     return response()->json(['error' => 'Format gambar tidak didukung'], 400);
+    //                 }
+
+    //                 $width = imagesx($image);
+    //                 $height = imagesy($image);
+    //                 $newWidth = 1080;
+    //                 $newHeight = ($newWidth / $width) * $height;
+
+    //                 $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+    //                 imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+    //                 imagejpeg($resizedImage, $destinationPath, 60);
+
+    //                 imagedestroy($image);
+    //                 imagedestroy($resizedImage);
+
+    //                 $gambarPaths[] = url("gambar_kwh/{$filename}");
+    //             }
+
+    //             $validated['gambar'] = json_encode($gambarPaths);
+    //         }
+
+    //         // Terapkan nilai default jika field tidak diisi
+    //         foreach ($defaultKeterangan as $key => $value) {
+    //             if (empty($validated[$key])) {
+    //                 $validated[$key] = $value;
+    //             }
+    //         }
+
+    //         // Update the record with all validated data
+    //         $kWh_Meter->fill($validated);
+
+    //         // Menambahkan perubahan status berdasarkan role dan logika approval
+    //         $user = auth()->user();
+    //         $isApproving = $user->hasRole(['Admin', 'PIC_Gudang']) && $oldData['status'] != 'Approved';
+
+    //         if ($isApproving) {
+    //             $kWh_Meter->status = 'Approved';
+    //             $kWh_Meter->approved_by = Auth::id();
+    //         }
+
+    //         // Cek perubahan data yang sebenarnya (selain status dan approved_by)
+    //         $isDataChanged = false;
+    //         $changedFields = [];
+    //         foreach ($validated as $key => $value) {
+    //             if (!in_array($key, ['status', 'approved_by']) && $oldData[$key] != $value) {
+    //                 $isDataChanged = true;
+    //                 $changedFields[] = $key;
+    //                 break;
+    //             }
+    //         }
+
+    //         // Logika timestamp
+    //         if ($isDataChanged) {
+    //             // Jika ada perubahan data: update updated_at
+    //             $kWh_Meter->updated_at = now();
+    //         } elseif ($isApproving) {
+    //             // Jika hanya approval: jangan update updated_at
+    //             $kWh_Meter->updated_at = $oldData['updated_at'];
+    //         }
+
+    //         // Calculate masa_pakai if tahun_produksi is provided
+    //         if ($request->filled('tahun_produksi')) {
+    //             $kWh_Meter->masa_pakai = date('Y') - $request->tahun_produksi;
+    //         }
+
+    //         $kWh_Meter->save();
+
+    //         // Log success
+    //         Log::info('KWH Meter updated successfully', [
+    //             'id' => $id,
+    //             'changed_fields' => $changedFields,
+    //             'is_approving' => $isApproving,
+    //             'is_data_changed' => $isDataChanged
+    //         ]);
+
+    //         return redirect('/unapproved')
+    //             ->with('success', 'Data berhasil diperbarui!');
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         // Log validation errors
+    //         Log::warning('Validation failed during KWH Meter update', [
+    //             'id' => $id,
+    //             'errors' => $e->errors()
+    //         ]);
+
+    //         // Redirect back with errors and input
+    //         return back()->withErrors($e->errors())->withInput();
+    //     } catch (\Exception $e) {
+    //         // Log general errors
+    //         Log::error('Error updating KWH Meter', [
+    //             'id' => $id,
+    //             'error' => $e->getMessage(),
+    //             'trace' => $e->getTraceAsString()
+    //         ]);
+
+    //         // Redirect back with generic error
+    //         return back()
+    //             ->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.'])
+    //             ->withInput();
+    //     }
+    // }
+
     public function update(Request $request, string $id)
     {
         try {
-            // Validation with corrected field name for kelas_pengujian
+            // Validasi input
             $validated = $request->validate([
                 'tgl_inspeksi' => 'required|date',
                 'id_pelanggan' => 'required|numeric',
@@ -376,10 +598,11 @@ class KWHController extends Controller
                 'keterangan_uji_kesalahan' => ''
             ];
 
-            // Find the record or fail with 404
+            // Temukan record yang akan diupdate
             $kWh_Meter = KWHMeter::findOrFail($id);
+            $oldData = $kWh_Meter->getOriginal();
 
-            // **LOGIKA PERBANDINGAN UJI KESALAHAN**
+            // Logika perbandingan uji kesalahan
             $kesesuaian_uji_kesalahan = null;
 
             // Cek jika nilai_uji_kesalahan atau kelas_pengujian_id diubah
@@ -391,33 +614,25 @@ class KWHController extends Controller
 
             // Jika ada perubahan pada nilai uji atau kelas pengujian
             if ($isNilaiUjiChanged || $isKelasChanged) {
-                // Jika nilai_uji_kesalahan diisi
-                if (!is_null($request->nilai_uji_kesalahan)) {
-                    // Jika kelas_pengujian_id juga diisi
-                    if (!is_null($request->kelas_pengujian_id)) {
-                        $kelasPengujian = KelasPengujian::find($request->kelas_pengujian_id);
+                if (!is_null($request->nilai_uji_kesalahan) && !is_null($request->kelas_pengujian_id)) {
+                    $kelasPengujian = KelasPengujian::find($request->kelas_pengujian_id);
 
-                        if ($kelasPengujian) {
-                            // Bandingkan nilai absolut dengan batas kesalahan
-                            $kesesuaian_uji_kesalahan =
-                                abs($request->nilai_uji_kesalahan) <= $kelasPengujian->batas_kesalahan
-                                ? 'yes'
-                                : 'no';
-                        }
+                    if ($kelasPengujian) {
+                        $kesesuaian_uji_kesalahan =
+                            abs($request->nilai_uji_kesalahan) <= $kelasPengujian->batas_kesalahan
+                            ? 'yes'
+                            : 'no';
                     }
                 }
-                // Update field kesesuaian jika ada perubahan
+
                 if (!is_null($kesesuaian_uji_kesalahan)) {
                     $validated['kesesuaian_uji_kesalahan'] = $kesesuaian_uji_kesalahan;
                 }
             }
 
-            // Simpan nilai lama sebelum diupdate
-            $oldData = $kWh_Meter->getOriginal();
-
-            // **Handle Gambar**
+            // Handle upload gambar
             if ($request->hasFile('gambar')) {
-                // Hapus gambar lama
+                // Hapus gambar lama jika ada
                 if ($kWh_Meter->gambar) {
                     foreach (json_decode($kWh_Meter->gambar) as $oldImage) {
                         $oldImagePath = public_path(parse_url($oldImage, PHP_URL_PATH));
@@ -433,13 +648,13 @@ class KWHController extends Controller
                     $filename = Str::random(20) . '.jpg';
                     $destinationFolder = public_path("gambar_kwh");
 
-                    // Buat folder jika belum ada
                     if (!File::exists($destinationFolder)) {
                         File::makeDirectory($destinationFolder, 0777, true, true);
                     }
 
                     $destinationPath = "{$destinationFolder}/{$filename}";
                     $imageType = $file->getClientOriginalExtension();
+
                     $image = match ($imageType) {
                         'jpg', 'jpeg' => imagecreatefromjpeg($file->getRealPath()),
                         'png' => imagecreatefrompng($file->getRealPath()),
@@ -476,73 +691,72 @@ class KWHController extends Controller
                 }
             }
 
-            // Update the record with all validated data
-            $kWh_Meter->fill($validated);
+            // Deteksi perubahan data
+            $isDataChanged = false;
+            $excludedFields = ['status', 'approved_by', 'updated_at', 'created_at'];
 
-            // Menambahkan perubahan status berdasarkan role dan logika approval
+            foreach ($validated as $key => $value) {
+                if (!in_array($key, $excludedFields) && $oldData[$key] != $value) {
+                    $isDataChanged = true;
+                    break;
+                }
+            }
+
+            // Handle approval by PIC/Admin
             $user = auth()->user();
-            $isApproving = $user->hasRole(['Admin', 'PIC_Gudang']) && $oldData['status'] != 'Approved';
+            $isApproving = $user->hasRole(['Admin', 'PIC_Gudang']) && $oldData['status'] == 'Unapproved';
 
             if ($isApproving) {
                 $kWh_Meter->status = 'Approved';
                 $kWh_Meter->approved_by = Auth::id();
             }
 
-            // Cek perubahan data yang sebenarnya (selain status dan approved_by)
-            $isDataChanged = false;
-            $changedFields = [];
-            foreach ($validated as $key => $value) {
-                if (!in_array($key, ['status', 'approved_by']) && $oldData[$key] != $value) {
+            // Update data
+            $kWh_Meter->fill($validated);
+
+            // Update timestamp jika ada perubahan
+            if ($isDataChanged) {
+                $kWh_Meter->is_edited = true;
+                $kWh_Meter->updated_at = now();
+            } else {
+                $kWh_Meter->is_edited = false;
+            }
+
+            // Hitung masa pakai jika tahun produksi diisi
+            if ($request->filled('tahun_produksi')) {
+                $newMasaPakai = date('Y') - $request->tahun_produksi;
+                if ($newMasaPakai != $kWh_Meter->masa_pakai) {
+                    $kWh_Meter->masa_pakai = $newMasaPakai;
                     $isDataChanged = true;
-                    $changedFields[] = $key;
-                    break;
                 }
             }
 
-            // Logika timestamp
-            if ($isDataChanged) {
-                // Jika ada perubahan data: update updated_at
-                $kWh_Meter->updated_at = now();
-            } elseif ($isApproving) {
-                // Jika hanya approval: jangan update updated_at
-                $kWh_Meter->updated_at = $oldData['updated_at'];
-            }
-
-            // Calculate masa_pakai if tahun_produksi is provided
-            if ($request->filled('tahun_produksi')) {
-                $kWh_Meter->masa_pakai = date('Y') - $request->tahun_produksi;
-            }
-
+            // Set last editor            
             $kWh_Meter->save();
 
-            // Log success
-            Log::info('KWH Meter updated successfully', [
+            // Log aktivitas
+            Log::info('KWH Meter updated', [
                 'id' => $id,
-                'changed_fields' => $changedFields,
-                'is_approving' => $isApproving,
-                'is_data_changed' => $isDataChanged
+                'user' => Auth::id(),
+                'changed' => $isDataChanged,
+                'changes' => $kWh_Meter->getChanges()
             ]);
 
-            return redirect('/unapproved')
-                ->with('success', 'Data berhasil diperbarui!');
+            return redirect('/unapproved')->with('success', 'Data berhasil diperbarui!');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Log validation errors
             Log::warning('Validation failed during KWH Meter update', [
                 'id' => $id,
                 'errors' => $e->errors()
             ]);
 
-            // Redirect back with errors and input
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
-            // Log general errors
             Log::error('Error updating KWH Meter', [
                 'id' => $id,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
             ]);
 
-            // Redirect back with generic error
             return back()
                 ->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data. Silakan coba lagi.'])
                 ->withInput();

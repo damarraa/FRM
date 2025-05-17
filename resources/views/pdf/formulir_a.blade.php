@@ -398,7 +398,8 @@
                 </p>
             @endif --}}
 
-            @if ($kWh_Meter->approved_by && $kWh_Meter->updated_at->gt($kWh_Meter->created_at))
+            {{-- Ori --}}
+            {{-- @if ($kWh_Meter->approved_by && $kWh_Meter->updated_at->gt($kWh_Meter->created_at))
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
                     *edited by: {{ $kWh_Meter->approvedBy->name }} pada
                     {{ $kWh_Meter->updated_at->format('d/m/Y') }}
@@ -406,6 +407,14 @@
             @elseif ($kWh_Meter->approved_by)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
                     *approved by: {{ $kWh_Meter->approvedBy->name }} pada
+                    {{ $kWh_Meter->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            {{-- Ver 2 --}}
+            @if ($kWh_Meter->is_edited)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
+                    *edited by: {{ $kWh_Meter->approvedBy->name }} pada
                     {{ $kWh_Meter->updated_at->format('d/m/Y') }}
                 </p>
             @endif

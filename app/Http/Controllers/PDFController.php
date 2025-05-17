@@ -1194,7 +1194,7 @@ class PDFController extends Controller
         set_time_limit(300);
 
         Log::info('===== BULK PDF EXPORT STARTED =====');
-        Log::debug('Request data:', $request->all());
+        // Log::debug('Request data:', $request->all());
 
         try {
             // Validate request

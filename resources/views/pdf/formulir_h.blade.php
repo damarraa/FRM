@@ -527,7 +527,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($fco->approved_by && $fco->updated_at != $fco->created_at)
+            {{-- @if ($fco->approved_by && $fco->updated_at != $fco->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $fco->approvedBy->name }} pada
+                    {{ $fco->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($fco->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $fco->approvedBy->name }} pada
                     {{ $fco->updated_at->format('d/m/Y') }}

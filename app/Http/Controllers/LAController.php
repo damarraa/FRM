@@ -361,9 +361,11 @@ class LAController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $la->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $la->updated_at = now();
             } elseif ($isApproving) {
+                $la->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $la->updated_at = $oldData['updated_at'];
             }

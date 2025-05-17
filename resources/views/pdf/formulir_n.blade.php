@@ -521,7 +521,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($lbs->approved_by && $lbs->updated_at != $lbs->created_at)
+            {{-- @if ($lbs->approved_by && $lbs->updated_at != $lbs->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $lbs->approvedBy->name }} pada
+                    {{ $lbs->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($lbs->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $lbs->approvedBy->name }} pada
                     {{ $lbs->updated_at->format('d/m/Y') }}

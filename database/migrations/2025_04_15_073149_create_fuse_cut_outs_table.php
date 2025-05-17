@@ -49,6 +49,7 @@ return new class extends Migration
 
             $table->enum('kesimpulan', ['Bekas layak pakai (K6)', 'Bekas bisa diperbaiki (K7)', 'Bekas tidak layak pakai (K8)']);
             $table->json('gambar')->nullable();
+            $table->boolean('is_edited')->default(false);
             $table->enum('status', ['Unapproved', 'Approved']);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

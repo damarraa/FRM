@@ -460,9 +460,11 @@ class CTController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $trafo_arus->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $trafo_arus->updated_at = now();
             } elseif ($isApproving) {
+                $trafo_arus->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $trafo_arus->updated_at = $oldData['updated_at'];
             }

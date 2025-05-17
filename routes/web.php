@@ -97,7 +97,7 @@ Route::middleware('auth', 'is_active', 'role:Admin')->group(function () {
     Route::get('/preview-pt/{id}', [PDFController::class, 'previewPT'])->name('previewPDF.pt');
     Route::get('/preview-tiang-listrik/{id}', [PDFController::class, 'previewTiangListrik'])->name('previewPDF.tiangListrik');
     Route::get('/preview-lbs/{id}', [PDFController::class, 'previewLBS'])->name('previewPDF.lbs');
-    Route::get('/preview-lightning-arrester/{id}', [PDFController::class, 'previewLightningArrester'])->name('previewPDF.lightningarrester');
+    Route::get('/preview-lightning-arrester/{id}', [PDFController::class, 'previewLightningArrester'])->name('previewPDF.lightningArrester');
     Route::get('/preview-isolator/{id}', [PDFController::class, 'previewIsolator'])->name('previewPDF.isolator');
     Route::get('/preview-fco/{id}', [PDFController::class, 'previewFCO'])->name('previewPDF.fco');
     Route::get('/preview-phbtr/{id}', [PDFController::class, 'previewPHBTR'])->name('previewPDF.phbtr');
