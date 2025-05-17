@@ -458,9 +458,11 @@ class PHBTRController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $phbtr->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $phbtr->updated_at = now();
             } elseif ($isApproving) {
+                $phbtr->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $phbtr->updated_at = $oldData['updated_at'];
             }

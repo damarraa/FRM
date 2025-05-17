@@ -475,7 +475,18 @@ class MCBController extends Controller
             }
 
             // Update the record with all validated data
-            $mcb->fill($validated);
+            // $mcb->fill($validated);
+
+            // Deteksi perubahan data
+            $isDataChanged = false;
+            $excludedFields = ['status', 'approved_by', 'updated_at', 'created_at'];
+
+            foreach ($validated as $key => $value) {
+                if (!in_array($key, $excludedFields) && $oldData[$key] != $value) {
+                    $isDataChanged = true;
+                    break;
+                }
+            }
 
             // Menambahkan perubahan status berdasarkan role dan logika approval
             $user = auth()->user();
@@ -486,6 +497,9 @@ class MCBController extends Controller
                 $mcb->approved_by = Auth::id();
             }
 
+            // Update data
+            $mcb->fill($validated);
+
             // Menambahkan perubahan status berdasarkan role
             // $user = auth()->user();
 
@@ -494,21 +508,23 @@ class MCBController extends Controller
             //     $mcb->approved_by = Auth::id(); // Simpan ID PIC_Gudang yang melakukan perubahan
             // }
 
-            $isDataChanged = false;
-            $changedFields = [];
-            foreach ($validated as $key => $value) {
-                if (!in_array($key, ['status', 'approved_by']) && $oldData[$key] != $value) {
-                    $isDataChanged = true;
-                    $changedFields[] = $key;
-                    break;
-                }
-            }
+            // $isDataChanged = false;
+            // $changedFields = [];
+            // foreach ($validated as $key => $value) {
+            //     if (!in_array($key, ['status', 'approved_by']) && $oldData[$key] != $value) {
+            //         $isDataChanged = true;
+            //         $changedFields[] = $key;
+            //         break;
+            //     }
+            // }
 
             // Logika timestamp
             if ($isDataChanged) {
+                $mcb->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $mcb->updated_at = now();
             } elseif ($isApproving) {
+                $mcb->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $mcb->updated_at = $oldData['updated_at'];
             }
@@ -532,7 +548,7 @@ class MCBController extends Controller
             // Log success
             Log::info('MCB updated successfully', [
                 'id' => $id,
-                'changed_fields' => $changedFields,
+                // 'changed_fields' => $changedFields,
                 'is_approving' => $isApproving,
                 'is_data_changed' => $isDataChanged
             ]);

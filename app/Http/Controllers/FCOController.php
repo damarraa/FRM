@@ -438,9 +438,11 @@ class FCOController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $fco->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $fco->updated_at = now();
             } elseif ($isApproving) {
+                $fco->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $fco->updated_at = $oldData['updated_at'];
             }

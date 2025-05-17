@@ -459,9 +459,11 @@ class CablePowerController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $cable_powers->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $cable_powers->updated_at = now();
             } elseif ($isApproving) {
+                $cable_powers->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $cable_powers->updated_at = $oldData['updated_at'];
             }

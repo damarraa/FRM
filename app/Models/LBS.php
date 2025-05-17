@@ -53,6 +53,7 @@ class LBS extends Model
         'data_elektrik',
         'kesimpulan',
         'gambar',
+        'is_edited',
         'status',
         'jenis_form_id',
         'gudang_id',

@@ -501,9 +501,11 @@ class TiangListrikController extends Controller
 
             // Logika timestamp
             if ($isDataChanged) {
+                $tiang_listik->is_edited = true;
                 // Jika ada perubahan data: update updated_at
                 $tiang_listik->updated_at = now();
             } elseif ($isApproving) {
+                $tiang_listik->is_edited = false;
                 // Jika hanya approval: jangan update updated_at
                 $tiang_listik->updated_at = $oldData['updated_at'];
             }

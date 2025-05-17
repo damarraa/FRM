@@ -309,7 +309,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($tiang_listrik->approved_by && $tiang_listrik->updated_at != $tiang_listrik->created_at)
+            {{-- @if ($tiang_listrik->approved_by && $tiang_listrik->updated_at != $tiang_listrik->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $tiang_listrik->approvedBy->name }} pada
+                    {{ $tiang_listrik->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($tiang_listrik->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $tiang_listrik->approvedBy->name }} pada
                     {{ $tiang_listrik->updated_at->format('d/m/Y') }}

@@ -60,6 +60,7 @@ class TrafoTegangan extends Model
         'kelas_akurasi',
         'kesimpulan',
         'gambar',
+        'is_edited',
         'status',
         'jenis_form_id',
         'gudang_id',

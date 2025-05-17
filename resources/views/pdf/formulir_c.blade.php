@@ -663,7 +663,14 @@
             }
         @endphp
 
-        @if ($kotak->approved_by && $isEdited && !$isStatusOnly)
+        {{-- @if ($kotak->approved_by && $isEdited && !$isStatusOnly)
+            <p style="font-size: 9px; margin-left: 20px; margin-top: 0px;">
+                *edited by: {{ $kotak->approvedBy->name }} pada
+                {{ $kotak->updated_at->format('d/m/Y') }}
+            </p>
+        @endif --}}
+
+        @if ($kotak->is_edited)
             <p style="font-size: 9px; margin-left: 20px; margin-top: 0px;">
                 *edited by: {{ $kotak->approvedBy->name }} pada
                 {{ $kotak->updated_at->format('d/m/Y') }}

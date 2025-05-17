@@ -69,6 +69,7 @@ class KotakAPP extends Model
         'gambar',
         'gambar.*',
         'kesimpulan',
+        'is_edited',
         'gudang_id',
         'jenis_form_id',
         // 'pabrikan_id',

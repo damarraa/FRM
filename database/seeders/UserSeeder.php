@@ -16,10 +16,10 @@ class UserSeeder extends Seeder
     {
         // Tambahkan User Baru untuk Admin
         $user = User::create([
-            'name' => 'Admin',
+            'name' => 'Administrator',
             'email' => 'admin@example.com',
             'password' => Hash::make('admin'),
-            'no_hp' => '1234566789012',
+            'no_hp' => '',
             'is_active' => true
         ]);
 
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'name' => 'PIC Gudang',
             'email' => 'pic@example.com',
             'password' => Hash::make('gudang'),
-            'no_hp' => '1234566789012',
+            'no_hp' => '',
             'is_active' => true
         ]);
 
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             'name' => 'Petugas',
             'email' => 'petugas@example.com',
             'password' => Hash::make('petugas'),
-            'no_hp' => '1234566789012',
+            'no_hp' => '',
             'is_active' => true
         ]);
 

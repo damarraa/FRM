@@ -46,6 +46,7 @@ return new class extends Migration
 
             $table->json('gambar')->nullable();
             $table->enum('status', ['Unapproved', 'Approved']);
+            $table->boolean('is_edited')->default(false);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('approved_by')->nullable();

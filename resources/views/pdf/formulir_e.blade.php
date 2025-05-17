@@ -237,7 +237,14 @@
             <p style="font-size: 12px; margin: 0px; margin-left: 20px; margin-top: 10px;"> bekas layak pakai (K6) <span style="text-align: center; margin: 0px;">{{ $conductor->kesimpulan_k6 }}</span> meter</p>
             <p style="font-size: 12px; margin: 0px; margin-left: 20px; margin-top: 0px;"> bekas tidak layak pakai (K8) <span style="text-align: center; margin: 0px;">{{ $conductor->kesimpulan_k8 }}</span> meter</p>
 
-            @if ($conductor->approved_by && $conductor->updated_at != $conductor->created_at)
+            {{-- @if ($conductor->approved_by && $conductor->updated_at != $conductor->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: 5px;">
+                    *edited by: {{ $conductor->approvedBy->name }} pada
+                    {{ $conductor->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($conductor->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: 5px;">
                     *edited by: {{ $conductor->approvedBy->name }} pada
                     {{ $conductor->updated_at->format('d/m/Y') }}

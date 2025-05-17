@@ -547,7 +547,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($phbtr->approved_by && $phbtr->updated_at != $phbtr->created_at)
+            {{-- @if ($phbtr->approved_by && $phbtr->updated_at != $phbtr->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $phbtr->approvedBy->name }} pada
+                    {{ $phbtr->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($phbtr->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $phbtr->approvedBy->name }} pada
                     {{ $phbtr->updated_at->format('d/m/Y') }}

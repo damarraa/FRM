@@ -213,7 +213,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($la->approved_by && $la->updated_at != $la->created_at)
+            {{-- @if ($la->approved_by && $la->updated_at != $la->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $la->approvedBy->name }} pada
+                    {{ $la->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($la->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $la->approvedBy->name }} pada
                     {{ $la->updated_at->format('d/m/Y') }}

@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use PhpParser\Node\Stmt\Return_;
 
 class KWHMeter extends Model
 {
     protected $table = 'kwh_meters';
-    
+
     protected $fillable = [
         'tgl_inspeksi',
         'no_surat',
@@ -54,6 +55,7 @@ class KWHMeter extends Model
         'kesimpulan',
         'gambar',
         'status',
+        'is_edited',
         'jenis_form_id',
         'gudang_id',
         'kelas_pengujian_id',
@@ -162,4 +164,13 @@ class KWHMeter extends Model
     {
         return $this->belongsTo(ULP::class, 'ulp_id', 'id');
     }
+
+    // // Tambahkan di model KWHMeter
+    // protected $appends = ['is_edited'];
+
+    // public function getIsEditedAttribute()
+    // {
+    //     // Cek apakah updated_at lebih dari 1 detik setelah created_at
+    //     return $this->updated_at->diffInSeconds($this->created_at) > 1;
+    // }
 }

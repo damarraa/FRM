@@ -43,6 +43,7 @@ class Isolator extends Model
         'keteranganTahananIsolasi',
         'kesimpulan',
         'gambar',
+        'is_edited',
         'status',
         'jenis_form_id',
         'gudang_id',
