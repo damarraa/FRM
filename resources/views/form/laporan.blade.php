@@ -1,6 +1,46 @@
 <x-layouts.header />
 
 <style>
+    /* DataTables styling */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_paginate {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0.3em 0.8em;
+        margin-left: 2px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #007bff;
+        color: white !important;
+        border: 1px solid #007bff;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #e9ecef;
+        color: #0056b3 !important;
+    }
+
+    .dataTables_wrapper .dataTables_length select {
+        padding: 0.3em 0.8em;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+
+    .dataTables_wrapper .dataTables_filter input {
+        padding: 0.3em;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        margin-left: 0.5em;
+    }
+
     .filter-section {
         background-color: #f8f9fa;
         border-radius: 8px;
@@ -831,9 +871,9 @@
                                     </div>
 
                                 </table>
-                                <div class="mt-3 d-flex justify-content-center">
+                                {{-- <div class="mt-3 d-flex justify-content-center">
                                     {{ $allApproved->links() }}
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -849,7 +889,7 @@
 <script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css">
 
-<script>
+{{-- <script>
     $(document).ready(function() {
         // Initialize DataTable
         let table = $('#table_id').DataTable({
@@ -951,7 +991,7 @@
             $('#searchInput').val('');
             $('#dateRangeFilter').val('');
             filterTable();
-            
+
             // Reset select all berdasarkan filer
             $('#selectAll').prop('checked', false);
             updateBulkActions();
@@ -1027,6 +1067,248 @@
             if (selectedItems.ids.length === 0) return;
 
             // Submit form untuk download ZIP
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('export.bulkPDF') }}';
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+
+            const idsInput = document.createElement('input');
+            idsInput.type = 'hidden';
+            idsInput.name = 'ids';
+            idsInput.value = JSON.stringify(selectedItems.ids);
+            form.appendChild(idsInput);
+
+            const typesInput = document.createElement('input');
+            typesInput.type = 'hidden';
+            typesInput.name = 'types';
+            typesInput.value = JSON.stringify(selectedItems.types);
+            form.appendChild(typesInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        function getSelectedItems() {
+            const ids = [];
+            const types = [];
+
+            $('.row-checkbox:checked').each(function() {
+                ids.push($(this).val());
+                types.push($(this).data('type'));
+            });
+
+            return {
+                ids,
+                types
+            };
+        }
+    });
+</script> --}}
+
+<script>
+    $(document).ready(function() {
+        // Inisialisasi DataTable
+        let table = $('#table_id').DataTable({
+            dom: '<"top"lf>rt<"bottom"ip><"clear">',
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "All"]
+            ],
+            pageLength: 10,
+            order: [
+                [1, 'desc']
+            ],
+            language: {
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                search: "Cari:",
+                zeroRecords: "Tidak ada data yang ditemukan",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                infoEmpty: "Menampilkan 0 sampai 0 dari 0 data",
+                infoFiltered: "(disaring dari _MAX_ total data)",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: '<i class="fas fa-chevron-right"></i>',
+                    previous: '<i class="fas fa-chevron-left"></i>'
+                }
+            },
+            initComplete: function() {
+                // Inisialisasi DateRangePicker setelah tabel selesai dimuat
+                $('#dateRangeFilter').daterangepicker({
+                    autoUpdateInput: false,
+                    locale: {
+                        format: 'DD/MM/YYYY',
+                        applyLabel: 'Terapkan',
+                        cancelLabel: 'Batal',
+                        fromLabel: 'Dari',
+                        toLabel: 'Sampai',
+                        customRangeLabel: 'Custom',
+                        daysOfWeek: ['Mg', 'Sn', 'Sl', 'Rb', 'Km', 'Jm', 'Sb'],
+                        monthNames: [
+                            'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                            'Juli', 'Agustus', 'September', 'Oktober', 'November',
+                            'Desember'
+                        ],
+                        firstDay: 1
+                    }
+                });
+
+                // Handle date range selection
+                $('#dateRangeFilter').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker
+                        .endDate.format('DD/MM/YYYY'));
+                    table.draw();
+                });
+
+                // Handle date range clear
+                $('#dateRangeFilter').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+                    table.draw();
+                });
+            }
+        });
+
+        // Custom filtering function untuk DataTable
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                let filterGudang = $('#filterGudang').val().toLowerCase();
+                let filterMaterial = $('#filterMaterial').val().toLowerCase();
+                let filterKesimpulan = $('#filterKesimpulan').val().toLowerCase();
+                let dateRange = $('#dateRangeFilter').val();
+
+                // Ambil data dari baris
+                let ulp = data[3].toLowerCase(); // Kolom ULP
+                let material = data[4].toLowerCase(); // Kolom Material
+                let kesimpulan = data[5].toLowerCase(); // Kolom Kesimpulan
+                let rowDate = moment($('#table_id tbody tr').eq(dataIndex).data('date'));
+
+                // Filter Gudang
+                if (filterGudang && !ulp.includes(filterGudang)) {
+                    return false;
+                }
+
+                // Filter Material
+                if (filterMaterial && !material.includes(filterMaterial)) {
+                    return false;
+                }
+
+                // Filter Kesimpulan
+                if (filterKesimpulan && !kesimpulan.includes(filterKesimpulan)) {
+                    return false;
+                }
+
+                // Filter Tanggal
+                if (dateRange) {
+                    let dates = dateRange.split(' - ');
+                    let startDate = moment(dates[0], 'DD/MM/YYYY');
+                    let endDate = moment(dates[1], 'DD/MM/YYYY');
+
+                    if (!rowDate.isBetween(startDate, endDate, null, '[]')) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        );
+
+        // Apply filters when changed
+        $('#filterGudang, #filterMaterial, #filterKesimpulan').on('change', function() {
+            table.draw();
+        });
+
+        // Search input handler
+        $('#searchInput').on('keyup', function() {
+            table.search(this.value).draw();
+        });
+
+        // Reset filters
+        $('#resetFilters').click(function() {
+            $('#filterGudang, #filterMaterial, #filterKesimpulan').val('');
+            $('#searchInput').val('');
+            $('#dateRangeFilter').val('');
+            table.search('').draw();
+
+            // Reset select all
+            $('#selectAll').prop('checked', false);
+            updateBulkActions();
+        });
+
+        // Select/Deselect all
+        $('#selectAll').change(function() {
+            const isChecked = $(this).prop('checked');
+            $('.row-checkbox').prop('checked', isChecked);
+            updateBulkActions();
+        });
+
+        // Row checkbox change
+        $(document).on('change', '.row-checkbox', function() {
+            updateBulkActions();
+        });
+
+        // Update bulk actions
+        function updateBulkActions() {
+            const checkedCount = $('.row-checkbox:checked').length;
+
+            if (checkedCount > 0) {
+                $('.bulk-actions').show();
+                $('#selectedCount').text(checkedCount + ' item terpilih');
+            } else {
+                $('.bulk-actions').hide();
+            }
+
+            // Update select all checkbox
+            const totalRows = table.rows({
+                search: 'applied'
+            }).nodes().length;
+            const visibleChecked = $('.row-checkbox:checked').filter(function() {
+                return $(this).closest('tr').is(':visible');
+            }).length;
+
+            $('#selectAll').prop('checked', visibleChecked > 0 && visibleChecked === totalRows);
+        }
+
+        // Bulk download Excel
+        $('#bulkDownloadExcel').click(function() {
+            const selectedItems = getSelectedItems();
+            if (selectedItems.ids.length === 0) return;
+
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '{{ route('export.bulkExcel') }}';
+
+            const csrf = document.createElement('input');
+            csrf.type = 'hidden';
+            csrf.name = '_token';
+            csrf.value = '{{ csrf_token() }}';
+            form.appendChild(csrf);
+
+            const idsInput = document.createElement('input');
+            idsInput.type = 'hidden';
+            idsInput.name = 'ids';
+            idsInput.value = JSON.stringify(selectedItems.ids);
+            form.appendChild(idsInput);
+
+            const typesInput = document.createElement('input');
+            typesInput.type = 'hidden';
+            typesInput.name = 'types';
+            typesInput.value = JSON.stringify(selectedItems.types);
+            form.appendChild(typesInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        // Bulk download PDF (ZIP)
+        $('#bulkDownloadPDF').click(function() {
+            const selectedItems = getSelectedItems();
+            if (selectedItems.ids.length === 0) return;
+
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = '{{ route('export.bulkPDF') }}';

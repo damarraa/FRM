@@ -5,9 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="" />
-    <meta name="keywords" content="">
-    <meta name="author" content="PT PRISAN ARTHA LESTARI" />
+    <meta name="description" content="Form Retur MDU" />
+    <meta name="keywords" content="FRM">
+    <meta name="author" content="PT PLN UID Riau dan Kepulauan Riau" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- PWA  -->
     <meta name="theme-color" content="#6777ef" />
@@ -316,9 +316,8 @@
                                     User</span></a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('edit-profile.edit') }}" class="nav-link "><span
-                                    class="pcoded-micon"><i class="bi bi-person-fill-gear"></i></span><span
-                                    class="pcoded-mtext">Edit
+                            <a href="{{ route('edit-profile.edit') }}" class="nav-link "><span class="pcoded-micon"><i
+                                        class="bi bi-person-fill-gear"></i></span><span class="pcoded-mtext">Edit
                                     Profile</span></a>
                         </li>
                         <li class="nav-item">
@@ -366,14 +365,19 @@
                             <label>Material Retur</label>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('forms') }}" class="nav-link "><span class="pcoded-micon"><i
+                                        class="bi bi-box-seam"></i></span><span class="pcoded-mtext">Form Material
+                                    Retur</span></a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('form-unapproved') }}" class="nav-link "><span class="pcoded-micon"><i
                                         class="bi bi-file-earmark-x"></i></span><span
                                     class="pcoded-mtext">Unapproved</span></a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('forms') }}" class="nav-link "><span class="pcoded-micon"><i
-                                        class="bi bi-box-seam"></i></span><span class="pcoded-mtext">Form Material
-                                    Retur</span></a>
+                            <a href="{{ route('laporan') }}" class="nav-link "><span class="pcoded-micon"><i
+                                        class="bi bi-file-earmark-text"></i></span><span
+                                    class="pcoded-mtext">Approved</span></a>
                         </li>
                         <li class="nav-item pcoded-menu-caption">
                             <label>Administration</label>

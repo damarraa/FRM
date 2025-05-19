@@ -88,7 +88,7 @@
                                             <option value="">-- Pilih Tahun --</option>
                                             @for ($i = date('Y'); $i >= 2000; $i--)
                                                 <option value="{{ $i }}"
-                                                    {{ old('tahun_produksi', $phbtr->tahun_produksi) == $i ? 'selected' : '' }}>
+                                                    {{ old('tahun_produksi', $phbtr->tahun_produksi ?? '') == $i ? 'selected' : '' }}>
                                                     {{ $i }}
                                                 </option>
                                             @endfor
@@ -98,7 +98,9 @@
                                         <label for="masa_pakai" class="block mb-1">Masa Pakai</label>
                                         <input type="text" class="form-control w-full p-2 border rounded"
                                             id="masa_pakai" name="masa_pakai" placeholder="Masa Pakai"
-                                            value="{{ old('masa_pakai', $phbtr->masa_pakai) }}" readonly>
+                                            value="{{ old('masa_pakai', isset($phbtr->masa_pakai) ? $phbtr->masa_pakai . ' tahun' : '') }}"
+                                            readonly>
+                                        {{-- value="{{ old('masa_pakai', $phbtr->masa_pakai) }}" readonly> --}}
                                     </div>
                                 </div>
                             </div>
@@ -781,22 +783,36 @@
 
                 // Isi dropdown tahun produksi secara dinamis
                 if (selectTahun) {
-                    // Kosongkan opsi yang sudah ada kecuali default
-                    while (selectTahun.options.length > 1) {
-                        selectTahun.remove(1);
+                    if (selectTahun.value) {
+                        hitungMasaPakai();
                     }
 
-                    // Tambahkan opsi tahun
-                    for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
-                        const option = new Option(tahun, tahun);
-                        selectTahun.add(option);
-                    }
-
-                    // Event listener untuk tahun produksi
                     selectTahun.addEventListener('change', function() {
                         hitungMasaPakai();
-                        setTimeout(updateKesimpulan, 100); // Delay kecil untuk Select2
-                    });
+                        setTimeout(updateKesimpulan, 100);
+                    })
+
+                    // Inisialisasi Select2 jika belum
+                    if ($(selectTahun).hasClass('select2-hidden-accessible') === false) {
+                        $(selectTahun).select2();
+                    }
+
+                    // Kosongkan opsi yang sudah ada kecuali default
+                    // while (selectTahun.options.length > 1) {
+                    //     selectTahun.remove(1);
+                    // }
+
+                    // // Tambahkan opsi tahun
+                    // for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
+                    //     const option = new Option(tahun, tahun);
+                    //     selectTahun.add(option);
+                    // }
+
+                    // Event listener untuk tahun produksi
+                    // selectTahun.addEventListener('change', function() {
+                    //     hitungMasaPakai();
+                    //     setTimeout(updateKesimpulan, 100); // Delay kecil untuk Select2
+                    // });
                 } else {
                     console.error("Elemen tahun_produksi tidak ditemukan!");
                 }
@@ -1007,22 +1023,36 @@
 
                 // Isi dropdown tahun produksi secara dinamis
                 if (selectTahun) {
-                    // Kosongkan opsi yang sudah ada kecuali default
-                    while (selectTahun.options.length > 1) {
-                        selectTahun.remove(1);
+                    if (selectTahun.value) {
+                        hitungMasaPakai();
                     }
 
-                    // Tambahkan opsi tahun
-                    for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
-                        const option = new Option(tahun, tahun);
-                        selectTahun.add(option);
-                    }
-
-                    // Event listener untuk tahun produksi
                     selectTahun.addEventListener('change', function() {
                         hitungMasaPakai();
-                        setTimeout(updateKesimpulan, 100); // Delay kecil untuk Select2
-                    });
+                        setTimeout(updateKesimpulan, 100);
+                    })
+
+                    // Inisialisasi Select2 jika belum
+                    if ($(selectTahun).hasClass('select2-hidden-accessible') === false) {
+                        $(selectTahun).select2();
+                    }
+
+                    // Kosongkan opsi yang sudah ada kecuali default
+                    // while (selectTahun.options.length > 1) {
+                    //     selectTahun.remove(1);
+                    // }
+
+                    // // Tambahkan opsi tahun
+                    // for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
+                    //     const option = new Option(tahun, tahun);
+                    //     selectTahun.add(option);
+                    // }
+
+                    // Event listener untuk tahun produksi
+                    // selectTahun.addEventListener('change', function() {
+                    //     hitungMasaPakai();
+                    //     setTimeout(updateKesimpulan, 100); // Delay kecil untuk Select2
+                    // });
                 } else {
                     console.error("Elemen tahun_produksi tidak ditemukan!");
                 }

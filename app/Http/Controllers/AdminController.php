@@ -2,10 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    public function activeUsers()
+    {
+        // Hitung jumlah user aktif
+        $activeUsersCount = User::where('is_active', true)->count();
+
+        // Ambil data user aktif dengan pagination dan relasi roles
+        $activeUsers = User::where('is_active', true)
+            ->with('roles')
+            ->orderBy('last_active_at', 'desc')
+            ->paginate(10); // Sesuaikan jumlah per page sesuai kebutuhan
+
+        return view('dashboard', [
+            'activeUsersCount' => $activeUsersCount,
+            'activeUsers' => $activeUsers
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

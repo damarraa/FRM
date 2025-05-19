@@ -6,14 +6,17 @@ use App\Models\KWHMeter;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class KWHMeterExport implements FromCollection, WithHeadings, WithMapping
+class KWHMeterExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
     protected $ids;
+    protected $worksheetName;
 
-    public function __construct(array $ids = null)
+    public function __construct(array $ids = null, $worksheetName = 'kWh Meter')
     {
         $this->ids = $ids;
+        $this->worksheetName = $worksheetName;
     }
 
     public function collection()
@@ -23,6 +26,11 @@ class KWHMeterExport implements FromCollection, WithHeadings, WithMapping
         }
         
         return KWHMeter::all();
+    }
+
+    public function title(): string
+    {
+        return $this->worksheetName;
     }
 
     public function headings(): array

@@ -89,6 +89,8 @@ class ExportController extends Controller
     // Export all data
     public function exportKWH(): BinaryFileResponse
     {
+        // $worksheetName = 'Data kWh Meter';
+        // return Excel::download(new KWHMeterExport(null, $worksheetName), 'kWhMeters.xlsx');
         return Excel::download(new KWHMeterExport, 'kWhMeters.xlsx');
     }
 
@@ -98,7 +100,7 @@ class ExportController extends Controller
         $kWh_Meter = KWHMeter::findOrFail($id);
         $filename = $kWh_Meter->no_surat . '.xlsx';
 
-        return Excel::download(new KWHMeterSingleExport($id), $filename);
+        return Excel::download(new KWHMeterSingleExport($id, 'kWh Meter'), $filename);
     }
 
     // Export all data
@@ -113,7 +115,7 @@ class ExportController extends Controller
         $mcb = MCB::findOrFail($id);
         $filename = $mcb->no_surat . '.xlsx';
 
-        return Excel::download(new MCBSingleExport($id), $filename);
+        return Excel::download(new MCBSingleExport($id, 'MCB'), $filename);
     }
 
     // Export all data
@@ -128,7 +130,7 @@ class ExportController extends Controller
         $trafo = Trafo::findOrFail($id);
         $filename = $trafo->no_surat . '.xlsx';
 
-        return Excel::download(new TrafoSingleExport($id), $filename);
+        return Excel::download(new TrafoSingleExport($id, 'Trafo Distribusi'), $filename);
     }
 
     // Export all data
@@ -143,7 +145,7 @@ class ExportController extends Controller
         $cable_power = CablePower::findOrFail($id);
         $filename = $cable_power->no_surat . '.xlsx';
 
-        return Excel::download(new CablePowerSingleExport($id), $filename);
+        return Excel::download(new CablePowerSingleExport($id, 'Cable Power'), $filename);
     }
 
     // Export all data
@@ -158,7 +160,7 @@ class ExportController extends Controller
         $conductor = Conductor::findOrFail($id);
         $filename = $conductor->no_surat . '.xlsx';
 
-        return Excel::download(new ConductorSingleExport($id), $filename);
+        return Excel::download(new ConductorSingleExport($id, 'Conductor'), $filename);
     }
 
     // Export all data
@@ -173,7 +175,7 @@ class ExportController extends Controller
         $trafo_arus = TrafoArus::findOrFail($id);
         $filename = $trafo_arus->no_surat . '.xlsx';
 
-        return Excel::download(new TrafoArusSingleExport($id), $filename);
+        return Excel::download(new TrafoArusSingleExport($id, 'CT'), $filename);
     }
 
     // Export all data
@@ -188,7 +190,7 @@ class ExportController extends Controller
         $trafo_tegangan = TrafoTegangan::findOrFail($id);
         $filename = $trafo_tegangan->no_surat . '.xlsx';
 
-        return Excel::download(new TrafoTeganganSingleExport($id), $filename);
+        return Excel::download(new TrafoTeganganSingleExport($id, 'PT'), $filename);
     }
 
     // Export all data
@@ -203,7 +205,7 @@ class ExportController extends Controller
         $tiang_listrik = TiangListrik::findOrFail($id);
         $filename = $tiang_listrik->no_surat . '.xlsx';
 
-        return Excel::download(new TiangListrikSingleExport($id), $filename);
+        return Excel::download(new TiangListrikSingleExport($id, 'Tiang Listrik'), $filename);
     }
 
     // Export all data
@@ -218,7 +220,7 @@ class ExportController extends Controller
         $lbs = LBS::findOrFail($id);
         $filename = $lbs->no_surat . '.xlsx';
 
-        return Excel::download(new LBSSingleExport($id), $filename);
+        return Excel::download(new LBSSingleExport($id, 'LBS'), $filename);
     }
 
     // Export all data
@@ -233,7 +235,7 @@ class ExportController extends Controller
         $isolator = Isolator::findOrFail($id);
         $filename = $isolator->no_surat . '.xlsx';
 
-        return Excel::download(new IsolatorSingleExport($id), $filename);
+        return Excel::download(new IsolatorSingleExport($id, 'Isolator'), $filename);
     }
 
     // Export all data
@@ -248,7 +250,7 @@ class ExportController extends Controller
         $la = LightningArrester::findOrFail($id);
         $filename = $la->no_surat . '.xlsx';
 
-        return Excel::download(new LightningArresterSingleExport($id), $filename);
+        return Excel::download(new LightningArresterSingleExport($id, 'Lightning Arrester'), $filename);
     }
 
     // Export all data
@@ -263,7 +265,7 @@ class ExportController extends Controller
         $fco = FuseCutOut::findOrFail($id);
         $filename = $fco->no_surat . '.xlsx';
 
-        return Excel::download(new FCOSingleExport($id), $filename);
+        return Excel::download(new FCOSingleExport($id, 'FCO'), $filename);
     }
 
     // Export all data
@@ -278,7 +280,7 @@ class ExportController extends Controller
         $phbtr = PHBTR::findOrFail($id);
         $filename = $phbtr->no_surat . '.xlsx';
 
-        return Excel::download(new PHBTRSingleExport($id), $filename);
+        return Excel::download(new PHBTRSingleExport($id, 'PHBTR'), $filename);
     }
 
     // Export all data
@@ -293,7 +295,7 @@ class ExportController extends Controller
         $cubicle = Cubicle::findOrFail($id);
         $filename = $cubicle->no_surat . '.xlsx';
 
-        return Excel::download(new CubicleSingleExport($id), $filename);
+        return Excel::download(new CubicleSingleExport($id, 'Cubicle'), $filename);
     }
 
     // Export all data
@@ -308,7 +310,7 @@ class ExportController extends Controller
         $kotak = KotakAPP::findOrFail($id);
         $filename = $kotak->no_surat . '.xlsx';
 
-        return Excel::download(new KotakAPPSingleExport($id), $filename);
+        return Excel::download(new KotakAPPSingleExport($id, 'Kotak APP'), $filename);
     }
 
     public function bulkExportExcel(Request $request)

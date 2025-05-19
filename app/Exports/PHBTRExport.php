@@ -6,15 +6,31 @@ use App\Models\PHBTR;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class PHBTRExport implements FromCollection, WithHeadings, WithMapping
+class PHBTRExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $ids;
+    protected $worksheetName;
+
+    public function __construct(array $ids = null, $worksheetName = 'PHBTR')
+    {
+        $this->ids = $ids;
+        $this->worksheetName = $worksheetName;
+    }
+
     public function collection()
     {
+        if ($this->ids) {
+            return PHBTR::whereIn('id', $this->ids)->get();
+        }
+
         return PHBTR::all();
+    }
+
+    public function title(): string
+    {
+        return $this->worksheetName;
     }
 
     public function headings(): array

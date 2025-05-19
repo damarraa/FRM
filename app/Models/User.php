@@ -28,7 +28,8 @@ class User extends Authenticatable
         'alamat',
         'signature',
         'profile_picture',
-        'is_active'
+        'is_active',
+        'last_active_at'
     ];
 
     /**
@@ -51,6 +52,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'last_active_at' => 'datetime',
         ];
     }
 

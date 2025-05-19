@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('no_hp')->nullable();
             $table->text('signature')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->timestamp('last_active_at')->nullable();
             $table->string('profile_picture')->nullable();
             $table->rememberToken();
             $table->timestamps();

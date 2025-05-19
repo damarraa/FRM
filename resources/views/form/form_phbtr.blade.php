@@ -68,6 +68,9 @@
                                         <select class="form-control select2 w-full p-2 border rounded"
                                             id="tahun_produksi" name="tahun_produksi" required>
                                             <option value="">-- Pilih Tahun --</option>
+                                            @for ($i = date('Y'); $i >= 1980; $i--)
+                                                <option value="{{ $i }}">{{ $i }}</option>
+                                            @endfor
                                         </select>
                                     </div>
                                     <div class="w-50">
@@ -978,164 +981,398 @@
     //     }, 500); // Delay untuk memastikan semua elemen DOM tersedia
     // });
 
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     // Inisialisasi variabel utama
+    //     const tahunSekarang = new Date().getFullYear();
+    //     const selectTahun = document.getElementById('tahun_produksi');
+    //     const inputMasaPakai = document.getElementById('masa_pakai');
+    //     const kesimpulanSelect = document.getElementById('kesimpulan');
+
+    //     // Fungsi untuk menghitung masa pakai
+    //     // function hitungMasaPakai() {
+    //     //     // Dapatkan nilai tahun produksi yang dipilih
+    //     //     const tahunProduksiValue = selectTahun.value;
+    //     //     const tahunProduksi = parseInt(tahunProduksiValue);
+
+    //     //     // Validasi input
+    //     //     if (!tahunProduksiValue) {
+    //     //         inputMasaPakai.value = "";
+    //     //         return 0;
+    //     //     }
+
+    //     //     if (isNaN(tahunProduksi)) {
+    //     //         inputMasaPakai.value = "Tahun tidak valid";
+    //     //         return 0;
+    //     //     }
+
+    //     //     if (tahunProduksi > tahunSekarang) {
+    //     //         inputMasaPakai.value = "Tahun melebihi tahun sekarang";
+    //     //         return 0;
+    //     //     }
+
+    //     //     // Hitung masa pakai
+    //     //     const masaPakai = tahunSekarang - tahunProduksi;
+
+    //     //     // Tampilkan hasil dengan format
+    //     //     inputMasaPakai.value = masaPakai + " tahun";
+
+    //     //     // Berikan efek visual
+    //     //     inputMasaPakai.classList.add('calculated');
+    //     //     setTimeout(() => {
+    //     //         inputMasaPakai.classList.remove('calculated');
+    //     //     }, 300);
+
+    //     //     return masaPakai;
+    //     // }
+
+    //     function hitungMasaPakai() {
+    //         if (!selectTahun || !inputMasaPakai) {
+    //             console.error('Tahun_produksi atau masa_pakai tidak ditemukan.');
+    //             return 0;
+    //         }
+
+    //         const tahunProduksi = parseInt(selectTahun.value);
+
+    //         if (!selectTahun.value) {
+    //             inputMasaPakai.value = "";
+    //             return 0;
+    //         }
+
+    //         if (isNaN(tahunProduksi)) {
+    //             inputMasaPakai.value = "Tahun tidak valid";
+    //             return 0;
+    //         }
+
+    //         if (tahunProduksi > tahunSekarang) {
+    //             inputMasaPakai.value = "Tahun melebihi tahun sekarang";
+    //             return 0;
+    //         }
+
+    //         const masaPakai = tahunSekarang - tahunProduksi;
+    //         inputMasaPakai.value = masaPakai + " tahun";
+
+    //         inputMasaPakai.classList.add('.bg-blue-50', 'transition', 'duration-200');
+    //         setTimeout(() => {
+    //             inputMasaPakai.classList.remove('.bg-blue-50');
+    //         }, 300);
+
+    //         return masaPakai;
+    //     }
+
+    //     function initSelectTahun() {
+    //         if (!selectTahun) return;
+
+    //         if (!$(selectTahun).hasClass('select2-hidden-accessible')) {
+    //             $(selectTahun).select2({
+    //                 placeholder: "-- Pilih Tahun --",
+    //                 allowClear: true
+    //             });
+    //         }
+
+    //         $(selectTahun).on('change', function() {
+    //             console.log('Tahun produksi berubah: ', this.value);
+    //             hitungMasaPakai();
+    //             setTimeout(updateKesimpulan, 100);
+    //         });
+    //     }
+
+    //     // Fungsi untuk mengisi dropdown tahun produksi
+    //     function isiDropdownTahun() {
+    //         // Kosongkan opsi yang sudah ada kecuali default
+    //         while (selectTahun.options.length > 1) {
+    //             selectTahun.remove(1);
+    //         }
+
+    //         // Tambahkan opsi tahun dari tahun sekarang sampai 1980
+    //         for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
+    //             const option = document.createElement('option');
+    //             option.value = tahun;
+    //             option.textContent = tahun;
+    //             selectTahun.appendChild(option);
+    //         }
+    //     }
+
+    //     // Fungsi utama update kesimpulan
+    //     function updateKesimpulan() {
+    //         const masaPakai = hitungMasaPakai();
+
+    //         // Fungsi untuk mendapatkan nilai input yang reliable
+    //         const getValue = (id) => {
+    //             const el = document.getElementById(id);
+    //             if (!el) return null;
+
+    //             // Handle untuk select2
+    //             if (el.classList.contains('select2-hidden-accessible')) {
+    //                 return $(el).val();
+    //             }
+    //             return el.value;
+    //         };
+
+    //         // Dapatkan nilai-nilai pemeriksaan
+    //         const nameplate = getValue('nameplate');
+    //         const busbar = getValue('busbar_penyangga');
+    //         const saklarUtama = getValue('saklar_utama');
+    //         const nhFuse = getValue('nh_fuse');
+    //         const fuseRail = getValue('fuse_rail');
+    //         const selungkup = getValue('selungkup_phbtr');
+    //         const mekanik1 = getValue('pengujian_mekanik1');
+    //         const mekanik2 = getValue('pengujian_mekanik2');
+
+    //         // Logika kesimpulan
+    //         let kesimpulan = "Bekas tidak layak pakai (K8)"; // Default
+
+    //         // Kriteria K6 (Layak pakai)
+    //         const kondisiK6 = (
+    //             nameplate === "Ada" &&
+    //             busbar === "Ada" &&
+    //             saklarUtama === "Ada" &&
+    //             nhFuse === "Ada" &&
+    //             fuseRail === "Ada" &&
+    //             selungkup === "Tidak ada" &&
+    //             masaPakai <= 25 &&
+    //             mekanik1 === "Baik" &&
+    //             mekanik2 === "Baik"
+    //         );
+
+    //         // Kriteria K7 (Bisa diperbaiki)
+    //         const kondisiK7 = (
+    //             busbar === "Ada" &&
+    //             saklarUtama === "Ada"
+    //         );
+
+    //         if (kondisiK6) {
+    //             kesimpulan = "Bekas layak pakai (K6)";
+    //         } else if (kondisiK7) {
+    //             kesimpulan = "Bekas bisa diperbaiki (K7)";
+    //         }
+
+    //         // Update elemen kesimpulan
+    //         if (kesimpulanSelect) {
+    //             if ($(kesimpulanSelect).hasClass('select2-hidden-accessible')) {
+    //                 $(kesimpulanSelect).val(kesimpulan).trigger('change');
+    //             } else {
+    //                 kesimpulanSelect.value = kesimpulan;
+    //             }
+    //         }
+    //     }
+
+    //     initSelectTahun();
+
+    //     // Set default value jika diperlukan
+    //     if (selectTahun && selectTahun.options.length > 1) {
+    //         selectTahun.value = tahunSekarang;
+    //         $(selectTahun).trigger('change');
+    //     }
+
+    //     // Inisialisasi dropdown tahun
+    //     if (selectTahun) {
+    //         isiDropdownTahun();
+
+    //         // Event listener untuk perubahan tahun produksi
+    //         selectTahun.addEventListener('change', function() {
+    //             hitungMasaPakai();
+    //             updateKesimpulan();
+    //         });
+    //     }
+
+    //     // Event listeners untuk semua input yang mempengaruhi kesimpulan
+    //     const inputIds = [
+    //         'nameplate', 'busbar_penyangga', 'saklar_utama',
+    //         'nh_fuse', 'fuse_rail', 'selungkup_phbtr',
+    //         'pengujian_mekanik1', 'pengujian_mekanik2'
+    //     ];
+
+    //     inputIds.forEach(id => {
+    //         const el = document.getElementById(id);
+    //         if (el) {
+    //             // Handle untuk select2
+    //             if (el.classList.contains('select2-hidden-accessible')) {
+    //                 $(el).on('select2:select', updateKesimpulan);
+    //             }
+
+    //             // Event listener standar
+    //             el.addEventListener('change', updateKesimpulan);
+    //         }
+    //     });
+
+    //     // Inisialisasi pertama kali
+    //     hitungMasaPakai();
+    //     updateKesimpulan();
+    // });
+
     document.addEventListener("DOMContentLoaded", function() {
-        // Inisialisasi variabel utama
-        const tahunSekarang = new Date().getFullYear();
-        const selectTahun = document.getElementById('tahun_produksi');
-        const inputMasaPakai = document.getElementById('masa_pakai');
-        const kesimpulanSelect = document.getElementById('kesimpulan');
+        // Tunggu sebentar untuk memastikan semua library terload
+        setTimeout(function() {
+            console.log("Memulai inisialisasi form PHBTR");
 
-        // Fungsi untuk menghitung masa pakai
-        function hitungMasaPakai() {
-            // Dapatkan nilai tahun produksi yang dipilih
-            const tahunProduksiValue = selectTahun.value;
-            const tahunProduksi = parseInt(tahunProduksiValue);
+            // 1. Inisialisasi Variabel Utama
+            const tahunSekarang = new Date().getFullYear();
+            const selectTahun = document.getElementById('tahun_produksi');
+            const inputMasaPakai = document.getElementById('masa_pakai');
+            const kesimpulanSelect = document.getElementById('kesimpulan');
 
-            // Validasi input
-            if (!tahunProduksiValue) {
-                inputMasaPakai.value = "";
-                return 0;
-            }
-
-            if (isNaN(tahunProduksi)) {
-                inputMasaPakai.value = "Tahun tidak valid";
-                return 0;
-            }
-
-            if (tahunProduksi > tahunSekarang) {
-                inputMasaPakai.value = "Tahun melebihi tahun sekarang";
-                return 0;
-            }
-
-            // Hitung masa pakai
-            const masaPakai = tahunSekarang - tahunProduksi;
-
-            // Tampilkan hasil dengan format
-            inputMasaPakai.value = masaPakai + " tahun";
-
-            // Berikan efek visual
-            inputMasaPakai.classList.add('calculated');
-            setTimeout(() => {
-                inputMasaPakai.classList.remove('calculated');
-            }, 300);
-
-            return masaPakai;
-        }
-
-        // Fungsi untuk mengisi dropdown tahun produksi
-        function isiDropdownTahun() {
-            // Kosongkan opsi yang sudah ada kecuali default
-            while (selectTahun.options.length > 1) {
-                selectTahun.remove(1);
-            }
-
-            // Tambahkan opsi tahun dari tahun sekarang sampai 1980
-            for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
-                const option = document.createElement('option');
-                option.value = tahun;
-                option.textContent = tahun;
-                selectTahun.appendChild(option);
-            }
-        }
-
-        // Fungsi utama update kesimpulan
-        function updateKesimpulan() {
-            const masaPakai = hitungMasaPakai();
-
-            // Fungsi untuk mendapatkan nilai input yang reliable
-            const getValue = (id) => {
-                const el = document.getElementById(id);
-                if (!el) return null;
-
-                // Handle untuk select2
-                if (el.classList.contains('select2-hidden-accessible')) {
-                    return $(el).val();
+            // 2. Fungsi Hitung Masa Pakai
+            function hitungMasaPakai() {
+                // Validasi elemen
+                if (!selectTahun || !inputMasaPakai) {
+                    console.error('Elemen tahun_produksi atau masa_pakai tidak ditemukan');
+                    return 0;
                 }
-                return el.value;
-            };
 
-            // Dapatkan nilai-nilai pemeriksaan
-            const nameplate = getValue('nameplate');
-            const busbar = getValue('busbar_penyangga');
-            const saklarUtama = getValue('saklar_utama');
-            const nhFuse = getValue('nh_fuse');
-            const fuseRail = getValue('fuse_rail');
-            const selungkup = getValue('selungkup_phbtr');
-            const mekanik1 = getValue('pengujian_mekanik1');
-            const mekanik2 = getValue('pengujian_mekanik2');
+                const tahunProduksi = parseInt(selectTahun.value);
 
-            // Logika kesimpulan
-            let kesimpulan = "Bekas tidak layak pakai (K8)"; // Default
+                // Validasi input
+                if (!selectTahun.value) {
+                    inputMasaPakai.value = "";
+                    return 0;
+                }
 
-            // Kriteria K6 (Layak pakai)
-            const kondisiK6 = (
-                nameplate === "Ada" &&
-                busbar === "Ada" &&
-                saklarUtama === "Ada" &&
-                nhFuse === "Ada" &&
-                fuseRail === "Ada" &&
-                selungkup === "Tidak ada" &&
-                masaPakai <= 25 &&
-                mekanik1 === "Baik" &&
-                mekanik2 === "Baik"
-            );
+                if (isNaN(tahunProduksi)) {
+                    inputMasaPakai.value = "Tahun tidak valid";
+                    return 0;
+                }
 
-            // Kriteria K7 (Bisa diperbaiki)
-            const kondisiK7 = (
-                busbar === "Ada" &&
-                saklarUtama === "Ada"
-            );
+                if (tahunProduksi > tahunSekarang) {
+                    inputMasaPakai.value = "Tahun melebihi tahun sekarang";
+                    return 0;
+                }
 
-            if (kondisiK6) {
-                kesimpulan = "Bekas layak pakai (K6)";
-            } else if (kondisiK7) {
-                kesimpulan = "Bekas bisa diperbaiki (K7)";
+                // Hitung masa pakai
+                const masaPakai = tahunSekarang - tahunProduksi;
+                inputMasaPakai.value = masaPakai + " tahun";
+
+                // Efek visual feedback
+                inputMasaPakai.classList.add('bg-blue-50', 'transition', 'duration-200');
+                setTimeout(() => {
+                    inputMasaPakai.classList.remove('bg-blue-50');
+                }, 300);
+
+                return masaPakai;
             }
 
-            // Update elemen kesimpulan
-            if (kesimpulanSelect) {
-                if ($(kesimpulanSelect).hasClass('select2-hidden-accessible')) {
+            // 3. Fungsi Inisialisasi Select Tahun
+            function initSelectTahun() {
+                if (!selectTahun) return;
+
+                // Kosongkan opsi yang ada kecuali default
+                while (selectTahun.options.length > 1) {
+                    selectTahun.remove(1);
+                }
+
+                // Isi dropdown tahun
+                for (let tahun = tahunSekarang; tahun >= 1980; tahun--) {
+                    const option = new Option(tahun, tahun);
+                    selectTahun.add(option);
+                }
+
+                // Inisialisasi Select2
+                if ($(selectTahun).length && !$(selectTahun).hasClass('select2-hidden-accessible')) {
+                    $(selectTahun).select2({
+                        placeholder: "-- Pilih Tahun --",
+                        allowClear: true,
+                        width: '100%'
+                    });
+                }
+
+                // Set nilai default ke tahun sekarang
+                $(selectTahun).val(tahunSekarang).trigger('change');
+
+                // Event listener untuk perubahan
+                $(selectTahun).on('change', function() {
+                    console.log('Tahun produksi dipilih:', this.value);
+                    hitungMasaPakai();
+                    updateKesimpulan();
+                });
+            }
+
+            // 4. Fungsi Update Kesimpulan
+            function updateKesimpulan() {
+                const masaPakai = hitungMasaPakai();
+
+                // Fungsi helper untuk mendapatkan nilai input
+                const getValue = (id) => {
+                    const el = document.getElementById(id);
+                    if (!el) return null;
+                    return $(el).hasClass('select2-hidden-accessible') ? $(el).val() : el.value;
+                };
+
+                // Ambil semua nilai input
+                const inputs = {
+                    nameplate: getValue('nameplate'),
+                    busbar: getValue('busbar_penyangga'),
+                    saklarUtama: getValue('saklar_utama'),
+                    nhFuse: getValue('nh_fuse'),
+                    fuseRail: getValue('fuse_rail'),
+                    selungkup: getValue('selungkup_phbtr'),
+                    mekanik1: getValue('pengujian_mekanik1'),
+                    mekanik2: getValue('pengujian_mekanik2')
+                };
+
+                console.log("Nilai input:", inputs, "Masa pakai:", masaPakai);
+
+                // 5. Logika Kesimpulan
+                let kesimpulan = "Bekas tidak layak pakai (K8)"; // Default
+
+                // Kriteria K6 (Layak pakai)
+                const kondisiK6 = (
+                    inputs.nameplate === "Ada" &&
+                    inputs.busbar === "Ada" &&
+                    inputs.saklarUtama === "Ada" &&
+                    inputs.nhFuse === "Ada" &&
+                    inputs.fuseRail === "Ada" &&
+                    inputs.selungkup === "Tidak ada" &&
+                    masaPakai <= 25 &&
+                    inputs.mekanik1 === "Baik" &&
+                    inputs.mekanik2 === "Baik"
+                );
+
+                // Kriteria K7 (Bisa diperbaiki)
+                const kondisiK7 = (
+                    inputs.busbar === "Ada" &&
+                    inputs.saklarUtama === "Ada"
+                );
+
+                if (kondisiK6) {
+                    kesimpulan = "Bekas layak pakai (K6)";
+                } else if (kondisiK7) {
+                    kesimpulan = "Bekas bisa diperbaiki (K7)";
+                }
+
+                // 6. Update elemen kesimpulan
+                if (kesimpulanSelect) {
                     $(kesimpulanSelect).val(kesimpulan).trigger('change');
-                } else {
-                    kesimpulanSelect.value = kesimpulan;
+                    console.log("Kesimpulan diperbarui:", kesimpulan);
                 }
             }
-        }
 
-        // Inisialisasi dropdown tahun
-        if (selectTahun) {
-            isiDropdownTahun();
+            // 7. Inisialisasi Event Listeners untuk semua input
+            function initEventListeners() {
+                const inputIds = [
+                    'nameplate', 'busbar_penyangga', 'saklar_utama',
+                    'nh_fuse', 'fuse_rail', 'selungkup_phbtr',
+                    'pengujian_mekanik1', 'pengujian_mekanik2'
+                ];
 
-            // Event listener untuk perubahan tahun produksi
-            selectTahun.addEventListener('change', function() {
-                hitungMasaPakai();
-                updateKesimpulan();
-            });
-        }
-
-        // Event listeners untuk semua input yang mempengaruhi kesimpulan
-        const inputIds = [
-            'nameplate', 'busbar_penyangga', 'saklar_utama',
-            'nh_fuse', 'fuse_rail', 'selungkup_phbtr',
-            'pengujian_mekanik1', 'pengujian_mekanik2'
-        ];
-
-        inputIds.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                // Handle untuk select2
-                if (el.classList.contains('select2-hidden-accessible')) {
-                    $(el).on('select2:select', updateKesimpulan);
-                }
-
-                // Event listener standar
-                el.addEventListener('change', updateKesimpulan);
+                inputIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) {
+                        $(el).on('change', updateKesimpulan);
+                    }
+                }); 
             }
-        });
 
-        // Inisialisasi pertama kali
-        hitungMasaPakai();
-        updateKesimpulan();
+            // 8. Main Execution
+            try {
+                initSelectTahun();
+                initEventListeners();
+                updateKesimpulan(); // Update kesimpulan pertama kali
+
+                console.log("Form PHBTR berhasil diinisialisasi");
+            } catch (error) {
+                console.error("Error inisialisasi form:", error);
+            }
+
+        }, 300); // Delay untuk memastikan semua library terload
     });
 </script>
 

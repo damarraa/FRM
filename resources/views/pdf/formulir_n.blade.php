@@ -280,12 +280,12 @@
                 </table>
             </div>
 
-            <p style="margin-left: 20px; margin-top: -10px; font-size: 10px;">Keterangan:</p>
-            <p style="margin-left: 22px; margin-top: -10px; font-size: 10px;">a. Jika item mandatory poin B (4, 5, 6,
+            <p style="margin-left: 20px; margin-top: -10px; font-size: 9px;">Keterangan:</p>
+            <p style="margin-left: 22px; margin-top: -10px; font-size: 9px;">a. Jika item mandatory poin B (4, 5, 6,
                 7)
                 ada
                 yang tidak sesuai maka pengujian poin C tidak perlu dilakukan</p>
-            <p style="margin-left: 22px; margin-top: -10px; font-size: 10px;">b. Poin 1, 2, 3 dapat diperbaiki/diganti
+            <p style="margin-left: 22px; margin-top: -10px; font-size: 9px;">b. Poin 1, 2, 3 dapat diperbaiki/diganti
             </p>
         </div>
 
@@ -507,17 +507,13 @@
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: -10px;">
                 E. KESIMPULAN</p>
             @if ($lbs->kesimpulan == 'Bekas layak pakai (K6)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) bekas layak pakai (K6) / <del>masih garansi
-                        (K7)</del> / <del>bekas
+                <p style="font-size: 11px; margin-left: 20px;"> *) bekas layak pakai (K6) / <del>bekas bisa diperbaiki (K7)</del> / <del>bekas
                         tidak layak pakai (K8)</del></p>
-            @elseif ($lbs->kesimpulan == 'Masih garansi (K7)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / masih garansi
-                    (K7) / <del>bekas
+            @elseif ($lbs->kesimpulan == 'Bekas bisa diperbaiki (K7)')
+                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / bekas bisa diperbaiki (K7) / <del>bekas
                         tidak layak pakai (K8)</del></p>
             @elseif ($lbs->kesimpulan == 'Bekas tidak layak pakai (K8)')
-                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / <del>masih
-                        garansi
-                        (K7)</del> / bekas
+                <p style="font-size: 11px; margin-left: 20px;"> *) <del>bekas layak pakai (K6)</del> / <del>bekas bisa diperbaiki (K7)</del> / bekas
                     tidak layak pakai (K8)</p>
             @endif
 
@@ -529,7 +525,7 @@
             @endif --}}
 
             @if ($lbs->is_edited)
-                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                <p style="font-size: 9px; margin-left: 20px; margin-top: 5px;">
                     *edited by: {{ $lbs->approvedBy->name }} pada
                     {{ $lbs->updated_at->format('d/m/Y') }}
                 </p>
@@ -566,14 +562,14 @@
             </table>
         </div>
 
-        <div style="font-size: 11px; margin-top: 10px;">
+        <div style="font-size: 9px; margin-top: 10px;">
             <p style="text-align: left; font-size: 12px; margin: 0px; margin-top: -5px;">
                 Keterangan:</p>
-            <p style="text-align: left; font-size: 11px; margin: 0px; display: block;"><span
+            <p style="text-align: left; font-size: 9px; margin: 0px; display: block;"><span
                     style="font-family: 'DejaVu Sans', sans-serif;">☑</span> sesuai</p>
-            <p style="text-align: left; font-size: 11px; margin: 0px; display: block;"><span
+            <p style="text-align: left; font-size: 9px; margin: 0px; display: block;"><span
                     style="font-family: 'DejaVu Sans', sans-serif;">☒</span> tidak sesuai</p>
-            <p style="text-align: left; font-size: 11px; margin: 0px; display: block;">*) coret yang tidak diperlukan
+            <p style="text-align: left; font-size: 9px; margin: 0px; display: block;">*) coret yang tidak diperlukan
             </p>
         </div>
 

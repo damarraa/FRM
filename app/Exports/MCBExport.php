@@ -6,47 +6,63 @@ use App\Models\MCB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class MCBExport implements FromCollection, WithHeadings, WithMapping
+class MCBExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $ids;
+    protected $worksheetName;
+
+    public function __construct(array $ids = null, $worksheetName = 'MCB')
+    {
+        $this->ids = $ids;
+        $this->worksheetName = $worksheetName;
+    }
+
     public function collection()
     {
+        if ($this->ids) {
+            return MCB::whereIn('id', $this->ids)->get();
+        }
+
         return MCB::all();
+    }
+
+    public function title(): string
+    {
+        return $this->worksheetName;
     }
 
     public function headings(): array
     {
         return [
-          'No. Surat',
-          'Tgl. Inspeksi',
-          'Kode UP3',
-          'UP3',
-          'Kode ULP',
-          'ULP',
-          'Gudang Retur',
-          'ID Pelanggan',
-          'No. Serial',
-          'Tipe MCB',
-          'Nilai Ampere',
-          'Nama Pabrikan',
-          'Masa Pakai',
-          'Pengujian Ketidakhapusan Penandaan',
-          'Ket. Pengujian Ketidakhapusan Penandaan',
-          'Pengujian Toggle Switch',
-          'Ket. Pengujian Toggle Switch',
-          'Pengujian Keandalan Sekrup, Bagian Yang Menghantar Arus dan Sambungan',
-          'Ket. Pengujian Keandalan Sekrup',
-          'Pengujian Keandalan Terminal Untuk Penghantar Luar (Dilakukan Bersamaan Dengan Memutar Sekrup)',
-          'Ket. Pengujian Keandalan Terminal',
-          'Pengujian Pemutusan Arus',
-          'Ket. Pengujian Pemutusan Arus',
-          'Kesimpulan',
-          'Gambar',
-          'Petugas',
-          'Approval PIC'
+            'No. Surat',
+            'Tgl. Inspeksi',
+            'Kode UP3',
+            'UP3',
+            'Kode ULP',
+            'ULP',
+            'Gudang Retur',
+            'ID Pelanggan',
+            'No. Serial',
+            'Tipe MCB',
+            'Nilai Ampere',
+            'Nama Pabrikan',
+            'Masa Pakai',
+            'Pengujian Ketidakhapusan Penandaan',
+            'Ket. Pengujian Ketidakhapusan Penandaan',
+            'Pengujian Toggle Switch',
+            'Ket. Pengujian Toggle Switch',
+            'Pengujian Keandalan Sekrup, Bagian Yang Menghantar Arus dan Sambungan',
+            'Ket. Pengujian Keandalan Sekrup',
+            'Pengujian Keandalan Terminal Untuk Penghantar Luar (Dilakukan Bersamaan Dengan Memutar Sekrup)',
+            'Ket. Pengujian Keandalan Terminal',
+            'Pengujian Pemutusan Arus',
+            'Ket. Pengujian Pemutusan Arus',
+            'Kesimpulan',
+            'Gambar',
+            'Petugas',
+            'Approval PIC'
         ];
     }
 

@@ -68,17 +68,17 @@ class LaporanController extends Controller
         // Urutkan dan paginasi
         $allApproved = $allApproved->sortByDesc('created_at');
 
-        $page = request()->get('page', 1);
-        $perPage = 10;
-        $currentPageItems = $allApproved->slice(($page - 1) * $perPage, $perPage)->values();
+        // $page = request()->get('page', 1);
+        // $perPage = 10;
+        // $currentPageItems = $allApproved->slice(($page - 1) * $perPage, $perPage)->values();
 
-        $paginatedApproved = new LengthAwarePaginator(
-            $currentPageItems,
-            $allApproved->count(),
-            $perPage,
-            $page,
-            ['path' => request()->url()]
-        );
+        // $paginatedApproved = new LengthAwarePaginator(
+        //     $currentPageItems,
+        //     $allApproved->count(),
+        //     $perPage,
+        //     $page,
+        //     ['path' => request()->url()]
+        // );
 
         // Ambil ULP unik dari semua data yang sudah difilter
         $uniqueUlps = $allApproved->filter(function ($item) {
@@ -88,7 +88,7 @@ class LaporanController extends Controller
         })->pluck('ulp');
 
         return view('form.laporan', [
-            'allApproved' => $paginatedApproved,
+            'allApproved' => $allApproved,
             'ulp_Approveds' => $uniqueUlps
         ]);
 
