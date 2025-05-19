@@ -37,6 +37,10 @@
                                 <h2 class="text-lg font-semibold mb-2 text-gray-700">Jumlah Petugas</h2>
                                 <p class="text-3xl font-bold text-blue-800">{{ $totalPetugas }}</p>
                             </div>
+                            <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-purple-500">
+                                <h2 class="text-lg font-semibold mb-2 text-gray-700">User Aktif</h2>
+                                <p class="text-3xl font-bold text-purple-800">{{ $activeUsersCount }}</p>
+                            </div>
                         </div>
 
                         <!-- Chart Section -->
@@ -70,6 +74,48 @@
                             <h2 class="text-lg font-semibold mb-4 text-gray-700">Aktivitas Approval (Mingguan)</h2>
                             <div class="h-64">
                                 <canvas id="inspectorComparisonChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Active Users Table -->
+                        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                            <h2 class="text-lg font-semibold mb-4 text-gray-700">Daftar User Aktif</h2>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-white">
+                                    <thead class="bg-gray-100">
+                                        <tr>
+                                            <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">Nama
+                                            </th>
+                                            <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">Email
+                                            </th>
+                                            <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">Role
+                                            </th>
+                                            <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">
+                                                Terakhir Aktif</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($activeUsers as $user)
+                                            {{-- tampilkan data per hari --}}
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="py-2 px-4 border-b border-gray-200">{{ $user->name }}</td>
+                                                <td class="py-2 px-4 border-b border-gray-200">{{ $user->email }}</td>
+                                                <td class="py-2 px-4 border-b border-gray-200">
+                                                    @foreach ($user->roles as $role)
+                                                        <span
+                                                            class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $role->name }}</span>
+                                                    @endforeach
+                                                </td>
+                                                <td class="py-2 px-4 border-b border-gray-200">
+                                                    {{ $user->last_active_at ? $user->last_active_at->diffForHumans() : 'Belum pernah' }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-4">
+                                {{ $activeUsers->links() }}
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            font-size: 9px;
+            font-size: 8px;
             margin: 0;
             padding: 0;
         }
@@ -530,12 +530,13 @@
                     isolasi:</td>
 
             </tr>
+            <tr>
             <td></td>
             <td style="text-align: left;">a) L1 - (L2+L3+N+body)</td>
 
             <td>{{ $kotak->l1_app }}</td>
             <td style="font-weight: bold;">M Ohm</td>
-            <td rowspan="3" style="vertical-align: center; font-size: 12px; font-weight: bold;">>1 M Ohm</td>
+            <td rowspan="4" style="vertical-align: center; font-size: 9px; font-weight: bold;">>1 M Ohm</td>
             <td style="height: 0px; font-family: 'DejaVu Sans', sans-serif;">
                 @if ($kotak->l1_app > 1)
                     <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
@@ -593,7 +594,6 @@
                 </td>
                 <td>{{ $kotak->keteranganNAPP }}</td>
             </tr>
-
         </table>
         <h3 style="margin-top: 5px;">D. UJI MEKANIK</h3>
         <table style="margin-top: -10px;">
@@ -622,7 +622,7 @@
 
             <td>{{ $kotak->pengujian_mekanik }}</td>
             <td>{{ $kotak->pengujian_mekanik }}</td>
-            <td rowspan="3" style="vertical-align: center; font-size: 12px; font-weight: bold;">Pintu tetap
+            <td style="vertical-align: center; font-size: 10px; font-weight: bold;">Pintu tetap
                 beroperasi dengan baik</td>
             <td style="height: 0px; font-family: 'DejaVu Sans', sans-serif;">
                 @if ($kotak->pengujian_mekanik == 'Baik')
@@ -663,7 +663,14 @@
             }
         @endphp
 
-        @if ($kotak->approved_by && $isEdited && !$isStatusOnly)
+        {{-- @if ($kotak->approved_by && $isEdited && !$isStatusOnly)
+            <p style="font-size: 9px; margin-left: 20px; margin-top: 0px;">
+                *edited by: {{ $kotak->approvedBy->name }} pada
+                {{ $kotak->updated_at->format('d/m/Y') }}
+            </p>
+        @endif --}}
+
+        @if ($kotak->is_edited)
             <p style="font-size: 9px; margin-left: 20px; margin-top: 0px;">
                 *edited by: {{ $kotak->approvedBy->name }} pada
                 {{ $kotak->updated_at->format('d/m/Y') }}

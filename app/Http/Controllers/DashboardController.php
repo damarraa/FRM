@@ -895,6 +895,15 @@ class DashboardController extends Controller
         $totalPICGudang = User::role('PIC_Gudang')->count();
         $totalPetugas = User::role('Petugas')->count();
 
+        // Hitung jumlah user aktif
+        $activeUsersCount = User::where('is_active', true)->count();
+
+        // Ambil data user aktif dengan pagination dan relasi roles
+        $activeUsers = User::where('is_active', true)
+            ->with('roles')
+            ->orderBy('last_active_at', 'desc')
+            ->paginate(10); // Sesuaikan jumlah per page sesuai kebutuhan
+
         // Query pie chart
         $totalCategories = [
             'K6' => KWHMeter::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
@@ -921,8 +930,8 @@ class DashboardController extends Controller
                 + LightningArrester::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count()
                 + FuseCutOut::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count()
                 + PHBTR::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
-                + Cubicle::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
-                + KotakAPP::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
+            +Cubicle::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
+            +KotakAPP::where('kesimpulan', 'Bekas bisa diperbaiki (K7)')->count(),
             'K8' => KWHMeter::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
                 + MCB::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
                 + Trafo::where('kesimpulan', 'Bekas tidak layak pakai (K8)')->count()
@@ -1254,7 +1263,9 @@ class DashboardController extends Controller
             'totalFormAdmin' => $totalFormAdmin,
             'returDataAdmin' => $returDataAdmin,
             'stackedBarData' => $stackedBarData,
-            'newUsers' => $newUsers
+            'newUsers' => $newUsers,
+            'activeUsersCount' => $activeUsersCount,
+            'activeUsers' => $activeUsers
         ]);
     }
 

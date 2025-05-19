@@ -6,17 +6,33 @@ use App\Models\KotakAPP;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
 use function PHPSTORM_META\map;
 
-class KotakAPPExport implements FromCollection, WithHeadings, WithMapping
+class KotakAPPExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
+    protected $ids;
+    protected $worksheetName;
+
+    public function __construct(array $ids = null, $worksheetName = 'Kotak APP')
+    {
+        $this->ids = $ids;
+        $this->worksheetName = $worksheetName;
+    }
+
     public function collection()
     {
+        if ($this->ids) {
+            return KotakAPP::whereIn('id', $this->ids)->get();
+        }
+
         return KotakAPP::all();
+    }
+
+    public function title(): string
+    {
+        return $this->worksheetName;
     }
 
     public function headings(): array
@@ -104,7 +120,7 @@ class KotakAPPExport implements FromCollection, WithHeadings, WithMapping
             $row->masa_pakai,
             $row->tipe_kotak,
             $row->no_serial,
-            $row->pabrikan->nama_pabrikan,
+            $row->pabrikan,
             $row->nameplate,
             $row->keteranganNameplate,
             $row->kondisi_selungkup,

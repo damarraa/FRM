@@ -11,8 +11,8 @@
     <div style="max-width: 900px; background: white; padding: 30px; margin: 40px auto; border-radius: 5px;">
         <div style="font-weight: normal; padding-bottom: 20px; font-size: 12px;">
             <div style="float: left"><span style="font-weight: bold">PT PLN (PERSERO)</span> <br> <span
-                    style="font-weight: bold">UID/UIW {{ $cubicle->uid->wilayah }}</span> <br> UNIT
-                {{ $cubicle->up3s->unit }}</div>
+                    style="font-weight: bold">UID/UIW {{ $phbtr->uid->wilayah }}</span> <br> UNIT
+                {{ $phbtr->up3s->unit }}</div>
             <div style="float: right">Formulir 01-K</div>
         </div>
 
@@ -547,7 +547,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($phbtr->approved_by && $phbtr->updated_at != $phbtr->created_at)
+            {{-- @if ($phbtr->approved_by && $phbtr->updated_at != $phbtr->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $phbtr->approvedBy->name }} pada
+                    {{ $phbtr->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($phbtr->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $phbtr->approvedBy->name }} pada
                     {{ $phbtr->updated_at->format('d/m/Y') }}

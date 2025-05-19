@@ -37,6 +37,7 @@ class CablePower extends Model
         'kesimpulan_k8',
         'gambar',
         'status',
+        'is_edited',
         'jenis_form_id',
         'gudang_id',
         'uid_id',

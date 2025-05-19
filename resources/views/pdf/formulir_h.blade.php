@@ -153,7 +153,7 @@
 
         <div style="clear: both"></div>
 
-        <div style="">
+        {{-- <div style="">
             <p
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: -10px;">
                 C. PEMERIKSAAN KONSTRUKSI DAN KELENGKAPAN KOMPONEN</p>
@@ -440,6 +440,337 @@
                 ada
                 yang tidak sesuai maka pengujian poin D tidak perlu dilakukan</p>
             <p style="margin-left: 22px; margin-top: -10px; font-size: 10px;">b. Poin 6 dapat diperbaiki/diganti</p>
+        </div> --}}
+
+        <div style="">
+            <p
+                style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: -10px;">
+                C. PEMERIKSAAN KONSTRUKSI DAN KELENGKAPAN KOMPONEN</p>
+            <div style="width: 100%; padding: 10px 20px;">
+                <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+                    <colgroup>
+                        <col style="width: 25px;"> <!-- Kolom NO -->
+                        <col style="width: 200px;"> <!-- Kolom MATA UJI -->
+                        <col style="width: 40px;"> <!-- Kolom BAIK -->
+                        <col style="width: 40px;"> <!-- Kolom RUSAK -->
+                        <col style="width: 60px;"> <!-- Kolom PERSYARATAN -->
+                        <col style="width: 60px;"> <!-- Kolom KESESUAIAN -->
+                        <col style="width: 100px;"> <!-- Kolom KETERANGAN -->
+                    </colgroup>
+                    <tr>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"
+                            rowspan="2">NO</th>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"
+                            rowspan="2">MATA UJI</th>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"
+                            colspan="2">HASIL PEMERIKSAAN</th>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"
+                            rowspan="2">PERSYARATAN</th>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"
+                            rowspan="2">KESESUAIAN</th>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"
+                            rowspan="2">KETERANGAN</th>
+                    </tr>
+                    <tr>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">BAIK
+                        </th>
+                        <th style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">RUSAK
+                        </th>
+                    </tr>
+
+                    <!-- Baris 1 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 20px;">1</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 10px; font-size: 11px;">
+                            Bagian Utama Fuse Cut Out
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                        </td>
+                    </tr>
+
+                    <!-- Sub-baris 1a -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px;"></td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 20px; font-size: 11px;">
+                            a) Fuse Holder, Terdiri Dari:
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;"></td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                        </td>
+                    </tr>
+
+                    <!-- Sub-baris 1a-1 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px;"></td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 30px; font-size: 11px;">
+                            - Fuse Base
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->fuse_base == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->fuse_base == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->fuse_base == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganFuseBase }}
+                        </td>
+                    </tr>
+
+                    <!-- Sub-baris 1a-2 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px;"></td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 30px; font-size: 11px;">
+                            - Fuse Carrier
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->fuse_carrier == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->fuse_carrier == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->fuse_carrier == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganFuseCarrier }}
+                        </td>
+                    </tr>
+
+                    <!-- Sub-baris 1b -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px;"></td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 20px; font-size: 11px;">
+                            b) Bracket
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->bracket == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->bracket == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->bracket == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganBracket }}
+                        </td>
+                    </tr>
+
+                    <!-- Baris 2 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 20px;">2</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 10px; font-size: 11px;">
+                            Mekanisme Kontak
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->mekanisme_kontak == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->mekanisme_kontak == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->mekanisme_kontak == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganMekanismeKontak }}
+                        </td>
+                    </tr>
+
+                    <!-- Baris 3 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 20px;">3</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 10px; font-size: 11px;">
+                            Fuse Base
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_fuse_base == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_fuse_base == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->kondisi_fuse_base == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganKondisiFuseBase }}
+                        </td>
+                    </tr>
+
+                    <!-- Baris 4 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 20px;">4</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 10px; font-size: 11px;">
+                            Kondisi Insulator
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_insulator == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_insulator == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->kondisi_insulator == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganKondisiInsulator }}
+                        </td>
+                    </tr>
+
+                    <!-- Baris 5 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 20px;">5</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 10px; font-size: 11px;">
+                            Bracket
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_bracket == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_bracket == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->kondisi_bracket == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganKondisiBracket }}
+                        </td>
+                    </tr>
+
+                    <!-- Baris 6 -->
+                    <tr>
+                        <td style="border: 1px solid black; text-align: center; font-size: 11px; height: 20px;">6</td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: left; padding-left: 10px; font-size: 11px;">
+                            Fuse Carrier
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_fuse_carrier == 'Baik' ? '✔' : '' !!}
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            {!! $fco->kondisi_fuse_carrier == 'Rusak' ? '✔' : '' !!}
+                        </td>
+                        <td style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px;">
+                            Baik
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 11px; font-family: 'DejaVu Sans', sans-serif;">
+                            @if ($fco->kondisi_fuse_carrier == 'Baik')
+                                <span style="width: 100px; height: auto; align-items: center">&#x2611;</span>
+                            @else
+                                <span style="width: 100px; height: auto; align-items: center">&#9746;</span>
+                            @endif
+                        </td>
+                        <td
+                            style="border: 1px solid black; padding: 2px; text-align: center; font-size: 9px; word-wrap: break-word;">
+                            {{ $fco->keteranganKondisiFuseCarrier }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p style="margin-left: 20px; margin-top: -10px; font-size: 10px;">Keterangan:</p>
+            <p style="margin-left: 22px; margin-top: -10px; font-size: 10px;">a. Jika item mandatory poin B (1 s.d 5)
+                ada yang tidak sesuai maka pengujian poin D tidak perlu dilakukan</p>
+            <p style="margin-left: 22px; margin-top: -10px; font-size: 10px;">b. Poin 6 dapat diperbaiki/diganti</p>
         </div>
 
         <div style="clear: both"></div>
@@ -527,7 +858,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($fco->approved_by && $fco->updated_at != $fco->created_at)
+            {{-- @if ($fco->approved_by && $fco->updated_at != $fco->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $fco->approvedBy->name }} pada
+                    {{ $fco->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($fco->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $fco->approvedBy->name }} pada
                     {{ $fco->updated_at->format('d/m/Y') }}

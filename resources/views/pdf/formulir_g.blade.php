@@ -173,6 +173,9 @@
                         </td>
                         <td
                             style="border: 1px solid black; padding: 6px; text-align: center; font-size: 12px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
+                            Ohm</td>
+                        <td
+                            style="border: 1px solid black; padding: 6px; text-align: center; font-size: 12px; height: 0px; font-family: 'DejaVu Sans', sans-serif;">
                             > 20 MΩ</td>
                         <td
                             style="border: 1px solid black; padding: 6px; text-align: center; font-size: 12px; font-family: 'DejaVu Sans', sans-serif; height: 0px;">
@@ -213,7 +216,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($la->approved_by && $la->updated_at != $la->created_at)
+            {{-- @if ($la->approved_by && $la->updated_at != $la->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $la->approvedBy->name }} pada
+                    {{ $la->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($la->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $la->approvedBy->name }} pada
                     {{ $la->updated_at->format('d/m/Y') }}
@@ -272,8 +282,8 @@
                     $chunkedImages = array_chunk($gambarArray, 2); // Membagi array menjadi kelompok 2 gambar per baris
                 @endphp
 
-            <table style="width: 100%; border-collapse: collapse;">
-                @foreach ($chunkedImages as $row)
+                <table style="width: 100%; border-collapse: collapse;">
+                    @foreach ($chunkedImages as $row)
                         <tr>
                             @foreach ($row as $gambar)
                                 @php
@@ -286,14 +296,14 @@
                                         style="width: 250px; height: auto; display: block; margin: auto;">
                                 </td>
                             @endforeach
-                {{-- Jika jumlah gambar ganjil, tambahkan sel kosong agar tabel tetap rapi --}}
-                @if (count($row) < 2)
+                            {{-- Jika jumlah gambar ganjil, tambahkan sel kosong agar tabel tetap rapi --}}
+                            @if (count($row) < 2)
                                 <td style="border: 1px solid #ddd;"></td>
                             @endif
                         </tr>
                     @endforeach
-            </table>
-            {{-- @endif --}}
+                </table>
+            @endif
         </div>
     </div>
 </body>

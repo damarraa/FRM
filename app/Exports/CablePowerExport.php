@@ -6,15 +6,30 @@ use App\Models\CablePower;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class CablePowerExport implements FromCollection, WithHeadings, WithMapping
+class CablePowerExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $ids;
+    protected $worksheetName;
+
+    public function __construct(array $ids = null, $worksheetName = 'Cable Power')
+    {
+        $this->ids = $ids;
+        $this->worksheetName = $worksheetName;
+    }
+
     public function collection()
     {
+        if ($this->ids) {
+            return CablePower::whereIn('id', $this->ids)->get();
+        }
         return CablePower::all();
+    }
+
+    public function title(): string
+    {
+        return $this->worksheetName;
     }
 
     public function headings(): array

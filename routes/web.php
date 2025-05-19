@@ -32,10 +32,33 @@ use App\Models\ULP;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+Route::get('/', function() {
     return redirect()->route('login');
 });
 
+Route::get('/test-401', function() {
+    abort(401);
+});
+
+Route::get('/test-403', function() {
+    abort(403);
+});
+
+Route::get('/test-404', function() {
+    abort(404);
+});
+
+Route::get('/test-419', function() {
+    abort(419);
+});
+
+Route::get('/test-500', function() {
+    abort(500);
+});
+
+Route::get('/test-503', function() {
+    abort(503);
+});
 // Route::get('/offline', function () {
 //     return view('offline');
 // });
@@ -46,8 +69,8 @@ Route::get('/dashboard', function () {
 
 // Route untuk Admin
 Route::middleware('auth', 'is_active', 'role:Admin')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-
+    // Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.admin');
     // -- Profile
     Route::get('/profile', [ProfileController::class, 'editProfile'])->name('edit-profile.edit');
     Route::patch('/profile', [ProfileController::class, 'updateProfile'])->name('profile.update');
@@ -97,7 +120,7 @@ Route::middleware('auth', 'is_active', 'role:Admin')->group(function () {
     Route::get('/preview-pt/{id}', [PDFController::class, 'previewPT'])->name('previewPDF.pt');
     Route::get('/preview-tiang-listrik/{id}', [PDFController::class, 'previewTiangListrik'])->name('previewPDF.tiangListrik');
     Route::get('/preview-lbs/{id}', [PDFController::class, 'previewLBS'])->name('previewPDF.lbs');
-    Route::get('/preview-lightning-arrester/{id}', [PDFController::class, 'previewLightningArrester'])->name('previewPDF.lightningarrester');
+    Route::get('/preview-lightning-arrester/{id}', [PDFController::class, 'previewLightningArrester'])->name('previewPDF.lightningArrester');
     Route::get('/preview-isolator/{id}', [PDFController::class, 'previewIsolator'])->name('previewPDF.isolator');
     Route::get('/preview-fco/{id}', [PDFController::class, 'previewFCO'])->name('previewPDF.fco');
     Route::get('/preview-phbtr/{id}', [PDFController::class, 'previewPHBTR'])->name('previewPDF.phbtr');
@@ -235,6 +258,61 @@ Route::middleware(['auth', 'is_active'])->group(function () {
         ]);
     })->name('forms');
 
+    // -- Laporan
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan')->middleware('permission:index_laporan');
+    Route::get('/export-kwh/{id}', [PDFController::class, 'exportPDFkWh'])->name('export.kwh');
+    Route::get('/export-mcb/{id}', [PDFController::class, 'exportPDFmcb'])->name('export.mcb');
+    Route::get('/export-trafo/{id}', [PDFController::class, 'exportPDFtrafo'])->name('export.trafo');
+    Route::get('/export-cable/{id}', [PDFController::class, 'exportPDFcable'])->name('export.cable');
+    Route::get('/export-conductor/{id}', [PDFController::class, 'exportPDFconductor'])->name('export.conductor');
+    Route::get('/export-ct/{id}', [PDFController::class, 'exportPDFct'])->name('export.ct');
+    Route::get('/export-pt/{id}', [PDFController::class, 'exportPDFpt'])->name('export.pt');
+    Route::get('/export-tiang-listrik/{id}', [PDFController::class, 'exportPDFtiangListrik'])->name('export.tiangListrik');
+    Route::get('/export-lbs/{id}', [PDFController::class, 'exportPDFlbs'])->name('export.lbs');
+    Route::get('/export-isolator/{id}', [PDFController::class, 'exportPDFisolator'])->name('export.isolator');
+    Route::get('/export-lightning-arrester/{id}', [PDFController::class, 'exportPDFlightningarrester'])->name('export.lightningArrester');
+    Route::get('/export-fco/{id}', [PDFController::class, 'exportPDFfco'])->name('export.fco');
+    Route::get('/export-phbtr/{id}', [PDFController::class, 'exportPDFphbtr'])->name('export.phbtr');
+    Route::get('/export-cubicle/{id}', [PDFController::class, 'exportPDFcubicle'])->name('export.cubicle');
+    Route::get('/export-kotak-app/{id}', [PDFController::class, 'exportPDFkotakApp'])->name('export.kotakApp');
+
+    // Bulk export
+    Route::post('/export/bulk-excel', [ExportController::class, 'bulkExportExcel'])->name('export.bulkExcel');
+    Route::post('/export/bulk-pdf', [PDFController::class, 'bulkExportPDF'])->name('export.bulkPDF');
+    // Export excel all
+    Route::post('/export-bulk-excel', [ExportController::class, 'handleBulkExport'])->name('exports.bulk');
+    Route::get('/export-kwh-excel/{id}', [ExportController::class, 'exportKWHById'])->name('export.exkwhs');
+    Route::get('/export-mcb-excel/{id}', [ExportController::class, 'exportMCBById'])->name('export.exmcbs');
+    Route::get('/export-trafo-excel/{id}', [ExportController::class, 'exportTRAFOById'])->name('export.extrafos');
+    Route::get('/export-cable-power-excel/{id}', [ExportController::class, 'exportCABLEById'])->name('export.excables');
+    Route::get('/export-conductor-excel/{id}', [ExportController::class, 'exportCONDUCTORById'])->name('export.exconductors');
+    Route::get('/export-ct-excel/{id}', [ExportController::class, 'exportCTById'])->name('export.excts');
+    Route::get('/export-pt-excel/{id}', [ExportController::class, 'exportPTById'])->name('export.expts');
+    Route::get('/export-tiang-listrik-excel/{id}', [ExportController::class, 'exportTIANGById'])->name('export.extiangs');
+    Route::get('/export-lbs-excel/{id}', [ExportController::class, 'exportLBSById'])->name('export.exlbss');
+    Route::get('/export-isolator-excel/{id}', [ExportController::class, 'exportISOLATORById'])->name('export.exisolators');
+    Route::get('/export-lightning-arrester-excel/{id}', [ExportController::class, 'exportLAById'])->name('export.exlas');
+    Route::get('/export-fco-excel/{id}', [ExportController::class, 'exportFCOById'])->name('export.exfcos');
+    Route::get('/export-phbtr-excel/{id}', [ExportController::class, 'exportPHBTRById'])->name('export.exphbtrs');
+    Route::get('/export-cubicle-excel/{id}', [ExportController::class, 'exportCUBICLEById'])->name('export.excubicles');
+    Route::get('/export-kotak-app-excel/{id}', [ExportController::class, 'exportKAPPById'])->name('export.exkotakapps');
+
+    Route::get('/preview-pdf-kwh/{id}', [PDFController::class, 'previewKWH'])->name('preview.kwh');
+    Route::get('/preview-pdf-mcb/{id}', [PDFController::class, 'previewMCB'])->name('preview.mcb');
+    Route::get('/preview-pdf-trafo/{id}', [PDFController::class, 'previewTrafo'])->name('preview.trafo');
+    Route::get('/preview-pdf-cable/{id}', [PDFController::class, 'previewCable'])->name('preview.cable');
+    Route::get('/preview-pdf-conductor/{id}', [PDFController::class, 'previewConductor'])->name('preview.conductor');
+    Route::get('/preview-pdf-ct/{id}', [PDFController::class, 'previewCT'])->name('preview.ct');
+    Route::get('/preview-pdf-pt/{id}', [PDFController::class, 'previewPT'])->name('preview.pt');
+    Route::get('/preview-pdf-tiang-listrik/{id}', [PDFController::class, 'previewTiangListrik'])->name('preview.tiangListrik');
+    Route::get('/preview-pdf-lbs/{id}', [PDFController::class, 'previewLBS'])->name('preview.lbs');
+    Route::get('/preview-pdf-isolator/{id}', [PDFController::class, 'previewIsolator'])->name('preview.isolator');
+    Route::get('/preview-pdf-lightning-arrester/{id}', [PDFController::class, 'previewLightningArrester'])->name('preview.lightningArrester');
+    Route::get('/preview-pdf-fco/{id}', [PDFController::class, 'previewFCO'])->name('preview.fco');
+    Route::get('/preview-pdf-phbtr/{id}', [PDFController::class, 'previewPHBTR'])->name('preview.phbtr');
+    Route::get('/preview-pdf-cubicle/{id}', [PDFController::class, 'previewCubicle'])->name('preview.cubicle');
+    Route::get('/preview-pdf-kotak-app/{id}', [PDFController::class, 'previewKotakAPP'])->name('preview.kotakApp');
+    
     // -------------------------
     // Form Prioritas 1
     // -------------------------

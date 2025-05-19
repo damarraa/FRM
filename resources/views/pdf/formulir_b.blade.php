@@ -303,7 +303,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($mcb->approved_by && $mcb->updated_at != $mcb->created_at)
+            {{-- @if ($mcb->approved_by && $mcb->updated_at != $mcb->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
+                    *edited by: {{ $mcb->approvedBy->name }} pada
+                    {{ $mcb->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($mcb->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -5px;">
                     *edited by: {{ $mcb->approvedBy->name }} pada
                     {{ $mcb->updated_at->format('d/m/Y') }}

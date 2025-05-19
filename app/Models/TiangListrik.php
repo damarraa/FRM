@@ -34,6 +34,7 @@ class TiangListrik extends Model
         'kesimpulan',
         'gambar',
         'status',
+        'is_edited',
         'jenis_form_id',
         'gudang_id',
         'pabrikan_id',

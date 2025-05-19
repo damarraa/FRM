@@ -312,7 +312,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($isolator->approved_by && $isolator->updated_at != $isolator->created_at)
+            {{-- @if ($isolator->approved_by && $isolator->updated_at != $isolator->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $isolator->approvedBy->name }} pada
+                    {{ $isolator->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($isolator->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $isolator->approvedBy->name }} pada
                     {{ $isolator->updated_at->format('d/m/Y') }}

@@ -6,15 +6,31 @@ use App\Models\LBS;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class LBSExport implements FromCollection, WithHeadings, WithMapping
+class LBSExport implements FromCollection, WithHeadings, WithMapping, WithTitle
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
+    protected $ids;
+    protected $worksheetName;
+
+    public function __construct(array $ids = null, $worksheetName = 'LBS')
+    {
+        $this->ids = $ids;
+        $this->worksheetName = $worksheetName;
+    }
+
     public function collection()
     {
+        if ($this->ids) {
+            return LBS::whereIn('id', $this->ids)->get();
+        }
+
         return LBS::all();
+    }
+
+    public function title(): string
+    {
+        return $this->worksheetName;
     }
 
     public function headings(): array

@@ -515,7 +515,14 @@
                     tidak layak pakai (K8)</p>
             @endif
 
-            @if ($cubicle->approved_by && $cubicle->updated_at != $cubicle->created_at)
+            {{-- @if ($cubicle->approved_by && $cubicle->updated_at != $cubicle->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
+                    *edited by: {{ $cubicle->approvedBy->name }} pada
+                    {{ $cubicle->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($cubicle->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: -10px;">
                     *edited by: {{ $cubicle->approvedBy->name }} pada
                     {{ $cubicle->updated_at->format('d/m/Y') }}

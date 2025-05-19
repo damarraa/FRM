@@ -51,18 +51,25 @@
                         </ul>
                     </td>
                     <td style="width: 50%; vertical-align: top;">
-                        <ul style="list-style: none; padding: 10px 10px; margin: 0; font-size: 11px; margin-left: -15px">
+                        <ul
+                            style="list-style: none; padding: 10px 10px; margin: 0; font-size: 11px; margin-left: -15px">
                             <li style="padding: 1px 0;">Jenis Cable Power:
                                 @if ($cable_powers->jenis_cable_power === 'LVTIC')
-                                    LVTIC/<del>NYY</del>/<del>XLPE</del>/<del>MVTIC</del>/ {{ $cable_powers->ukuran_cable_power }} mm2 *)
+                                    LVTIC/<del>NYY</del>/<del>XLPE</del>/<del>MVTIC</del>/
+                                    {{ $cable_powers->ukuran_cable_power }} mm2 *)
                                 @elseif ($cable_powers->jenis_cable_power === 'NYY')
-                                    <del>LVTIC</del>/NYY/<del>XLPE</del>/<del>MVTIC</del>/ {{ $cable_powers->ukuran_cable_power }} mm2 *)
+                                    <del>LVTIC</del>/NYY/<del>XLPE</del>/<del>MVTIC</del>/
+                                    {{ $cable_powers->ukuran_cable_power }} mm2 *)
                                 @elseif ($cable_powers->jenis_cable_power === 'XLPE')
-                                    <del>LVTIC</del>/<del>NYY</del>/XLPE/<del>MVTIC</del>/ {{ $cable_powers->ukuran_cable_power }} mm2 *)
+                                    <del>LVTIC</del>/<del>NYY</del>/XLPE/<del>MVTIC</del>/
+                                    {{ $cable_powers->ukuran_cable_power }} mm2 *)
                                 @elseif ($cable_powers->jenis_cable_power === 'MVTIC')
-                                    <del>LVTIC</del>/<del>NYY</del>/<del>XLPE</del>/MVTIC/ {{ $cable_powers->ukuran_cable_power }} mm2 *)
+                                    <del>LVTIC</del>/<del>NYY</del>/<del>XLPE</del>/MVTIC/
+                                    {{ $cable_powers->ukuran_cable_power }} mm2 *)
                                 @else
-                                    <del>LVTIC</del>/<del>NYY</del>/<del>XLPE</del>/<del>MVTIC</del>/ {{ $cable_powers->jenis_cable_power }}/{{ $cable_powers->ukuran_cable_power }} mm2 *)
+                                    <del>LVTIC</del>/<del>NYY</del>/<del>XLPE</del>/<del>MVTIC</del>/
+                                    {{ $cable_powers->jenis_cable_power }}/{{ $cable_powers->ukuran_cable_power }} mm2
+                                    *)
                                 @endif
                             </li>
                             <li style="padding: 1px 0;">Luas Penampang: {{ $cable_powers->luas_penampang }}</li>
@@ -236,10 +243,20 @@
             <p
                 style="text-align: left; font-size: 14px; font-weight: bold; margin: 0px; margin-top: -5px; margin-bottom: -10px;">
                 D. KESIMPULAN</p>
-            <p style="font-size: 12px; margin: 0px; margin-left: 20px; margin-top: 10px;"> bekas layak pakai (K6) <span style="text-align: center; margin: 0px;">{{ $cable_powers->kesimpulan_k6 }}</span> meter</p>
-            <p style="font-size: 12px; margin: 0px; margin-left: 20px; margin-top: 0px;"> bekas tidak layak pakai (K8) <span style="text-align: center; margin: 0px;">{{ $cable_powers->kesimpulan_k8 }}</span> meter</p>
+            <p style="font-size: 12px; margin: 0px; margin-left: 20px; margin-top: 10px;"> bekas layak pakai (K6) <span
+                    style="text-align: center; margin: 0px;">{{ $cable_powers->kesimpulan_k6 }}</span> meter</p>
+            <p style="font-size: 12px; margin: 0px; margin-left: 20px; margin-top: 0px;"> bekas tidak layak pakai (K8)
+                <span style="text-align: center; margin: 0px;">{{ $cable_powers->kesimpulan_k8 }}</span> meter
+            </p>
 
-            @if ($cable_powers->approved_by && $cable_powers->updated_at != $cable_powers->created_at)
+            {{-- @if ($cable_powers->approved_by && $cable_powers->updated_at != $cable_powers->created_at)
+                <p style="font-size: 10px; margin-left: 20px; margin-top: 5px;">
+                    *edited by: {{ $cable_powers->approvedBy->name }} pada
+                    {{ $cable_powers->updated_at->format('d/m/Y') }}
+                </p>
+            @endif --}}
+
+            @if ($cable_powers->is_edited)
                 <p style="font-size: 10px; margin-left: 20px; margin-top: 5px;">
                     *edited by: {{ $cable_powers->approvedBy->name }} pada
                     {{ $cable_powers->updated_at->format('d/m/Y') }}
