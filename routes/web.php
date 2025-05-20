@@ -59,6 +59,7 @@ Route::get('/test-500', function() {
 Route::get('/test-503', function() {
     abort(503);
 });
+
 // Route::get('/offline', function () {
 //     return view('offline');
 // });

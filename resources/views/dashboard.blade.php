@@ -30,7 +30,7 @@
                                 <p class="text-3xl font-bold text-green-800">{{ $totalAdmin }}</p>
                             </div>
                             <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-red-500">
-                                <h2 class="text-lg font-semibold mb-2 text-gray-700">Jumlah PIC Gudang</h2>
+                                <h2 class="text-md font-semibold mb-2 text-gray-700">Jumlah PIC Gudang</h2>
                                 <p class="text-3xl font-bold text-red-800">{{ $totalPICGudang }}</p>
                             </div>
                             <div class="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500">
