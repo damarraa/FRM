@@ -904,6 +904,8 @@ class DashboardController extends Controller
             ->orderBy('last_active_at', 'desc')
             ->paginate(10); // Sesuaikan jumlah per page sesuai kebutuhan
 
+        $onlineUsers = User::all();
+
         // Query pie chart
         $totalCategories = [
             'K6' => KWHMeter::where('kesimpulan', 'Bekas layak pakai (K6)')->count()
@@ -1265,7 +1267,8 @@ class DashboardController extends Controller
             'stackedBarData' => $stackedBarData,
             'newUsers' => $newUsers,
             'activeUsersCount' => $activeUsersCount,
-            'activeUsers' => $activeUsers
+            'activeUsers' => $activeUsers,
+            'onlineUsers' => $onlineUsers
         ]);
     }
 
