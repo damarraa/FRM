@@ -92,6 +92,9 @@
                                             </th>
                                             <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">
                                                 Terakhir Aktif</th>
+                                            <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">
+                                                Status
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -108,6 +111,15 @@
                                                 </td>
                                                 <td class="py-2 px-4 border-b border-gray-200">
                                                     {{ $user->last_active_at ? $user->last_active_at->diffForHumans() : 'Belum pernah' }}
+                                                </td>
+                                                <td class="py-2 px-4 border-b border-gray-200">
+                                                    @if ($user->isOnline())
+                                                        <span
+                                                            class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Online</span>
+                                                    @else
+                                                        <span
+                                                            class="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Offline</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

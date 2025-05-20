@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckIsActive;
+use App\Http\Middleware\LastUserActivity;
 use App\Http\Middleware\UpdateLastActiveAt;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -24,7 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'is_active' => CheckIsActive::class,
-            'last_active_at' => UpdateLastActiveAt::class
+            'last_active_at' => UpdateLastActiveAt::class,
+            'user-is-online-' => LastUserActivity::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
