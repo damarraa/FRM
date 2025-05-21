@@ -898,13 +898,19 @@ class DashboardController extends Controller
         // Hitung jumlah user aktif
         $activeUsersCount = User::where('is_active', true)->count();
 
-        // Ambil data user aktif dengan pagination dan relasi roles
-        $activeUsers = User::where('is_active', true)
+        // Optimasi
+        $activeUsers = User::query()
             ->with('roles')
+            ->where('is_active', true)
             ->orderBy('last_active_at', 'desc')
-            ->paginate(10); // Sesuaikan jumlah per page sesuai kebutuhan
+            ->paginate(10);
+        // Ambil data user aktif dengan pagination dan relasi roles
+        // $activeUsers = User::where('is_active', true)
+        //     ->with('roles')
+        //     ->orderBy('last_active_at', 'desc')
+        //     ->paginate(10); // Sesuaikan jumlah per page sesuai kebutuhan
 
-        $onlineUsers = User::all();
+        // $onlineUsers = User::all();
 
         // Query pie chart
         $totalCategories = [
@@ -1268,10 +1274,9 @@ class DashboardController extends Controller
             'newUsers' => $newUsers,
             'activeUsersCount' => $activeUsersCount,
             'activeUsers' => $activeUsers,
-            'onlineUsers' => $onlineUsers
+            // 'onlineUsers' => $onlineUsers
         ]);
     }
-
 
     /**
      * Show the form for creating a new resource.

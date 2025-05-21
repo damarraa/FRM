@@ -115,10 +115,16 @@
                                                 <td class="py-2 px-4 border-b border-gray-200">
                                                     @if ($user->isOnline())
                                                         <span
-                                                            class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Online</span>
+                                                            class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
+                                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                                                            Online
+                                                        </span>
                                                     @else
                                                         <span
-                                                            class="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Offline</span>
+                                                            class="px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full flex items-center">
+                                                            <span class="w-2 h-2 bg-gray-500 rounded-full mr-2"></span>
+                                                            Offline
+                                                        </span>
                                                     @endif
                                                 </td>
                                             </tr>
