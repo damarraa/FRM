@@ -71,3 +71,20 @@ php artisan key:generate
 php artisan migrate --seed
 npm install && npm run build
 php artisan serve
+
+---
+
+🔒 Lisensi
+Proyek ini merupakan properti internal milik PT PLN (Persero) dan dikembangkan secara eksklusif oleh PT Prisan Artha Lestari. Segala bentuk penggunaan, distribusi ulang, atau pengembangan ulang di luar lingkup kerja sama resmi dilarang tanpa izin tertulis.
+
+---
+
+👨‍💻 Tim Pengembang
+Proyek ini dikembangkan oleh Tim IT PT Prisan Artha Lestari.
+Untuk informasi teknis, pelaporan bug, atau dukungan terkait sistem, silakan hubungi:
+
+PT Prisan Artha Lestari
+Jl. Tanjung Datuk No.145 A, Pesisir, Kec. Lima Puluh, Kota Pekanbaru, Riau 28155
+Pekanbaru, Riau – Indonesia
+📞 Telepon: (0761) 25494
+✉️ Email: teknisi_it@prisan.co.id
