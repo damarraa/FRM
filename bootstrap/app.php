@@ -17,16 +17,15 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // $middleware->web(append: [
-        //     UpdateLastActiveAt::class
-        // ]);
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'is_active' => CheckIsActive::class,
-            'last_active_at' => UpdateLastActiveAt::class,
-            'user-is-online-' => LastUserActivity::class
+            'update_last_activity' => UpdateLastActiveAt::class,
+            'user_online' => LastUserActivity::class
+            // 'last_active_at' => UpdateLastActiveAt::class,
+            // 'user-is-online-' => LastUserActivity::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -19,7 +19,7 @@ class LastUserActivity
     {
         if (Auth::check()) {
             $expiresAt = now()->addMinutes(5);
-            Cache::put('user-is-online-' . Auth::id(), true, $expiresAt);
+            Cache::put('user-online-' . Auth::id(), true, $expiresAt);
         }
 
         return $next($request);

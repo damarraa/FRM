@@ -69,7 +69,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route untuk Admin
-Route::middleware('auth', 'is_active', 'role:Admin')->group(function () {
+Route::middleware('auth', 'is_active', 'role:Admin', 'update_last_activity', 'user_online')->group(function () {
     // Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.admin');
     // -- Profile
@@ -142,7 +142,7 @@ Route::middleware('auth', 'is_active', 'role:Admin')->group(function () {
 });
 
 // Route untuk PIC_Gudang
-Route::middleware('auth', 'is_active', 'role:PIC_Gudang')->group(function () {
+Route::middleware('auth', 'is_active', 'role:PIC_Gudang', 'update_last_activity', 'user_online')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // -- Profile
@@ -241,7 +241,7 @@ Route::middleware('auth', 'is_active', 'role:PIC_Gudang')->group(function () {
 // --------------------
 // Route untuk Petugas
 // --------------------
-Route::middleware(['auth', 'is_active'])->group(function () {
+Route::middleware(['auth', 'is_active', 'update_last_activity', 'user_online'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/chart', [DashboardController::class, 'chart'])->name('chart');
     // -- Profile

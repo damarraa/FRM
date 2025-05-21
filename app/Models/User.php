@@ -75,8 +75,18 @@ class User extends Authenticatable
             : asset('icons/user.png');
     }
 
-    public function isOnline()
+    public function isOnline(): bool
     {
-        return Cache::has('user-is-online-' . $this->id);
+        return Cache::has('user-online-' . $this->id);
+    }
+
+    public function scopeOnline($query)
+    {
+        $userIds = [];
+        foreach (Cache::get('user-online-*') as $key => $value) {
+            $userIds[] = str_replace('user-online-', '', $key);
+        }
+
+        return $query->whereIn('id', $userIds);
     }
 }
