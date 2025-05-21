@@ -74,12 +74,12 @@ php artisan serve
 ```
 ---
 
-🔒 Lisensi
+## 🔒 Lisensi
 Proyek ini merupakan properti internal milik PT PLN (Persero) dan dikembangkan secara eksklusif oleh PT Prisan Artha Lestari. Segala bentuk penggunaan, distribusi ulang, atau pengembangan ulang di luar lingkup kerja sama resmi dilarang tanpa izin tertulis.
 
 ---
 
-👨‍💻 Tim Pengembang
+## 👨‍💻 Tim Pengembang
 Proyek ini dikembangkan oleh Tim IT PT Prisan Artha Lestari.
 Untuk informasi teknis, pelaporan bug, atau dukungan terkait sistem, silakan hubungi:
 
