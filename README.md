@@ -63,8 +63,8 @@ Menyediakan sistem pencatatan digital yang efisien, terstruktur, dan mudah digun
 ## 🚀 Cara Instalasi
 
 ```bash
-git clone https://github.com/namaproject/form-retur-mdu.git
-cd form-retur-mdu
+git clone https://github.com/damarraa/FRM.git
+cd frm
 composer install
 cp .env.example .env
 php artisan key:generate
