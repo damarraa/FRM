@@ -81,7 +81,7 @@
                         <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
                             <h2 class="text-lg font-semibold mb-4 text-gray-700">Daftar User Aktif</h2>
                             <div class="overflow-x-auto">
-                                <table class="min-w-full bg-white">
+                                <table id="usersTable" class="min-w-full bg-white">
                                     <thead class="bg-gray-100">
                                         <tr>
                                             <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">Nama
@@ -93,13 +93,11 @@
                                             <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">
                                                 Terakhir Aktif</th>
                                             <th class="py-2 px-4 border-b border-gray-200 text-left text-gray-700">
-                                                Status
-                                            </th>
+                                                Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($activeUsers as $user)
-                                            {{-- tampilkan data per hari --}}
                                             <tr class="hover:bg-gray-50">
                                                 <td class="py-2 px-4 border-b border-gray-200">{{ $user->name }}</td>
                                                 <td class="py-2 px-4 border-b border-gray-200">{{ $user->email }}</td>
@@ -109,10 +107,12 @@
                                                             class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $role->name }}</span>
                                                     @endforeach
                                                 </td>
-                                                <td class="py-2 px-4 border-b border-gray-200">
+                                                <td class="py-2 px-4 border-b border-gray-200"
+                                                    data-order="{{ $user->last_active_at ? $user->last_active_at->timestamp : 0 }}">
                                                     {{ $user->last_active_at ? $user->last_active_at->diffForHumans() : 'Belum pernah' }}
                                                 </td>
-                                                <td class="py-2 px-4 border-b border-gray-200">
+                                                <td class="py-2 px-4 border-b border-gray-200"
+                                                    data-order="{{ $user->isOnline() ? 1 : 0 }}">
                                                     @if ($user->isOnline())
                                                         <span
                                                             class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
@@ -132,13 +132,90 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="mt-4">
-                                {{ $activeUsers->links() }}
-                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+            <!-- CSS Minimal untuk DataTables -->
+            <style>
+                #usersTable {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                #usersTable thead th {
+                    position: sticky;
+                    top: 0;
+                    background-color: #f3f4f6;
+                }
+
+                #usersTable_paginate .paginate_button {
+                    padding: 0.5em 1em;
+                    margin-left: 2px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 0.375rem;
+                }
+
+                #usersTable_paginate .paginate_button.current {
+                    background: #3b82f6;
+                    color: white !important;
+                    border: 1px solid #3b82f6;
+                }
+
+                #usersTable_filter input {
+                    padding: 0.5em;
+                    border: 1px solid #d1d5db;
+                    border-radius: 0.375rem;
+                }
+            </style>
+
+            <script>
+                $(document).ready(function() {
+                    $('#usersTable').DataTable({
+                        // Konfigurasi dasar
+                        paging: true,
+                        searching: true,
+                        ordering: true,
+                        info: true,
+                        autoWidth: false,
+
+                        // Default sorting by last active descending
+                        order: [
+                            [3, 'desc']
+                        ],
+                        dom: '<"top"lf>rt<"bottom"ip>', // Layout lebih sederhana
+                        pagingType: 'simple_numbers', // Tampilan pagination minimal
+
+                        // Konfigurasi bahasa (opsional)
+                        language: {
+                            search: "Cari:",
+                            lengthMenu: "Tampilkan _MENU_ data per halaman",
+                            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                            paginate: {
+                                first: "Pertama",
+                                last: "Terakhir",
+                                next: "Selanjutnya",
+                                previous: "Sebelumnya"
+                            }
+                        },
+
+                        // Konfigurasi kolom
+                        columnDefs: [{
+                                targets: 2, // Kolom Role
+                                orderable: false // Non-aktifkan sorting untuk kolom role
+                            },
+                            {
+                                targets: [3, 4], // Kolom Terakhir Aktif dan Status
+                                type: 'num' // Sorting numerik untuk timestamp
+                            }
+                        ]
+                    });
+                });
+            </script>
 
             <script>
                 // Pie Chart: Distribusi Kategori Material Retur
