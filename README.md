@@ -75,7 +75,7 @@ php artisan serve
 ---
 
 ## 🔒 Lisensi
-Proyek ini merupakan properti internal milik PT PLN (Persero) dan dikembangkan secara eksklusif oleh PT Prisan Artha Lestari. Segala bentuk penggunaan, distribusi ulang, atau pengembangan ulang di luar lingkup kerja sama resmi dilarang tanpa izin tertulis.
+Proyek ini merupakan properti internal milik PT PLN (Persero) UID Riau dan Kepulauan Riau dan dikembangkan secara eksklusif oleh PT Prisan Artha Lestari. Segala bentuk penggunaan, distribusi ulang, atau pengembangan ulang di luar lingkup kerja sama resmi dilarang tanpa izin tertulis.
 
 ---
 
